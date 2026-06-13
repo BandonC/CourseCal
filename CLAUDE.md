@@ -109,7 +109,7 @@ If you find yourself writing code for any of these and you're not certain about 
 
 ## Git and commit hygiene
 
-- Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `style:`. Optional scope (`feat(parser):`).
+- No conventional-commit type prefixes (`feat:`, `chore:`, `docs:`, etc.). Write the subject as a plain statement of what changed.
 - Subject line ≤72 chars, imperative mood ("add" not "added"), no emojis.
 - One logical change per commit. If a feature touches the library and the app, those can be separate commits in the same PR.
 - Never commit generated files (`.next/`, `dist/`, `node_modules/`, build artifacts).
