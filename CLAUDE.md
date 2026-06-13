@@ -122,7 +122,6 @@ If you find yourself writing code for any of these and you're not certain about 
 - **`COURSECAL.md`** — project source of truth. Update when scope, architecture, or decisions change.
 - **`DECISIONS.md`** — running log of small implementation choices. One-line entries are fine.
 - **`docs/adr/`** — Architectural Decision Records for non-trivial decisions. Standard ADR format.
-- **`SETUP.md`** — first-time setup instructions (accounts, keys, env vars).
 - **Per-subtree `README.md`** — what someone visiting that directory needs to know.
 - **Per-subtree `CLAUDE.md`** — AI rules specific to that subtree.
 
