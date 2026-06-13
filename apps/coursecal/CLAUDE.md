@@ -136,7 +136,7 @@ The conflict detection code lives in `lib/conflict-detection/`. See `COURSECAL.m
 
 - **Tailwind utility classes** for layout and styling. Don't generate giant inline `style={{}}` objects.
 - **shadcn/ui components** for primitives (Button, Dialog, Toast, etc.). Don't reinvent them.
-- **No new design tokens or color values.** Use what's in `tailwind.config.ts`. If you genuinely need a new color, ask first.
+- **No new design tokens or color values.** Tailwind v4 is CSS-first — tokens live in the `@theme` block in `app/globals.css`, not a `tailwind.config.ts`. Use what's there. If you genuinely need a new color, ask first.
 - **The timeline view is CSS grid/flex.** No charting or visualization libraries (d3, recharts, visx) — it's deliverables on a time axis, not a chart.
 - Mobile responsiveness matters. The app should work on a phone — not be mobile-first, but not broken on a phone either.
 
