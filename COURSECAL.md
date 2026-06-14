@@ -353,7 +353,14 @@ Observability: Sentry (errors), PostHog (events) — client + server
 ```ts
 parseSyllabus(
   text: string,
-  context: { semesterStart: Date; semesterEnd: Date; timezone: string; today: Date },
+  context: {
+    semesterStart: string;  // ISO YYYY-MM-DD
+    semesterEnd: string;    // ISO
+    today: string;          // ISO
+    timezone: string;
+    readingWeeks?: { start: string; end: string }[];
+    holidays?: string[];    // ISO dates
+  },
   options?: { llmClient?: LLMClient; dryRun?: boolean }
 ): Promise<Result<ParseResult, ParseError>>
 ```
@@ -361,6 +368,7 @@ parseSyllabus(
 - Returns a discriminated `Result` type, not throws
 - `dryRun` returns the prompt without an LLM call (free, fast — useful for debugging)
 - `llmClient` defaults to Anthropic. The interface is a test seam and eval record/replay point only — no multi-provider scaffolding ships in v1 (see §2.2)
+- Context dates are ISO `YYYY-MM-DD` strings, not `Date` objects — converting a JS `Date` to a calendar date needs a timezone interpretation that introduces off-by-one bugs (`new Date("2026-09-07")` is UTC midnight, the 6th in `America/Toronto`). `timezone` is passed to the prompt as data; optional `readingWeeks`/`holidays` feed relative-date resolution. See `DECISIONS.md` (2026-06-13).
 
 ### 8.2 Output schema
 - `course`: { name, code?, instructor?, semester_start, semester_end }
