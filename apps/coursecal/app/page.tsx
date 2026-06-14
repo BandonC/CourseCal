@@ -1,8 +1,10 @@
 import { SyllabusFlow } from "@/components/parsing/syllabus-flow";
 
 // LLM parses take 10–60s; the parse action runs under this route segment, so the
-// segment must lift the timeout (apps/coursecal/CLAUDE.md performance). 60s is the
-// Vercel Hobby ceiling — verify against current Vercel docs before the Phase 3 deploy.
+// segment must lift the timeout (apps/coursecal/CLAUDE.md performance). Verified
+// 2026-06-14: with Fluid compute (default-on) Hobby now allows up to 300s, so 60
+// is a deliberate conservative cap — a single parse exceeding 60s is treated as a
+// failure rather than left to run.
 export const maxDuration = 60;
 
 export default function Home() {
