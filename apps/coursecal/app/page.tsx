@@ -1,13 +1,21 @@
+import { SyllabusFlow } from "@/components/parsing/syllabus-flow";
+
+// LLM parses take 10–60s; the parse action runs under this route segment, so the
+// segment must lift the timeout (apps/coursecal/CLAUDE.md performance). 60s is the
+// Vercel Hobby ceiling — verify against current Vercel docs before the Phase 3 deploy.
+export const maxDuration = 60;
+
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center">
-      <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-        Coursecal
-      </h1>
-      <p className="max-w-prose text-lg text-foreground/70">
-        Turn course syllabi into calendar events and a navigable semester plan.
-      </p>
-      <p className="text-sm text-foreground/50">Phase 0 scaffold — nothing wired up yet.</p>
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Coursecal</h1>
+        <p className="text-muted-foreground">
+          Turn a course syllabus into calendar events. Upload a PDF or paste the text,
+          review what we found, then download an .ics file.
+        </p>
+      </header>
+      <SyllabusFlow />
     </main>
   );
 }
