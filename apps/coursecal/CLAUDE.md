@@ -154,7 +154,7 @@ The conflict detection code lives in `lib/conflict-detection/`. See `COURSECAL.m
 
 ## Performance
 
-- **Parse progress is client-queue state.** LLM parses take 10–60s. The upload queue shows per-file status (queued / parsing / done / failed) from client state, with an indeterminate spinner per parse — no status table, no polling, no streaming machinery. The parse action's route segment must export `maxDuration` (60s on Hobby — verify the current ceiling against Vercel docs).
+- **Parse progress is client-queue state.** LLM parses take 10–60s. The upload queue shows per-file status (queued / parsing / done / failed) from client state, with an indeterminate spinner per parse — no status table, no polling, no streaming machinery. The parse action's route segment must export `maxDuration` (Hobby allows up to 300s with Fluid compute, on by default — verified 2026-06-14; we set a conservative 60s, treating a longer parse as a failure).
 - **Don't over-fetch.** A semester page does not need every deliverable's notes pre-loaded if they're only shown on click.
 - **Indexes exist for a reason.** If you write a query that's not hitting an index (no `WHERE` on an indexed column, or `LIKE '%foo%'`), call it out.
 - If a server component is slow because of a chained DB call, look at parallelizing with `Promise.all` before reaching for caching.
