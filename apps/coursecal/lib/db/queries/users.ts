@@ -60,6 +60,14 @@ export async function setEncryptedRefreshToken(
     .where(eq(users.id, userId));
 }
 
+/** Mark Calendar tokens invalid on revoked consent — the reconnect flow recovers. */
+export async function clearRefreshToken(userId: UserId): Promise<void> {
+  await db
+    .update(users)
+    .set({ encryptedRefreshToken: null, updatedAt: new Date() })
+    .where(eq(users.id, userId));
+}
+
 /** Decrypted refresh token for Calendar calls, or null if none is stored. */
 export async function getDecryptedRefreshToken(userId: UserId): Promise<string | null> {
   const [row] = await db

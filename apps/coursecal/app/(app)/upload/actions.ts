@@ -5,13 +5,23 @@ import {
   type DryRunResult,
   type ParseResult,
 } from "@coursecal/syllabus-parser";
+import { z } from "zod";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
 import { getOptionalUser } from "@/lib/auth/session";
+import { buildCalendarEvent } from "@/lib/calendar/event";
+import { calendarOAuthClient } from "@/lib/calendar/client";
+import { insertEvent } from "@/lib/calendar/sync";
 import { courseColorForIndex } from "@/lib/courses/colors";
+import { getSyncableDeliverables, setGoogleEventId } from "@/lib/db/queries/deliverables";
 import { countParsesSince, recordParse } from "@/lib/db/queries/parse-events";
 import { createSemesterWithCourse } from "@/lib/db/queries/semesters";
+import { clearRefreshToken, getDecryptedRefreshToken } from "@/lib/db/queries/users";
 import { ParseInputSchema, SaveInputSchema } from "@/lib/parse/schema";
 import type { CourseId, SemesterId } from "@/lib/db/ids";
+
+// Calendar export tuning: insert several events concurrently (apps/coursecal/
+// CLAUDE.md — naive serial is too slow; no batch endpoint).
+const SYNC_CONCURRENCY = 6;
 
 // Authenticated, rate-limited parse action — the Phase-2 exception
 // (unauthenticated, no rate limit — see DECISIONS.md) is now fully closed: every
@@ -110,4 +120,77 @@ export async function saveSemesterAction(
     // capture the real error server-side once wired in a later phase).
     return actionErr("Couldn't save your semester. Please try again.", "save_failed");
   }
+}
+
+type SyncSummary = { created: number; failed: number; reconnectNeeded: boolean };
+
+// Syncs a saved course's dated, not-yet-synced deliverables to Google Calendar.
+// Resumable: google_event_id is written back per success, so re-running skips
+// rows already created. Revoked consent clears the stored token and signals the
+// reconnect flow (route lands in chunk 6).
+export async function exportToCalendarAction(
+  courseId: string,
+): Promise<ActionResult<SyncSummary>> {
+  const user = await getOptionalUser();
+  if (!user) {
+    return actionErr("You must be signed in to export.", "unauthenticated");
+  }
+
+  const parsed = z.uuid().safeParse(courseId);
+  if (!parsed.success) {
+    return actionErr("Invalid course.", "invalid_input");
+  }
+  const cid = parsed.data as CourseId;
+
+  const refreshToken = await getDecryptedRefreshToken(user.userId);
+  if (!refreshToken) {
+    return actionOk({ created: 0, failed: 0, reconnectNeeded: true });
+  }
+
+  const rows = (await getSyncableDeliverables(user.userId, cid)).filter(
+    (d): d is typeof d & { dueDate: string } => d.dueDate !== null,
+  );
+  if (rows.length === 0) {
+    return actionOk({ created: 0, failed: 0, reconnectNeeded: false });
+  }
+
+  const auth = calendarOAuthClient(refreshToken);
+  let created = 0;
+  let failed = 0;
+  let reconnectNeeded = false;
+
+  for (let i = 0; i < rows.length && !reconnectNeeded; i += SYNC_CONCURRENCY) {
+    const chunk = rows.slice(i, i + SYNC_CONCURRENCY);
+    const outcomes = await Promise.all(
+      chunk.map(async (d) => {
+        const event = buildCalendarEvent({
+          courseLabel: d.courseCode ?? d.courseName,
+          title: d.title,
+          dueDate: d.dueDate,
+          dueTime: d.dueTime,
+          weightPercent: d.weightPercent,
+          notes: d.notes,
+          confidence: d.confidence,
+          ambiguityReason: d.ambiguityReason,
+          timezone: d.timezone,
+        });
+        const outcome = await insertEvent(auth, event);
+        if (outcome.kind === "ok") {
+          await setGoogleEventId(d.id, outcome.eventId);
+        }
+        return outcome;
+      }),
+    );
+    for (const o of outcomes) {
+      if (o.kind === "ok") created++;
+      else if (o.kind === "reconnect") reconnectNeeded = true;
+      else failed++;
+    }
+  }
+
+  if (reconnectNeeded) {
+    await clearRefreshToken(user.userId);
+  }
+
+  return actionOk({ created, failed, reconnectNeeded });
 }
