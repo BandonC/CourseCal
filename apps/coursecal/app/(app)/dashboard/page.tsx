@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/lib/auth";
 import { requireUser } from "@/lib/auth/session";
 
@@ -13,6 +14,9 @@ export default async function DashboardPage() {
       <p className="text-sm">
         Signed in as <span className="font-medium">{user.email}</span>
       </p>
+      <Link href="/upload" className={buttonVariants()}>
+        New semester
+      </Link>
       <form
         action={async () => {
           "use server";

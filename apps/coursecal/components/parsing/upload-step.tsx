@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export type UploadSubmission = {
   text: string;
+  semesterName: string;
   semesterStart: string;
   semesterEnd: string;
 };
@@ -27,6 +28,7 @@ export function UploadStep({
   const [mode, setMode] = useState<Mode>("upload");
   const [file, setFile] = useState<File | null>(null);
   const [pasted, setPasted] = useState("");
+  const [semesterName, setSemesterName] = useState("");
   const [semesterStart, setSemesterStart] = useState("");
   const [semesterEnd, setSemesterEnd] = useState("");
   const [extracting, setExtracting] = useState(false);
@@ -50,6 +52,10 @@ export function UploadStep({
     event.preventDefault();
     setError(null);
 
+    if (semesterName.trim().length === 0) {
+      setError("Give the semester a name.");
+      return;
+    }
     if (!semesterStart || !semesterEnd) {
       setError("Enter the semester start and end dates.");
       return;
@@ -81,11 +87,23 @@ export function UploadStep({
       text = pasted;
     }
 
-    await onSubmit({ text, semesterStart, semesterEnd });
+    await onSubmit({ text, semesterName, semesterStart, semesterEnd });
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-1.5">
+        <Label htmlFor="semester-name">Semester name</Label>
+        <Input
+          id="semester-name"
+          type="text"
+          value={semesterName}
+          onChange={(e) => setSemesterName(e.target.value)}
+          placeholder="e.g. Fall 2026"
+          required
+        />
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="semester-start">Semester start</Label>

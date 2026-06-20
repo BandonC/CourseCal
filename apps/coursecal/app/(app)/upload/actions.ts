@@ -6,15 +6,13 @@ import {
   type ParseResult,
 } from "@coursecal/syllabus-parser";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
+import { getOptionalUser } from "@/lib/auth/session";
 import { ParseInputSchema } from "@/lib/parse/schema";
 
-// Phase 2: this action runs UNAUTHENTICATED and without a per-user rate limit.
-// The contract's auth()/userId-scoping and the Postgres rate-limit counter both
-// depend on the auth + DB that arrive in Phase 3 (documented exception — see
-// DECISIONS.md). The one real server-side control here is the 200k char cap in
-// ParseInputSchema. The flow is local-only in Phase 2 — no public endpoint is
-// exposed. TODO(phase-3): add auth() + userId scoping + DB-backed rate limit
-// before any public deploy.
+// Authenticated parse action. The Phase-2 exception (unauthenticated, no rate
+// limit — see DECISIONS.md) is now half-closed: every call requires a session.
+// The per-user rate limit lands in chunk 4 alongside the save action and its
+// parse_events counter table. The 200k char cap (ParseInputSchema) still applies.
 
 // User-safe messages keyed by the library's typed ParseError.kind. We never
 // surface raw library or model messages to the client (root CLAUDE.md security).
@@ -28,6 +26,11 @@ const PARSE_ERROR_MESSAGES: Record<string, string> = {
 export async function parseSyllabusAction(
   input: unknown,
 ): Promise<ActionResult<ParseResult | DryRunResult>> {
+  const user = await getOptionalUser();
+  if (!user) {
+    return actionErr("You must be signed in to parse a syllabus.", "unauthenticated");
+  }
+
   const parsed = ParseInputSchema.safeParse(input);
   if (!parsed.success) {
     return actionErr(
