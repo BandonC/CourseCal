@@ -7,12 +7,17 @@ import {
 } from "@coursecal/syllabus-parser";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
 import { getOptionalUser } from "@/lib/auth/session";
+import { countParsesSince, recordParse } from "@/lib/db/queries/parse-events";
 import { ParseInputSchema } from "@/lib/parse/schema";
 
-// Authenticated parse action. The Phase-2 exception (unauthenticated, no rate
-// limit — see DECISIONS.md) is now half-closed: every call requires a session.
-// The per-user rate limit lands in chunk 4 alongside the save action and its
-// parse_events counter table. The 200k char cap (ParseInputSchema) still applies.
+// Authenticated, rate-limited parse action — the Phase-2 exception
+// (unauthenticated, no rate limit — see DECISIONS.md) is now fully closed: every
+// call requires a session, and real (non-dryRun) parses are capped per user per
+// day. The 200k char cap (ParseInputSchema) still applies.
+
+// Cost guard (§13.2): cap the expensive LLM call per user per rolling 24h.
+const MAX_PARSES_PER_DAY = 10;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 // User-safe messages keyed by the library's typed ParseError.kind. We never
 // surface raw library or model messages to the client (root CLAUDE.md security).
@@ -40,6 +45,20 @@ export async function parseSyllabusAction(
   }
 
   const { text, context, dryRun } = parsed.data;
+
+  // dryRun makes no LLM call (free), so it bypasses the cost guard. The
+  // count-then-record is intentionally non-atomic — a rare concurrent
+  // over-count is acceptable for a cost guard (no Redis; root contract).
+  if (!dryRun) {
+    const recent = await countParsesSince(user.userId, new Date(Date.now() - DAY_MS));
+    if (recent >= MAX_PARSES_PER_DAY) {
+      return actionErr(
+        "You've reached the daily limit of syllabus parses. Try again tomorrow.",
+        "rate_limited",
+      );
+    }
+    await recordParse(user.userId);
+  }
 
   const result = dryRun
     ? await parseSyllabus(text, context, { dryRun: true })

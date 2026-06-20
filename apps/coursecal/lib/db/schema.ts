@@ -128,9 +128,30 @@ export const deliverables = pgTable(
   ],
 );
 
+// One row per parse attempt (incl. failures — they still spend tokens). The
+// per-user daily limit (§13.2) is enforced by counting rows in the trailing 24h
+// before each LLM call. A cost guard, not a security boundary.
+export const parseEvents = pgTable(
+  "parse_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .$type<UserId>()
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("parse_events_user_id_created_at_idx").on(t.userId, t.createdAt)],
+);
+
 // Relations for the Drizzle relational query API (db.query.*).
 export const usersRelations = relations(users, ({ many }) => ({
   semesters: many(semesters),
+  parseEvents: many(parseEvents),
+}));
+
+export const parseEventsRelations = relations(parseEvents, ({ one }) => ({
+  user: one(users, { fields: [parseEvents.userId], references: [users.id] }),
 }));
 
 export const semestersRelations = relations(semesters, ({ one, many }) => ({
