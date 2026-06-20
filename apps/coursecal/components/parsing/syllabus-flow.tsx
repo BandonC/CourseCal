@@ -2,23 +2,39 @@
 
 import { useState } from "react";
 import type { ParseResult } from "@coursecal/syllabus-parser";
-import { parseSyllabusAction } from "@/app/actions";
+import { parseSyllabusAction } from "@/app/(app)/upload/actions";
 import { Button } from "@/components/ui/button";
 import { ExportStep } from "./export-step";
 import { ReviewStep } from "./review-step";
 import { UploadStep, type UploadSubmission } from "./upload-step";
 
+// Everything the save step (chunk 4) needs travels with the result once parsed:
+// the semester name + bounds the user entered, alongside the edited ParseResult.
+type FlowData = {
+  result: ParseResult;
+  semesterName: string;
+  semesterStart: string;
+  semesterEnd: string;
+  // Carried for the save step: courses.original_syllabus_text is NOT NULL (§7.1).
+  syllabusText: string;
+};
+
 type Step =
   | { name: "input" }
   | { name: "parsing" }
-  | { name: "review"; result: ParseResult }
-  | { name: "ready"; result: ParseResult }
+  | { name: "review"; data: FlowData }
+  | { name: "ready"; data: FlowData }
   | { name: "error"; message: string };
 
 export function SyllabusFlow() {
   const [step, setStep] = useState<Step>({ name: "input" });
 
-  async function handleSubmit({ text, semesterStart, semesterEnd }: UploadSubmission) {
+  async function handleSubmit({
+    text,
+    semesterName,
+    semesterStart,
+    semesterEnd,
+  }: UploadSubmission) {
     setStep({ name: "parsing" });
 
     // today/timezone come from the browser, not the server (server time is UTC on
@@ -37,7 +53,16 @@ export function SyllabusFlow() {
     }
     // dryRun is never requested here, so the action returns a ParseResult.
     if ("deliverables" in result.data) {
-      setStep({ name: "review", result: result.data });
+      setStep({
+        name: "review",
+        data: {
+          result: result.data,
+          semesterName,
+          semesterStart,
+          semesterEnd,
+          syllabusText: text,
+        },
+      });
     } else {
       setStep({ name: "error", message: "The parser returned an unexpected result." });
     }
@@ -55,14 +80,23 @@ export function SyllabusFlow() {
     case "review":
       return (
         <ReviewStep
-          result={step.result}
-          onConfirm={(result) => setStep({ name: "ready", result })}
+          result={step.data.result}
+          onConfirm={(result) =>
+            setStep({ name: "ready", data: { ...step.data, result } })
+          }
           onRestart={() => setStep({ name: "input" })}
         />
       );
     case "ready":
       return (
-        <ExportStep result={step.result} onRestart={() => setStep({ name: "input" })} />
+        <ExportStep
+          result={step.data.result}
+          semesterName={step.data.semesterName}
+          semesterStart={step.data.semesterStart}
+          semesterEnd={step.data.semesterEnd}
+          syllabusText={step.data.syllabusText}
+          onRestart={() => setStep({ name: "input" })}
+        />
       );
     case "error":
       return (
