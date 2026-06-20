@@ -7,8 +7,11 @@ import {
 } from "@coursecal/syllabus-parser";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
 import { getOptionalUser } from "@/lib/auth/session";
+import { courseColorForIndex } from "@/lib/courses/colors";
 import { countParsesSince, recordParse } from "@/lib/db/queries/parse-events";
-import { ParseInputSchema } from "@/lib/parse/schema";
+import { createSemesterWithCourse } from "@/lib/db/queries/semesters";
+import { ParseInputSchema, SaveInputSchema } from "@/lib/parse/schema";
+import type { CourseId, SemesterId } from "@/lib/db/ids";
 
 // Authenticated, rate-limited parse action — the Phase-2 exception
 // (unauthenticated, no rate limit — see DECISIONS.md) is now fully closed: every
@@ -71,4 +74,40 @@ export async function parseSyllabusAction(
   }
 
   return actionOk(result.data);
+}
+
+// Persists the reviewed semester + course + (expanded) deliverables. The client
+// sends its edited ParseResult; the server re-validates it against the library
+// schema before saving (never trust the client). Calendar sync is layered on in
+// chunk 5; this returns the new ids so that flow can read the rows back.
+export async function saveSemesterAction(
+  input: unknown,
+): Promise<ActionResult<{ semesterId: SemesterId; courseId: CourseId }>> {
+  const user = await getOptionalUser();
+  if (!user) {
+    return actionErr("You must be signed in to save.", "unauthenticated");
+  }
+
+  const parsed = SaveInputSchema.safeParse(input);
+  if (!parsed.success) {
+    return actionErr("The semester or syllabus details are invalid.", "invalid_input");
+  }
+
+  const { semesterName, semesterStart, semesterEnd, syllabusText, result } = parsed.data;
+
+  try {
+    const ids = await createSemesterWithCourse(user.userId, {
+      semesterName,
+      semesterStart,
+      semesterEnd,
+      syllabusText,
+      color: courseColorForIndex(0),
+      result,
+    });
+    return actionOk(ids);
+  } catch {
+    // Raw DB errors may leak schema/state — return a safe message (Sentry will
+    // capture the real error server-side once wired in a later phase).
+    return actionErr("Couldn't save your semester. Please try again.", "save_failed");
+  }
 }

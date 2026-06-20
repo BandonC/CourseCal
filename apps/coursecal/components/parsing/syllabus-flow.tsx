@@ -15,6 +15,8 @@ type FlowData = {
   semesterName: string;
   semesterStart: string;
   semesterEnd: string;
+  // Carried for the save step: courses.original_syllabus_text is NOT NULL (§7.1).
+  syllabusText: string;
 };
 
 type Step =
@@ -53,7 +55,13 @@ export function SyllabusFlow() {
     if ("deliverables" in result.data) {
       setStep({
         name: "review",
-        data: { result: result.data, semesterName, semesterStart, semesterEnd },
+        data: {
+          result: result.data,
+          semesterName,
+          semesterStart,
+          semesterEnd,
+          syllabusText: text,
+        },
       });
     } else {
       setStep({ name: "error", message: "The parser returned an unexpected result." });
@@ -83,6 +91,10 @@ export function SyllabusFlow() {
       return (
         <ExportStep
           result={step.data.result}
+          semesterName={step.data.semesterName}
+          semesterStart={step.data.semesterStart}
+          semesterEnd={step.data.semesterEnd}
+          syllabusText={step.data.syllabusText}
           onRestart={() => setStep({ name: "input" })}
         />
       );
