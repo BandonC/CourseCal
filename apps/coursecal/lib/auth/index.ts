@@ -1,5 +1,7 @@
 import NextAuth, { type DefaultSession } from "next-auth";
-import type { JWT } from "next-auth/jwt";
+// Side-effect import so the `declare module "next-auth/jwt"` augmentation below
+// resolves (the module must be in the program); no binding is needed from it.
+import "next-auth/jwt";
 import Google from "next-auth/providers/google";
 import { env } from "@/lib/env";
 import type { UserId } from "@/lib/db/ids";
