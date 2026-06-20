@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { ParseResult } from "@coursecal/syllabus-parser";
 import { exportToCalendarAction, saveSemesterAction } from "@/app/(app)/upload/actions";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { CourseId } from "@/lib/db/ids";
 import { buildIcs, icsFilename } from "@/lib/ics/build";
 
@@ -118,6 +119,11 @@ export function ExportStep({
         ) : null}
         {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
         <div className="flex gap-3">
+          {summary.reconnectNeeded ? (
+            <Link href="/reconnect" className={buttonVariants()}>
+              Reconnect Google
+            </Link>
+          ) : null}
           {summary.failed > 0 && !summary.reconnectNeeded ? (
             <Button onClick={addToCalendar} disabled={busy}>
               Retry
