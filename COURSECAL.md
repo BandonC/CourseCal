@@ -437,6 +437,8 @@ Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`
 
 Loose sequencing — not a strict timeline. Ship each phase to friends for feedback before moving on.
 
+> **Status (2026-06-20):** Phases 0–3 complete. The app is deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`; see `DECISIONS.md` and the deployment notes). Next up: Phase 4. Known open items: source-map upload for Sentry is deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`), and `app/(app)/dashboard` is a temporary placeholder until the Phase-5 dashboard.
+
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.
 

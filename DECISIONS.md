@@ -36,6 +36,8 @@ Running log of small implementation decisions made during development. The point
 
 <!-- Add new entries at the top. Newest first. -->
 
+- 2026-06-20: Sentry wired for error reporting only; **source-map upload is deferred (TODO)**. `@sentry/nextjs` v10 with `instrumentation.ts` (server/edge init + `onRequestError`), `instrumentation-client.ts` (browser init + `onRouterTransitionStart`), and `withSentryConfig` in `next.config.ts`. Init is a no-op when `NEXT_PUBLIC_SENTRY_DSN` is unset; `tracesSampleRate: 0` (errors only, to spare the free perf quota); `sendDefaultPii: false`. **Not done yet:** readable prod stack traces need source-map upload, which requires `SENTRY_AUTH_TOKEN` + `SENTRY_ORG` + `SENTRY_PROJECT` (in Vercel) and the matching `org`/`project`/`authToken` options in `withSentryConfig`. Until then errors report but traces are minified. [apps/coursecal / observability]
+
 <!-- Example:
 - 2026-05-15: Conflict detection cluster window default = 5 days — based on observed clustering in author's own past semesters; tunable via constant in lib/conflict-detection/constants.ts.
 - 2026-05-14: Use pooled connection (DATABASE_URL) for the eval CLI even though it runs once-off — Neon's direct connection has stricter concurrent-connection limits and pooled is fine for eval throughput.
