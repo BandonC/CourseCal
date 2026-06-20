@@ -116,7 +116,7 @@ The conflict detection code lives in `lib/conflict-detection/`. See `COURSECAL.m
 
 - **Authed routes** live in `app/(app)/`. The layout enforces session.
 - **Public routes** (marketing, login) live in `app/(auth)/` or as siblings.
-- **Reconnect route** lives at `app/(app)/reconnect` — the server-side 403-permissions handler redirects here, and it triggers a `signIn` that forces `prompt=consent` (see ADR-008). Page-vs-pure-action shape is settled at Phase 3; verify the v5 mechanism for forcing consent on this flow only (per-call authorization params, or a second provider instance) before building.
+- **Reconnect route** lives at `app/(app)/reconnect` (built in Phase 3) — a gated **page** with a server-action button that calls `signIn("google", { redirectTo }, { prompt: "consent", access_type: "offline" })`. The v5 consent-forcing mechanism is **per-call authorization params** (the 3rd `signIn` arg), not a second provider instance. The Calendar layer routes here on revoked consent (it clears the stored token first). See ADR-008.
 - **Per-route server actions** colocated as `actions.ts` in the same directory as the route's `page.tsx`.
 - URL params for filters and views (e.g., `?semester=fall2026`). Use `nuqs` if it gets unwieldy.
 - Page-level data fetching happens in the server component (the `page.tsx`). Pass data down to client components as props.
