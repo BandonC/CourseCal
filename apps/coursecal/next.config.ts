@@ -23,10 +23,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Source-map upload is deferred (DECISIONS 2026-06-20): it needs SENTRY_AUTH_TOKEN
-// + SENTRY_ORG + SENTRY_PROJECT. Until those are set, builds skip upload — errors
-// still report, but prod stack traces stay minified. Add the env vars and the
-// org/project/authToken options here to enable readable traces.
+// Source maps upload only when SENTRY_AUTH_TOKEN is present in the build env
+// (set in Vercel Production) — the bundler plugin skips upload without it, so
+// local builds and token-less environments succeed and just leave prod traces
+// minified. org/project are not secret, so they live here directly.
 export default withSentryConfig(nextConfig, {
+  org: "brandon-9f",
+  project: "coursecal",
   silent: !process.env.CI,
 });
