@@ -266,16 +266,15 @@ Observability: Sentry (errors), PostHog (events) — client + server
 3. Server calls `parseSyllabus` from the library, passing semester context
 4. Library calls Claude with structured tool-use prompt
 5. Library validates response against Zod schema, returns typed result
-6. Server saves parsed course + deliverables to Postgres
-7. Response sent back to client; review UI renders
+6. Response sent back to client; review UI renders. **Nothing is persisted at parse time** — review and edits are in-memory over the `ParseResult`; persistence happens at export (§6.3, DECISIONS 2026-06-20)
 
-### 6.3 Request flow: calendar sync
-1. User clicks "Export to Calendar"
-2. Server reads deliverables from DB
-3. Events built from deliverable rows (recurrence already expanded at save time)
-4. Chunked concurrent calls to Google Calendar API (5–10 in flight) with refreshed access token
-5. `google_event_id` saved back to each deliverable row
-6. Success/failure reported to client
+### 6.3 Request flow: save + calendar sync
+1. User reviews/edits, clicks "Add to Google Calendar"
+2. Server re-validates the (client-edited) `ParseResult`, then persists the semester + course + recurrence-expanded deliverable rows in one atomic batch (the in-memory review becomes DB rows here)
+3. Server reads the saved deliverables; events built from rows (dateless items skipped)
+4. Chunked concurrent calls to Google Calendar API (5–10 in flight), access token refreshed from the stored refresh token
+5. `google_event_id` saved back per successful insert (resumable — re-running skips already-synced rows)
+6. Success/failure reported to client; revoked consent routes to the reconnect flow. `.ics` export remains the non-Google fallback
 
 ### 6.4 Request flow: edit and sync
 1. User edits a deliverable inline
@@ -430,6 +429,8 @@ NEXT_PUBLIC_SENTRY_DSN=
 ```
 
 Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`, `NEXT_PUBLIC_POSTHOG_KEY`, and `NEXT_PUBLIC_SENTRY_DSN` are optional; everything else is required.
+
+Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKEN` (with `org`/`project` set in `next.config.ts`). It is not part of the runtime Zod-validated set — when absent, builds still succeed and just skip upload (errors still report; prod traces stay minified). See `.env.example` and DECISIONS 2026-06-20.
 
 ---
 
