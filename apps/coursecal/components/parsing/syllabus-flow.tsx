@@ -1,111 +1,72 @@
 "use client";
 
 import { useState } from "react";
-import type { ParseResult } from "@coursecal/syllabus-parser";
-import { parseSyllabusAction } from "@/app/(app)/upload/actions";
-import { Button } from "@/components/ui/button";
 import { ExportStep } from "./export-step";
-import { ReviewStep } from "./review-step";
-import { UploadStep, type UploadSubmission } from "./upload-step";
+import { ParseQueue } from "./parse-queue";
+import { ReviewOverview } from "./review-overview";
+import { SetupStep, type SetupSubmission } from "./setup-step";
+import type { ParsedCourse, Semester, Source } from "./types";
 
-// Everything the save step (chunk 4) needs travels with the result once parsed:
-// the semester name + bounds the user entered, alongside the edited ParseResult.
-type FlowData = {
-  result: ParseResult;
-  semesterName: string;
-  semesterStart: string;
-  semesterEnd: string;
-  // Carried for the save step: courses.original_syllabus_text is NOT NULL (§7.1).
-  syllabusText: string;
-};
-
+// Orchestrates the multi-syllabus flow: setup (semester + sources) → sequential
+// parse queue → whole-semester review (overview + edit-on-demand) → single
+// save+export.
 type Step =
-  | { name: "input" }
-  | { name: "parsing" }
-  | { name: "review"; data: FlowData }
-  | { name: "ready"; data: FlowData }
-  | { name: "error"; message: string };
+  | { name: "setup" }
+  | { name: "parsing"; semester: Semester; sources: Source[] }
+  | { name: "review"; semester: Semester; courses: ParsedCourse[] }
+  | { name: "export"; semester: Semester; courses: ParsedCourse[] };
 
 export function SyllabusFlow() {
-  const [step, setStep] = useState<Step>({ name: "input" });
+  const [step, setStep] = useState<Step>({ name: "setup" });
 
-  async function handleSubmit({
-    text,
+  function startParsing({
     semesterName,
     semesterStart,
     semesterEnd,
-  }: UploadSubmission) {
-    setStep({ name: "parsing" });
-
-    // today/timezone come from the browser, not the server (server time is UTC on
-    // Vercel). en-CA formats as ISO YYYY-MM-DD, the shape the library expects.
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const today = new Intl.DateTimeFormat("en-CA", { timeZone: timezone }).format(new Date());
-
-    const result = await parseSyllabusAction({
-      text,
-      context: { semesterStart, semesterEnd, today, timezone },
+    sources,
+  }: SetupSubmission) {
+    setStep({
+      name: "parsing",
+      semester: { name: semesterName, start: semesterStart, end: semesterEnd },
+      sources,
     });
-
-    if (!result.ok) {
-      setStep({ name: "error", message: result.error });
-      return;
-    }
-    // dryRun is never requested here, so the action returns a ParseResult.
-    if ("deliverables" in result.data) {
-      setStep({
-        name: "review",
-        data: {
-          result: result.data,
-          semesterName,
-          semesterStart,
-          semesterEnd,
-          syllabusText: text,
-        },
-      });
-    } else {
-      setStep({ name: "error", message: "The parser returned an unexpected result." });
-    }
   }
 
   switch (step.name) {
-    case "input":
-      return <UploadStep onSubmit={handleSubmit} />;
+    case "setup":
+      return <SetupStep onSubmit={startParsing} />;
+
     case "parsing":
       return (
-        <p className="text-muted-foreground" role="status">
-          Parsing your syllabus… this can take up to a minute.
-        </p>
+        <ParseQueue
+          sources={step.sources}
+          semesterStart={step.semester.start}
+          semesterEnd={step.semester.end}
+          onComplete={(courses) =>
+            setStep({ name: "review", semester: step.semester, courses })
+          }
+          onRestart={() => setStep({ name: "setup" })}
+        />
       );
+
     case "review":
       return (
-        <ReviewStep
-          result={step.data.result}
-          onConfirm={(result) =>
-            setStep({ name: "ready", data: { ...step.data, result } })
+        <ReviewOverview
+          courses={step.courses}
+          onConfirm={(courses) =>
+            setStep({ name: "export", semester: step.semester, courses })
           }
-          onRestart={() => setStep({ name: "input" })}
+          onRestart={() => setStep({ name: "setup" })}
         />
       );
-    case "ready":
+
+    case "export":
       return (
         <ExportStep
-          result={step.data.result}
-          semesterName={step.data.semesterName}
-          semesterStart={step.data.semesterStart}
-          semesterEnd={step.data.semesterEnd}
-          syllabusText={step.data.syllabusText}
-          onRestart={() => setStep({ name: "input" })}
+          semester={step.semester}
+          courses={step.courses}
+          onRestart={() => setStep({ name: "setup" })}
         />
-      );
-    case "error":
-      return (
-        <div className="space-y-3">
-          <p className="text-destructive">{step.message}</p>
-          <Button variant="outline" onClick={() => setStep({ name: "input" })}>
-            Try again
-          </Button>
-        </div>
       );
   }
 }
