@@ -13,10 +13,14 @@ export function ReviewStep({
   result,
   onConfirm,
   onRestart,
+  confirmLabel = "Looks good → export",
+  cancelLabel = "Start over",
 }: {
   result: ParseResult;
   onConfirm: (result: ParseResult) => void;
   onRestart: () => void;
+  confirmLabel?: string;
+  cancelLabel?: string;
 }) {
   // The library's own output schema validates the edited form — no parallel type
   // (apps/coursecal/CLAUDE.md). defaultValues are an already-valid ParseResult.
@@ -62,10 +66,10 @@ export function ReviewStep({
 
         <div className="flex gap-3">
           <Button type="submit" disabled={formState.isSubmitting}>
-            Looks good → export
+            {confirmLabel}
           </Button>
           <Button type="button" variant="outline" onClick={onRestart}>
-            Start over
+            {cancelLabel}
           </Button>
         </div>
       </form>

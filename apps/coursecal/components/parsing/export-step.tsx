@@ -1,29 +1,35 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import type { ParseResult } from "@coursecal/syllabus-parser";
-import { exportToCalendarAction, saveSemesterAction } from "@/app/(app)/upload/actions";
+import Link from "next/link";
+import {
+  exportSemesterToCalendarAction,
+  saveSemesterAction,
+} from "@/app/(app)/upload/actions";
 import { Button, buttonVariants } from "@/components/ui/button";
-import type { CourseId } from "@/lib/db/ids";
-import { buildIcs, icsFilename } from "@/lib/ics/build";
+import type { SemesterId } from "@/lib/db/ids";
+import { buildIcsForCourses } from "@/lib/ics/build";
+import type { ParsedCourse, Semester } from "./types";
 
 type Summary = { created: number; failed: number; reconnectNeeded: boolean };
 type Phase = "idle" | "saving" | "syncing" | "done" | "error";
 
+function datedCount(courses: ParsedCourse[]): number {
+  return courses.reduce(
+    (sum, c) =>
+      sum +
+      c.result.deliverables.filter((d) => d.recurrence !== null || d.due_date !== null).length,
+    0,
+  );
+}
+
 export function ExportStep({
-  result,
-  semesterName,
-  semesterStart,
-  semesterEnd,
-  syllabusText,
+  semester,
+  courses,
   onRestart,
 }: {
-  result: ParseResult;
-  semesterName: string;
-  semesterStart: string;
-  semesterEnd: string;
-  syllabusText: string;
+  semester: Semester;
+  courses: ParsedCourse[];
   onRestart: () => void;
 }) {
   const [icsError, setIcsError] = useState<string | null>(null);
@@ -32,11 +38,14 @@ export function ExportStep({
   const [summary, setSummary] = useState<Summary | null>(null);
   // Set once the semester is persisted; a retry re-syncs (resumable) without
   // saving again, so it can't create a duplicate semester.
-  const [courseId, setCourseId] = useState<CourseId | null>(null);
+  const [semesterId, setSemesterId] = useState<SemesterId | null>(null);
 
   function download() {
     setIcsError(null);
-    const built = buildIcs(result);
+    const built = buildIcsForCourses(
+      courses.map((c) => c.result),
+      semester.name,
+    );
     if (!built.ok) {
       setIcsError(built.error);
       return;
@@ -45,7 +54,8 @@ export function ExportStep({
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = icsFilename(result.course);
+    const slug = semester.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    anchor.download = `${slug || "semester"}.ics`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
@@ -53,27 +63,26 @@ export function ExportStep({
   async function addToCalendar() {
     setMessage(null);
 
-    let cid = courseId;
-    if (!cid) {
+    let sid = semesterId;
+    if (!sid) {
       setPhase("saving");
       const saved = await saveSemesterAction({
-        semesterName,
-        semesterStart,
-        semesterEnd,
-        syllabusText,
-        result,
+        semesterName: semester.name,
+        semesterStart: semester.start,
+        semesterEnd: semester.end,
+        courses: courses.map((c) => ({ syllabusText: c.syllabusText, result: c.result })),
       });
       if (!saved.ok) {
         setPhase("error");
         setMessage(saved.error);
         return;
       }
-      cid = saved.data.courseId;
-      setCourseId(cid);
+      sid = saved.data.semesterId;
+      setSemesterId(sid);
     }
 
     setPhase("syncing");
-    const synced = await exportToCalendarAction(cid);
+    const synced = await exportSemesterToCalendarAction(sid);
     if (!synced.ok) {
       setPhase("error");
       setMessage(synced.error);
@@ -83,17 +92,13 @@ export function ExportStep({
     setPhase("done");
   }
 
-  const datedCount = result.deliverables.filter(
-    (d) => d.recurrence !== null || d.due_date !== null,
-  ).length;
-
   const busy = phase === "saving" || phase === "syncing";
   const buttonLabel =
     phase === "saving"
       ? "Saving…"
       : phase === "syncing"
         ? "Adding to Google Calendar…"
-        : courseId
+        : semesterId
           ? "Retry adding to calendar"
           : "Add to Google Calendar";
 
@@ -101,8 +106,8 @@ export function ExportStep({
     return (
       <div className="space-y-4">
         <p>
-          <span className="font-medium">{result.course.name}</span> was saved to{" "}
-          {semesterName}.{" "}
+          <span className="font-medium">{semester.name}</span> ({courses.length}{" "}
+          {courses.length === 1 ? "course" : "courses"}) was saved.{" "}
           {summary.created > 0
             ? `${summary.created} event(s) added to Google Calendar.`
             : "No new events to add."}
@@ -118,9 +123,14 @@ export function ExportStep({
           </p>
         ) : null}
         {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
+          {semesterId ? (
+            <Link href={`/semester/${semesterId}`} className={buttonVariants()}>
+              View timeline
+            </Link>
+          ) : null}
           {summary.reconnectNeeded ? (
-            <Link href="/reconnect" className={buttonVariants()}>
+            <Link href="/reconnect" className={buttonVariants({ variant: "outline" })}>
               Reconnect Google
             </Link>
           ) : null}
@@ -133,7 +143,7 @@ export function ExportStep({
             Download .ics
           </Button>
           <Button variant="ghost" onClick={onRestart}>
-            Add another
+            New semester
           </Button>
         </div>
       </div>
@@ -143,14 +153,15 @@ export function ExportStep({
   return (
     <div className="space-y-4">
       <p>
-        <span className="font-medium">{result.course.name}</span> is ready. {datedCount} dated
-        deliverable(s) will be added to your calendar; dateless items are skipped.
+        <span className="font-medium">{semester.name}</span> is ready with{" "}
+        {courses.length} {courses.length === 1 ? "course" : "courses"}. {datedCount(courses)}{" "}
+        dated deliverable(s) will be added to your calendar; dateless items are skipped.
       </p>
       {phase === "error" && message ? (
         <p className="text-sm text-destructive">{message}</p>
       ) : null}
       {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <Button onClick={addToCalendar} disabled={busy}>
           {buttonLabel}
         </Button>

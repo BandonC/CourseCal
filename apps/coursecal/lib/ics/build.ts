@@ -59,9 +59,9 @@ function makeEvent(
   return { ...base, start, end };
 }
 
-export function buildIcs(result: ParseResult): BuildResult {
+// One course's dated deliverables as VEVENT attributes (recurring items expanded).
+function eventsFor(result: ParseResult): EventAttributes[] {
   const events: EventAttributes[] = [];
-
   for (const d of result.deliverables) {
     if (d.recurrence) {
       const dates = expandRecurrence(d.recurrence);
@@ -76,19 +76,28 @@ export function buildIcs(result: ParseResult): BuildResult {
     }
     // No recurrence and no due_date → dateless item, skipped (§7.1).
   }
+  return events;
+}
 
+function emitCalendar(events: EventAttributes[], calName: string): BuildResult {
   if (events.length === 0) {
     return { ok: false, error: "No dated deliverables to export." };
   }
-
-  const { error, value } = createEvents(events, {
-    productId: "coursecal/ics",
-    calName: coursePrefix(result.course),
-  });
+  const { error, value } = createEvents(events, { productId: "coursecal/ics", calName });
   if (error || !value) {
     return { ok: false, error: "Couldn't build the calendar file." };
   }
   return { ok: true, value };
+}
+
+export function buildIcs(result: ParseResult): BuildResult {
+  return emitCalendar(eventsFor(result), coursePrefix(result.course));
+}
+
+// Combined calendar for a whole semester: every course's dated deliverables in one
+// .ics, so the non-Google fallback covers the multi-syllabus flow in one download.
+export function buildIcsForCourses(results: ParseResult[], calName: string): BuildResult {
+  return emitCalendar(results.flatMap(eventsFor), calName);
 }
 
 export function icsFilename(course: Course): string {

@@ -13,8 +13,8 @@ export default function UploadPage() {
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">New semester</h1>
         <p className="text-muted-foreground">
-          Name your semester, upload a course syllabus or paste the text, review what we
-          found, then export it to your calendar.
+          Name your semester, add a syllabus for each course (upload PDFs or paste text),
+          review what we found, then export it all to your calendar.
         </p>
       </header>
       <SyllabusFlow />
