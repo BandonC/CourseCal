@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
+import { buttonVariants } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth/session";
 import { detectConflicts, type ConflictDeliverable } from "@/lib/conflict-detection";
 import type { SemesterId } from "@/lib/db/ids";
@@ -40,12 +42,20 @@ export default async function SemesterPage({
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
-      <header className="space-y-1">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{data.name}</h1>
-        <p className="text-muted-foreground">
-          {data.startDate} → {data.endDate}
-        </p>
-      </header>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <header className="space-y-1">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{data.name}</h1>
+          <p className="text-muted-foreground">
+            {data.startDate} → {data.endDate}
+          </p>
+        </header>
+        <Link
+          href={`/semester/${data.id}/add`}
+          className={buttonVariants({ variant: "outline", size: "sm" })}
+        >
+          Add course
+        </Link>
+      </div>
       <SemesterTimeline data={data} report={report} />
     </main>
   );
