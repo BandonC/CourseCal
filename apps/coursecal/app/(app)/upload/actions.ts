@@ -8,23 +8,21 @@ import {
 import { z } from "zod";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
 import { getOptionalUser } from "@/lib/auth/session";
-import { buildCalendarEvent } from "@/lib/calendar/event";
-import { calendarOAuthClient } from "@/lib/calendar/client";
-import { insertEvent } from "@/lib/calendar/sync";
+import { syncDeliverablesToCalendar, type SyncSummary } from "@/lib/calendar/export-sync";
 import { courseColorForIndex } from "@/lib/courses/colors";
-import {
-  getSyncableDeliverablesForSemester,
-  setGoogleEventId,
-} from "@/lib/db/queries/deliverables";
+import { getCourseForReparse } from "@/lib/db/queries/courses";
+import { getSyncableDeliverablesForSemester } from "@/lib/db/queries/deliverables";
 import { countParsesSince, recordParse } from "@/lib/db/queries/parse-events";
-import { createSemesterWithCourses } from "@/lib/db/queries/semesters";
-import { clearRefreshToken, getDecryptedRefreshToken } from "@/lib/db/queries/users";
-import { ParseInputSchema, SaveSemesterInputSchema } from "@/lib/parse/schema";
+import {
+  addCoursesToSemester,
+  createSemesterWithCourses,
+} from "@/lib/db/queries/semesters";
+import {
+  AddCoursesInputSchema,
+  ParseInputSchema,
+  SaveSemesterInputSchema,
+} from "@/lib/parse/schema";
 import type { CourseId, SemesterId } from "@/lib/db/ids";
-
-// Calendar export tuning: insert several events concurrently (apps/coursecal/
-// CLAUDE.md — naive serial is too slow; no batch endpoint).
-const SYNC_CONCURRENCY = 6;
 
 // Authenticated, rate-limited parse action — the Phase-2 exception
 // (unauthenticated, no rate limit — see DECISIONS.md) is now fully closed: every
@@ -89,6 +87,55 @@ export async function parseSyllabusAction(
   return actionOk(result.data);
 }
 
+// Re-parses a course's stored syllabus text (§7.1) for the replacement flow. Same
+// cost guard as a normal parse — it's a real LLM call. The parse context is rebuilt
+// server-side from the semester dates + the user's timezone; `today` is the current
+// date in that timezone (en-CA formats as YYYY-MM-DD). Returns the fresh ParseResult
+// for review; the actual swap is a separate action after the user confirms.
+export async function reparseCourseAction(
+  courseId: string,
+): Promise<ActionResult<ParseResult>> {
+  const user = await getOptionalUser();
+  if (!user) {
+    return actionErr("You must be signed in to re-parse.", "unauthenticated");
+  }
+
+  const parsed = z.uuid().safeParse(courseId);
+  if (!parsed.success) {
+    return actionErr("Invalid course.", "invalid_input");
+  }
+
+  const ctx = await getCourseForReparse(user.userId, parsed.data as CourseId);
+  if (!ctx) return actionErr("Course not found.", "not_found");
+
+  const recent = await countParsesSince(user.userId, new Date(Date.now() - DAY_MS));
+  if (recent >= MAX_PARSES_PER_DAY) {
+    return actionErr(
+      "You've reached the daily limit of syllabus parses. Try again tomorrow.",
+      "rate_limited",
+    );
+  }
+  await recordParse(user.userId);
+
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: ctx.timezone }).format(
+    new Date(),
+  );
+  const result = await parseSyllabus(ctx.syllabusText, {
+    semesterStart: ctx.semesterStart,
+    semesterEnd: ctx.semesterEnd,
+    today,
+    timezone: ctx.timezone,
+  });
+
+  if (!result.ok) {
+    const message =
+      PARSE_ERROR_MESSAGES[result.error.kind] ?? "Parsing failed. Please try again.";
+    return actionErr(message, result.error.kind);
+  }
+
+  return actionOk(result.data);
+}
+
 // Persists the reviewed semester + its courses + (expanded) deliverables. The
 // client sends its edited ParseResults; the server re-validates each against the
 // library schema before saving (never trust the client). Each course gets a
@@ -128,12 +175,38 @@ export async function saveSemesterAction(
   }
 }
 
-type SyncSummary = { created: number; failed: number; reconnectNeeded: boolean };
+// Adds reviewed course(s) to an existing semester (§3.3). Re-validates each
+// client-edited ParseResult against the library schema and scopes the write to the
+// owner; returns the semester id so the flow can run the (resumable) export.
+export async function addCoursesToSemesterAction(
+  input: unknown,
+): Promise<ActionResult<{ semesterId: SemesterId; courseIds: CourseId[] }>> {
+  const user = await getOptionalUser();
+  if (!user) {
+    return actionErr("You must be signed in to add courses.", "unauthenticated");
+  }
+
+  const parsed = AddCoursesInputSchema.safeParse(input);
+  if (!parsed.success) {
+    return actionErr("The course or syllabus details are invalid.", "invalid_input");
+  }
+
+  try {
+    const result = await addCoursesToSemester(
+      user.userId,
+      parsed.data.semesterId as SemesterId,
+      parsed.data.courses.map((c) => ({ result: c.result, syllabusText: c.syllabusText })),
+    );
+    if (!result) return actionErr("Semester not found.", "not_found");
+    return actionOk(result);
+  } catch {
+    return actionErr("Couldn't add the courses. Please try again.", "save_failed");
+  }
+}
 
 // Syncs all of a saved semester's dated, not-yet-synced deliverables (across every
-// course) to Google Calendar. Resumable: google_event_id is written back per
-// success, so re-running skips rows already created. Revoked consent clears the
-// stored token and signals the reconnect flow.
+// course) to Google Calendar via the shared chunked exporter. Resumable: each
+// success writes back its google_event_id, so re-running skips synced rows.
 export async function exportSemesterToCalendarAction(
   semesterId: string,
 ): Promise<ActionResult<SyncSummary>> {
@@ -146,57 +219,10 @@ export async function exportSemesterToCalendarAction(
   if (!parsed.success) {
     return actionErr("Invalid semester.", "invalid_input");
   }
-  const sid = parsed.data as SemesterId;
 
-  const refreshToken = await getDecryptedRefreshToken(user.userId);
-  if (!refreshToken) {
-    return actionOk({ created: 0, failed: 0, reconnectNeeded: true });
-  }
+  const rows = (
+    await getSyncableDeliverablesForSemester(user.userId, parsed.data as SemesterId)
+  ).filter((d): d is typeof d & { dueDate: string } => d.dueDate !== null);
 
-  const rows = (await getSyncableDeliverablesForSemester(user.userId, sid)).filter(
-    (d): d is typeof d & { dueDate: string } => d.dueDate !== null,
-  );
-  if (rows.length === 0) {
-    return actionOk({ created: 0, failed: 0, reconnectNeeded: false });
-  }
-
-  const auth = calendarOAuthClient(refreshToken);
-  let created = 0;
-  let failed = 0;
-  let reconnectNeeded = false;
-
-  for (let i = 0; i < rows.length && !reconnectNeeded; i += SYNC_CONCURRENCY) {
-    const chunk = rows.slice(i, i + SYNC_CONCURRENCY);
-    const outcomes = await Promise.all(
-      chunk.map(async (d) => {
-        const event = buildCalendarEvent({
-          courseLabel: d.courseCode ?? d.courseName,
-          title: d.title,
-          dueDate: d.dueDate,
-          dueTime: d.dueTime,
-          weightPercent: d.weightPercent,
-          notes: d.notes,
-          confidence: d.confidence,
-          ambiguityReason: d.ambiguityReason,
-          timezone: d.timezone,
-        });
-        const outcome = await insertEvent(auth, event);
-        if (outcome.kind === "ok") {
-          await setGoogleEventId(d.id, outcome.eventId);
-        }
-        return outcome;
-      }),
-    );
-    for (const o of outcomes) {
-      if (o.kind === "ok") created++;
-      else if (o.kind === "reconnect") reconnectNeeded = true;
-      else failed++;
-    }
-  }
-
-  if (reconnectNeeded) {
-    await clearRefreshToken(user.userId);
-  }
-
-  return actionOk({ created, failed, reconnectNeeded });
+  return actionOk(await syncDeliverablesToCalendar(user.userId, rows));
 }
