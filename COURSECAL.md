@@ -124,7 +124,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 6. Review screen: each course grouped, deliverables listed, ambiguous items flagged
 7. User edits/confirms, clicks "Export to Calendar"
 8. Calendar events created via Google Calendar API; success confirmation + link
-9. Lands on the semester timeline view at `/semester/[id]` (conflicts flagged); the dashboard aggregating all semesters is Phase 5
+9. Lands on the semester timeline view at `/semester/[id]` (conflicts flagged); the dashboard aggregating all semesters is at `/dashboard`
 
 ### 3.2 Returning user (mid-semester update)
 1. Signs in, lands on dashboard
@@ -438,7 +438,7 @@ Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKE
 
 Loose sequencing — not a strict timeline. Ship each phase to friends for feedback before moving on.
 
-> **Status (2026-06-22):** Phases 0–3 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`). Phase 4 (multi-syllabus upload via a sequential parse queue, the semester timeline at `app/(app)/semester/[id]`, and conflict detection Layers 1–2) is implemented on a feature branch, pending review/merge. Known open items: source-map upload for Sentry is deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`), and `app/(app)/dashboard` is a temporary placeholder until the Phase-5 dashboard.
+> **Status (2026-06-22):** Phases 0–4 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`); Phase 4 merged (PR #8). Phase 5 (the real `app/(app)/dashboard`, course detail at `app/(app)/course/[id]` with inline deliverable + course-header edit and per-deliverable Calendar patch per §6.4, tiered deletes with cascade-to-Calendar and block-and-reconnect per §7.3, add-course-to-existing-semester at `app/(app)/semester/[id]/add`, per-course sync resume, and re-parse replacement) is implemented on a feature branch, pending review/merge — the preview deploy is the end-to-end gate, since Calendar patch/delete need DB + Google auth that can't run locally. The dashboard placeholder is now replaced. Known open item: source-map upload for Sentry is still deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`).
 
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.

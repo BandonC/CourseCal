@@ -59,3 +59,13 @@ export const SaveSemesterInputSchema = z
   });
 
 export type SaveSemesterInput = z.infer<typeof SaveSemesterInputSchema>;
+
+// Input contract for adding course(s) to an existing semester (§3.3). Same course
+// shape as a save, but keyed on the existing semesterId instead of name/dates —
+// the dates already live on the semester row and drive the parse context.
+export const AddCoursesInputSchema = z.object({
+  semesterId: z.uuid(),
+  courses: z.array(CourseSaveSchema).min(1, "at least one course is required").max(12),
+});
+
+export type AddCoursesInput = z.infer<typeof AddCoursesInputSchema>;

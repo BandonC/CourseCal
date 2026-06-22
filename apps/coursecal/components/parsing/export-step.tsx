@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
+  addCoursesToSemesterAction,
   exportSemesterToCalendarAction,
   saveSemesterAction,
 } from "@/app/(app)/upload/actions";
@@ -26,10 +27,14 @@ function datedCount(courses: ParsedCourse[]): number {
 export function ExportStep({
   semester,
   courses,
+  existingSemesterId,
   onRestart,
 }: {
   semester: Semester;
   courses: ParsedCourse[];
+  // Set when adding to an existing semester — the save goes through the add action
+  // instead of creating a new semester.
+  existingSemesterId?: SemesterId;
   onRestart: () => void;
 }) {
   const [icsError, setIcsError] = useState<string | null>(null);
@@ -66,12 +71,17 @@ export function ExportStep({
     let sid = semesterId;
     if (!sid) {
       setPhase("saving");
-      const saved = await saveSemesterAction({
-        semesterName: semester.name,
-        semesterStart: semester.start,
-        semesterEnd: semester.end,
+      const payload = {
         courses: courses.map((c) => ({ syllabusText: c.syllabusText, result: c.result })),
-      });
+      };
+      const saved = existingSemesterId
+        ? await addCoursesToSemesterAction({ semesterId: existingSemesterId, ...payload })
+        : await saveSemesterAction({
+            semesterName: semester.name,
+            semesterStart: semester.start,
+            semesterEnd: semester.end,
+            ...payload,
+          });
       if (!saved.ok) {
         setPhase("error");
         setMessage(saved.error);
@@ -106,8 +116,13 @@ export function ExportStep({
     return (
       <div className="space-y-4">
         <p>
-          <span className="font-medium">{semester.name}</span> ({courses.length}{" "}
-          {courses.length === 1 ? "course" : "courses"}) was saved.{" "}
+          {existingSemesterId
+            ? `${courses.length} ${courses.length === 1 ? "course" : "courses"} added to `
+            : null}
+          <span className="font-medium">{semester.name}</span>
+          {existingSemesterId
+            ? "."
+            : ` (${courses.length} ${courses.length === 1 ? "course" : "courses"}) was saved.`}{" "}
           {summary.created > 0
             ? `${summary.created} event(s) added to Google Calendar.`
             : "No new events to add."}
@@ -143,7 +158,7 @@ export function ExportStep({
             Download .ics
           </Button>
           <Button variant="ghost" onClick={onRestart}>
-            New semester
+            {existingSemesterId ? "Add more courses" : "New semester"}
           </Button>
         </div>
       </div>
