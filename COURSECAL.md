@@ -124,7 +124,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 6. Review screen: each course grouped, deliverables listed, ambiguous items flagged
 7. User edits/confirms, clicks "Export to Calendar"
 8. Calendar events created via Google Calendar API; success confirmation + link
-9. Lands on dashboard with semester timeline view (conflicts flagged)
+9. Lands on the semester timeline view at `/semester/[id]` (conflicts flagged); the dashboard aggregating all semesters is Phase 5
 
 ### 3.2 Returning user (mid-semester update)
 1. Signs in, lands on dashboard
@@ -270,7 +270,7 @@ Observability: Sentry (errors), PostHog (events) — client + server
 
 ### 6.3 Request flow: save + calendar sync
 1. User reviews/edits, clicks "Add to Google Calendar"
-2. Server re-validates the (client-edited) `ParseResult`, then persists the semester + course + recurrence-expanded deliverable rows in one atomic batch (the in-memory review becomes DB rows here)
+2. Server re-validates each (client-edited) `ParseResult`, then persists the semester + its courses + recurrence-expanded deliverable rows in one atomic batch (the in-memory review becomes DB rows here; a multi-syllabus semester saves all its courses in the same batch)
 3. Server reads the saved deliverables; events built from rows (dateless items skipped)
 4. Chunked concurrent calls to Google Calendar API (5–10 in flight), access token refreshed from the stored refresh token
 5. `google_event_id` saved back per successful insert (resumable — re-running skips already-synced rows)
@@ -438,7 +438,7 @@ Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKE
 
 Loose sequencing — not a strict timeline. Ship each phase to friends for feedback before moving on.
 
-> **Status (2026-06-20):** Phases 0–3 complete. The app is deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`; see `DECISIONS.md` and the deployment notes). Next up: Phase 4. Known open items: source-map upload for Sentry is deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`), and `app/(app)/dashboard` is a temporary placeholder until the Phase-5 dashboard.
+> **Status (2026-06-22):** Phases 0–3 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`). Phase 4 (multi-syllabus upload via a sequential parse queue, the semester timeline at `app/(app)/semester/[id]`, and conflict detection Layers 1–2) is implemented on a feature branch, pending review/merge. Known open items: source-map upload for Sentry is deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`), and `app/(app)/dashboard` is a temporary placeholder until the Phase-5 dashboard.
 
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.
