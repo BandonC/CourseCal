@@ -32,20 +32,30 @@ export const ParseInputSchema = z.object({
 
 export type ParseInput = z.infer<typeof ParseInputSchema>;
 
-// Input contract for the save action. The server re-validates the (client-edited)
-// ParseResult against the library schema — the client is never trusted — plus the
-// semester fields. `color` is assigned server-side, not accepted from the client.
-export const SaveInputSchema = z
+// One parsed-and-reviewed course in a save. The server re-validates each
+// (client-edited) ParseResult against the library schema — the client is never
+// trusted. `color` is assigned server-side by course index, not accepted here.
+const CourseSaveSchema = z.object({
+  syllabusText: z.string().trim().min(1).max(MAX_SYLLABUS_CHARS),
+  result: ParseResultSchema,
+});
+
+// Input contract for the save action: one semester holding one or more reviewed
+// courses (the Phase-4 multi-syllabus flow). The cap guards against abuse — a real
+// semester is ~4–6 courses.
+export const SaveSemesterInputSchema = z
   .object({
     semesterName: z.string().trim().min(1, "semester name is required").max(120),
     semesterStart: IsoDate,
     semesterEnd: IsoDate,
-    syllabusText: z.string().trim().min(1).max(MAX_SYLLABUS_CHARS),
-    result: ParseResultSchema,
+    courses: z
+      .array(CourseSaveSchema)
+      .min(1, "at least one course is required")
+      .max(12),
   })
   .refine((v) => v.semesterEnd >= v.semesterStart, {
     message: "semester end is before start",
     path: ["semesterEnd"],
   });
 
-export type SaveInput = z.infer<typeof SaveInputSchema>;
+export type SaveSemesterInput = z.infer<typeof SaveSemesterInputSchema>;

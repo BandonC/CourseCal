@@ -12,11 +12,14 @@ import { buildCalendarEvent } from "@/lib/calendar/event";
 import { calendarOAuthClient } from "@/lib/calendar/client";
 import { insertEvent } from "@/lib/calendar/sync";
 import { courseColorForIndex } from "@/lib/courses/colors";
-import { getSyncableDeliverables, setGoogleEventId } from "@/lib/db/queries/deliverables";
+import {
+  getSyncableDeliverablesForSemester,
+  setGoogleEventId,
+} from "@/lib/db/queries/deliverables";
 import { countParsesSince, recordParse } from "@/lib/db/queries/parse-events";
-import { createSemesterWithCourse } from "@/lib/db/queries/semesters";
+import { createSemesterWithCourses } from "@/lib/db/queries/semesters";
 import { clearRefreshToken, getDecryptedRefreshToken } from "@/lib/db/queries/users";
-import { ParseInputSchema, SaveInputSchema } from "@/lib/parse/schema";
+import { ParseInputSchema, SaveSemesterInputSchema } from "@/lib/parse/schema";
 import type { CourseId, SemesterId } from "@/lib/db/ids";
 
 // Calendar export tuning: insert several events concurrently (apps/coursecal/
@@ -86,33 +89,36 @@ export async function parseSyllabusAction(
   return actionOk(result.data);
 }
 
-// Persists the reviewed semester + course + (expanded) deliverables. The client
-// sends its edited ParseResult; the server re-validates it against the library
-// schema before saving (never trust the client). Calendar sync is layered on in
-// chunk 5; this returns the new ids so that flow can read the rows back.
+// Persists the reviewed semester + its courses + (expanded) deliverables. The
+// client sends its edited ParseResults; the server re-validates each against the
+// library schema before saving (never trust the client). Each course gets a
+// distinct timeline color by its index. Returns the semester id so the export +
+// timeline flow can read the rows back.
 export async function saveSemesterAction(
   input: unknown,
-): Promise<ActionResult<{ semesterId: SemesterId; courseId: CourseId }>> {
+): Promise<ActionResult<{ semesterId: SemesterId; courseIds: CourseId[] }>> {
   const user = await getOptionalUser();
   if (!user) {
     return actionErr("You must be signed in to save.", "unauthenticated");
   }
 
-  const parsed = SaveInputSchema.safeParse(input);
+  const parsed = SaveSemesterInputSchema.safeParse(input);
   if (!parsed.success) {
     return actionErr("The semester or syllabus details are invalid.", "invalid_input");
   }
 
-  const { semesterName, semesterStart, semesterEnd, syllabusText, result } = parsed.data;
+  const { semesterName, semesterStart, semesterEnd, courses } = parsed.data;
 
   try {
-    const ids = await createSemesterWithCourse(user.userId, {
+    const ids = await createSemesterWithCourses(user.userId, {
       semesterName,
       semesterStart,
       semesterEnd,
-      syllabusText,
-      color: courseColorForIndex(0),
-      result,
+      courses: courses.map((c, i) => ({
+        result: c.result,
+        syllabusText: c.syllabusText,
+        color: courseColorForIndex(i),
+      })),
     });
     return actionOk(ids);
   } catch {
@@ -124,30 +130,30 @@ export async function saveSemesterAction(
 
 type SyncSummary = { created: number; failed: number; reconnectNeeded: boolean };
 
-// Syncs a saved course's dated, not-yet-synced deliverables to Google Calendar.
-// Resumable: google_event_id is written back per success, so re-running skips
-// rows already created. Revoked consent clears the stored token and signals the
-// reconnect flow (route lands in chunk 6).
-export async function exportToCalendarAction(
-  courseId: string,
+// Syncs all of a saved semester's dated, not-yet-synced deliverables (across every
+// course) to Google Calendar. Resumable: google_event_id is written back per
+// success, so re-running skips rows already created. Revoked consent clears the
+// stored token and signals the reconnect flow.
+export async function exportSemesterToCalendarAction(
+  semesterId: string,
 ): Promise<ActionResult<SyncSummary>> {
   const user = await getOptionalUser();
   if (!user) {
     return actionErr("You must be signed in to export.", "unauthenticated");
   }
 
-  const parsed = z.uuid().safeParse(courseId);
+  const parsed = z.uuid().safeParse(semesterId);
   if (!parsed.success) {
-    return actionErr("Invalid course.", "invalid_input");
+    return actionErr("Invalid semester.", "invalid_input");
   }
-  const cid = parsed.data as CourseId;
+  const sid = parsed.data as SemesterId;
 
   const refreshToken = await getDecryptedRefreshToken(user.userId);
   if (!refreshToken) {
     return actionOk({ created: 0, failed: 0, reconnectNeeded: true });
   }
 
-  const rows = (await getSyncableDeliverables(user.userId, cid)).filter(
+  const rows = (await getSyncableDeliverablesForSemester(user.userId, sid)).filter(
     (d): d is typeof d & { dueDate: string } => d.dueDate !== null,
   );
   if (rows.length === 0) {
