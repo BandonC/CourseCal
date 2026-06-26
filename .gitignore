@@ -49,9 +49,8 @@ coverage/
 *.dump
 *.sql.bak
 
-# Eval outputs
-packages/syllabus-parser/evals/.results/
-packages/syllabus-parser/evals/.cache/
+# Eval fixtures, recorded LLM responses, and the generated report are committed
+# deliberately — the cache makes `eval:replay` reproducible with no API key or spend.
 
 # Temp / scratch
 tmp/

@@ -1,0 +1,21 @@
+{
+  "course": {
+    "code": "CS 1027B",
+    "name": "Computer Science Fundamentals II"
+  },
+  "deliverables": [
+    { "title": "Assignment 1", "type": "assignment", "due_date": "2026-01-30", "weight": 8, "date_kind": "explicit" },
+    { "title": "Assignment 2", "type": "assignment", "due_date": "2026-02-25", "weight": 8, "date_kind": "explicit" },
+    { "title": "Assignment 3", "type": "assignment", "due_date": "2026-03-17", "weight": 8, "date_kind": "explicit" },
+    { "title": "Assignment 4", "type": "assignment", "due_date": "2026-04-06", "weight": 8, "date_kind": "explicit" },
+    {
+      "title": "Labs",
+      "type": "other",
+      "weight": 8,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "count": 10 }
+    },
+    { "title": "Midterm Test", "type": "exam", "due_date": "2026-02-28", "weight": 20, "date_kind": "explicit" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 40, "date_kind": "none" }
+  ]
+}

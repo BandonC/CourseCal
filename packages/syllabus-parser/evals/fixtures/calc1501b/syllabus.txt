@@ -1,0 +1,281 @@
+Department of Mathematics
+
+Calculus 1501B Course Outline
+
+1. Course Information
+
+Course Information
+Course Name:Calculus II for Mathematical and Physical Sciences
+Course Number:Calc 1501B
+Academic Term: Fall/Winter 2025
+
+List of Prerequisites
+A minimum mark of 60% in one of Calculus 1000A/B, 1500A/B or the former 1100A/B.
+
+Antirequisites
+Calculus 1301A/B, Numerical and Mathematical Methods 1414A/B, the former Applied Mathematics
+1414A/B, the former Applied Mathematics 1413.
+
+Unless you have either the prerequisites for this course or written special permission from the Department of Mathematics to enroll in it, you may be removed and withdrawn from this course in accordance with university policy. This may be done after the add/drop deadline of the academic term, and the course will be marked as withdrawn (WDN) on your academic record. This decision may not be appealed.
+
+2. Instructor Information
+Full name, title and appropriate contact information of the instructor and, if the course is taught by more than one instructor, the name of the person responsible for the course (course coordinator).
+
+Instructors
+Email
+Office
+Office Hours
+Dr. Kelvin Chan (Course Coordinator)
+kchan773@uwo.ca
+
+See OWL.
+Dr. Martin Pinsonnault
+
+mpinson@uwo.ca
+
+See OWL.
+
+Students must use their Western (@uwo.ca) email addresses when contacting their instructors and include “Calc 1501B” in the subject line in addition to other identifiers. Feedback on this course should be sought through office hours, in lecture, or via the math help centre. Remember to check
+announcements on our OWL page before contacting your instructor or the course coordinator. Issues related to the business of a given lecture section should be directed to the instructor associated to that
+section before involving the course coordinator. Instructors will endeavor to reply to student queries
+within five business days, although response times may be longer depending on the volume of emails
+received. It is your responsibility to ensure you raise your concerns in a timely manner.
+
+Office hours: Each instructor will offer weekly in-person consultation time and the details can be located on the OWL page associated to our course. It is important that you check OWL regularly for updates/changes to the scheduling of these times.
+
+3. Course Syllabus, Schedule, Delivery Mode
+Students who intend to pursue a degree in Actuarial Science, Applied Mathematics, Astronomy,
+Mathematics, Physics, or Statistics should take this course. Techniques of integration; The Mean Value
+Theorem and its consequences; series, Taylor series with applications; parametric and polar curves with
+applications; first order linear and separable differential equations with applications.
+
+Please note that SH is short for Somerville House and SEB for Spencer Engineering Building.
+
+Learning Outcomes
+
+A major goal of this course is to develop a refined understanding of standard calculus techniques to investigate the properties of functions.  Compared to Calculus 1301B, this course not only requires students to apply standard calculus techniques (limits, differentiation, integration, and series) to concrete functions but also to develop sophistication and skills in working with functions for which some information is given in abstract form.
+
+Upon successful completion of Calculus 1501B, you will be able to:
+
+Understand the development of the Fundamental Theorem of Calculus.
+State and apply major theorems, i.e., the Mean Value Theorem, the Fundamental Theorem of Calculus, and the Monotone Convergence Theorem.
+List and understand examples of integrals whose evaluation require different techniques.
+Apply integration techniques to transform and evaluate (definite and indefinite) integrals.
+Strategically choose effective integration techniques to transform and evaluate integrals.
+Deduce properties of functions defined by integrals.
+List and understand examples of series and power series whose convergence require different techniques.
+Find power series representation of functions and determine their interval and radius of convergence.
+Identify and solve separable and linear first-order ordinary differential equations and initial-value problems.
+Apply a combination of limits, differentiation, integration techniques to solve problems and investigate properties of functions.
+
+Course Content Schedule
+
+In-person lectures are the primary source of content delivery. Students are expected to attend all lectures.
+
+Weeks
+Mondays
+Topics
+1
+Jan 5
+Course introduction. Theoretical foundation of integration.
+2
+Jan 12
+Fundamental Theorem of Calculus. Functions defined by integrals.
+3
+Jan 19
+Integration techniques.
+4
+Jan 26
+Integration techniques.
+5
+Feb 2
+Integration techniques.
+6
+Feb 9
+Special topics. Sequences and series.
+7
+Feb 16
+Reading week. No class.
+8
+Feb 23
+Sequences and series. Midterm is on Thursday, February 26 from 7 pm to 9 pm.
+9
+Mar 2
+Sequences and series.
+10
+Mar 9
+Sequences and series.
+11
+Mar 16
+Sequences and series.
+12
+Mar 23
+Ordinary differential equations.
+13
+Mar 30
+Parametric equations.
+14
+Apr 6
+Buffer and review.
+
+Key Sessional Dates:
+Classes begin: January 5, 2026
+Spring Reading Week: February 14 – 22, 2026
+Classes end: April 9, 2026
+Exam period: April 12 – 30, 2026
+
+4. Course Materials
+
+Required Text:
+CLP Calculus 1 and 2, by Joel Feldman, Andrew Rechnitzer, and Elysa Yaeger (UBC 2018). We will use the PDF versions of the books, freely available on OWL Brightspace and at https://personal.math.ubc.ca/~CLP/.
+
+Students are responsible for checking the course OWL site (https://westernu.brightspace.com/) regularly for news and updates. This is the primary method by which information will be disseminated to all students in the class.
+
+If students need assistance with the course OWL site, they can seek support on the OWL Brightspace Help page.  Alternatively, they can contact the Western Technology Services Helpdesk.  They can be contacted by phone at 519-661-3800 or ext. 83800.
+
+Technical Requirements
+Gradescope (https://www.gradescope.ca/) will be used as a grading platform for written work in the course. A free gradescope account will be created on your behalf, although you will be required to verify the account and change the password during the first week of class. Details regarding the set-up of your account and the submission requirements for your written work will be posted on OWL. It is the responsibility of the student to ensure their homework assignments are submitted in the correct format (PDF or PNG.) Submitting work in an improper format may result in your work not being graded, and this cannot form the basis of a regrade request. Additionally, the term test may be scanned by the course staff and uploaded to Gradescope for grading and viewing.
+
+Additionally, students will need
+a laptop or computer,
+a mobile device (smart phone or laptop) to participate in in-class iClicker polls,
+a stable internet connection,
+to have installed a recent version of Chrome AND Firefox browsers, a PDF reader, and Zoom on their computer,
+a device for scanning documents for uploading to gradescope.ca.
+
+Students will need to create a free iClicker account using your Western email address. Please refer to
+the instructions at https://presswestern.uwo.ca/ . If you already have an iClicker account, please go
+into the settings and verify that it uses your uwo.ca email address. This software will be used during
+class lectures to gauge participation, solicit feedback, and for other Q and A.
+
+All other course material will be posted to OWL: https://westernu.brightspace.com/
+
+5. Methods of Evaluation
+Calculus 1501B is an in-person lecture-based course. Students are expected to attend all classes. A list of suggested exercises from the course text will be provided in OWL to supplement the weekly lessons. All evaluations (written assignments, quizzes, the midterm test, and exam) for Calculus 1501B are based on the course material covered in weekly lectures.
+
+Grading Scheme and Assessment Dates
+
+The overall course grade will be calculated as listed below:
+Assessment
+Weight
+Dates
+In-class participation (iClicker polls)
+5%
+See OWL.
+Quizzes (best 6 out of 8)
+10%
+See OWL.
+Written Assignments (3)
+15%
+See OWL.
+Midterm Test
+30%
+Thursday, February 26 from 7 pm to 9 pm.
+Final Exam
+40%
+3 hours. Scheduled by the Registrar’s Office.
+
+Quizzes are administered through the WebWork Platform (free). See OWL Brightspace for details and due dates. Quizzes are partially cumulative, meaning quizzes in later parts of the course include some questions from an earlier part of the course.
+Written assignments are submitted through gradescope.ca. Each written assignment weighs 5% of your overall grade.
+In-class participation is administered through iClicker. Instant feedback of students’ understanding allows instructors to steer in-class discussion towards students’ needs. Students are graded on completion only.
+The midterm test is an in-person, closed-book, 120-minute written test. The midterm test consists of a mix of multiple-choice, fill-in-the-blanks, matching and short-answer questions covering the course material from weeks one to six, inclusive. The use of calculators, electronic devices, notes and aids of any kind is prohibited.
+The make-up midterm is tentatively scheduled for Friday, March 6th from 7 pm to 9 pm.
+The final exam test is an in-person, closed-book, 180-minute written exam. The final exam consists of a mix of multiple-choice, fill-in-the-blanks, matching and short-answer questions covering all course material. The use of calculators, electronic devices, notes and aids of any kind is prohibited.
+
+Use of Generative AI Tools
+The use of Generative AI is prohibited for all assessments in the course.
+
+General information about missed coursework
+Students must familiarize themselves with the University Policy on Academic Consideration – Undergraduate Students in First Entry Programs, posted on the Academic Calendar:
+https://uwo.ca/univsec//pdf/academic_policies/appeals/academic_consideration_Sep24.pdf,
+
+This policy does not apply to requests for Academic Consideration submitted for attempted or completed work, whether online or in person.
+
+The policy also does not apply to students experiencing longer-term impacts on their academic responsibilities. These students should consult Accessible Education.
+
+For procedures on how to submit Academic Consideration requests, please see the information posted on the Office of the Registrar’s webpage:
+https://registrar.uwo.ca/academics/academic_considerations/
+All requests for Academic Consideration must be made within 48 hours after the assessment date or submission deadline.
+
+All Academic Consideration requests must include supporting documentation; however, recognizing that formal documentation may not be available in some extenuating circumstances, the policy allows students to make one Academic Consideration request without supporting documentation in this course. However, the following assessments are excluded from this and, therefore, always require formal supporting documentation:
+The Midterm Test (Designated by the instructor as the one assessment that always requires documentation when requesting Academic Consideration). The Midterm Test is tentatively scheduled for Thursday, February 26 from 7 pm to 9 pm.
+The Final Exam
+
+When a student mistakenly submits their one allowed Academic Consideration request without supporting documentation for the assessments listed above or those in the Coursework with Assessment Flexibility section below, the request cannot be recalled and reapplied. This privilege is forfeited.
+
+Evaluation Scheme for Missed Assessments
+
+In the case of a missed midterm, a common make-up test will be arranged. If a student misses the midterm and the corresponding make-up midterm and has appropriate permission for both, then the final exam will be re-weighted to include the weight of the missed term test.
+
+When a student misses the Final Exam and their Academic Consideration has been granted, they will be allowed to write the Special Examination (the name given by the University to a makeup Final Exam). See the Academic Calendar for details (under Special Examinations), especially for those who miss multiple final exams within one examination period.
+
+Coursework with Assessment Flexibility
+By policy, instructors may deny Academic Consideration requests for the following assessments with built-in flexibility:
+
+Flexible Completion
+Quizzes. This course has 8 quizzes, and the 6 quizzes with the highest marks are counted towards your final grade. Should extenuating circumstances arise, students do not need to request Academic Consideration for the first 2 missed quizzes. Academic consideration requests will be denied for the first 2 missed quizzes. Academic Consideration requests may be granted when students miss more than 2 quizzes, and these additional (3rd, 4th…) missed quizzes will be reweighted to the final exam.
+
+In-class participation (iClicker):
+Students will be marked on participation only using iClicker. Your score is based on the percentage of the questions you answer. At least 80% = 5/5; 70–79% = 4/5; 60–69% = 3/5; 50–59% = 2/5; 40–49% = 1/5; Less than 40% = 0.
+
+In order to receive credits for the iClicker component, you must:
+Create a free iClicker account using your Western (@uwo.ca) email address. Please refer to the instructions at https://presswestern.uwo.ca/ . If you already have an iClicker account, please go into the settings and verify that it uses your uwo.ca email address.
+Attend and answer iClicker questions at lectures.
+If your web-enabled device is not working properly, try refreshing the page or restarting the app. It is your responsibility to ensure that your device is working properly. We understand that you will not be able to attend class from time to time. Therefore, the participation-based iClicker marking scheme was designed to take into account the occasional missed class. Accordingly, iClicker marks will not be adjusted for the occasional missed class. If you have a long-term absence (three or more consecutive classes) that is supported by academic consideration, then your iClicker marks will be adjusted to take your long absence into account.
+
+Deadline with a No-Late-Penalty Period for Written assignments. Students are expected to submit each component of the written assignments by the deadline listed. Should extenuating circumstances arise, students do not need to request Academic Consideration and they are permitted to submit each component of the written assignments up to (e.g., 48 hours) past the deadline without a late penalty. Should students submit their assessment beyond (48 hours) past the deadline, a late penalty of 100% will be applied. Academic Consideration requests may be granted only for extenuating circumstances that started before the deadline and lasted longer than the No-Late-Penalty Period (48 hours).
+
+6. Additional Statements
+
+6.1 Religious Accommodation
+When a recognized religious holiday or observance conflicts with an examination, test, or other scheduled academic obligation, students must request accommodation via the University’s Student Absence Portal (SAP). This request should identify the conflict and specify which course component(s) (e.g. test, midterm, exam) are affected.
+
+Students are encouraged to submit the SAP request as early as possible, but no later than two weeks before any examination, or one week before any mid-term test or quiz, to allow sufficient time for adjustment.
+
+The SAP request serves as official notification to both the course instructor and the Academic Advising Office, in accordance with University policy: https://www.uwo.ca/univsec/pdf/academic_policies/appeals/accommodation_religious.pdf
+
+The Faculty of Science considers religious accommodations as scheduling conflicts.  Instructors should provide either a make-up exam or an earlier sitting of the same exam to accommodate the student.
+
+For more information on recognized religious holidays, please visit the Diversity Calendar posted on the Equity, Diversity & Inclusion website - https://www.edi.uwo.ca
+
+6.2 Academic Accommodation Policies
+Students with disabilities are encouraged to contact Accessible Education, which provides recommendations for accommodation based on medical documentation or psychological and cognitive testing.  The policy on Academic Accommodation for Students with Disabilities can be found at:
+https://www.uwo.ca/univsec/pdf/academic_policies/appeals/Academic Accommodation_disabilities.pdf.
+
+6.3 General Academic Policies
+The website for Registrar Services is https://www.registrar.uwo.ca/.
+Use of @uwo.ca email: In accordance with policy, https://www.uwo.ca/univsec/pdf/policies_procedures/section1/mapp113.pdf, the centrally administered e-mail account provided to students will be considered the individual’s official university email address.  It is the responsibility of the account holder to ensure that emails received from the University at their official university address are attended to in a timely manner.
+Requests for Relief (formally known as “appeals”)
+Policy on Request for Relief from Academic Decision:
+https://uwo.ca/univsec//pdf/academic_policies/appeals/requests_for_relief_from_academic_decisions.pdf
+Procedures on Request for Relief from Academic Decision (Undergraduate):
+https://uwo.ca/univsec//pdf/academic_policies/appeals/undergrad_requests_for_relief_procedure.pdf
+
+6.4 Scholastic Offences
+Policy on Scholastic Offences: https://uwo.ca/univsec//pdf/academic_policies/appeals/scholastic_offences.pdf
+Procedures on Scholastic Offences (Undergraduate):
+https://uwo.ca/univsec//pdf/academic_policies/appeals/undergrad_scholastic_offence_procedure.pdf
+
+Use of Electronic Devices During Assessments
+In courses offered by the Faculty of Science, the possession of unauthorized electronic devices during any in-person assessment (such as tests, midterms, and final examinations) is strictly prohibited. This includes, but is not limited to: mobile phones, smart watches, smart glasses, and wireless earbuds or headphones.
+Unless explicitly stated otherwise in advance by the instructor, the presence of any such device at your desk, on your person, or within reach during an assessment will be treated as a scholastic offence, even if the device is not in use.
+Only devices expressly permitted by the instructor (e.g., non-programmable calculators) may be brought into the assessment room. It is your responsibility to review and comply with these expectations.
+
+Use of Generative AI Tools
+Unless otherwise stated, the use of generative AI tools (e.g., ChatGPT, Microsoft Copilot, Google Gemini, or similar platforms) is not permitted in the completion of any course assessments, including but not limited to: assignments, lab reports, presentations, tests, and final examinations.
+Using such tools for content generation, code writing, problem solving, translation, or summarization—when not explicitly allowed—will be treated as a scholastic offence.
+If the use of generative AI is permitted for a particular assessment, the conditions of use will be specified by the instructor in advance. If no such permission is granted, students must assume that use is prohibited. It is your responsibility to seek clarification before using any AI tools in academic work.
+
+In the event of a health lockdown, tests and examinations in this course will be conducted using a remote proctoring service.  By taking this course, you are consenting to the use of this software and acknowledge that you will be required to provide personal information (including some biometric data) and the session will be recorded.  Completion of this course will require you to have a reliable internet connection and a device that meets the technical requirements for this service.  More information about this remote proctoring service, including technical requirements, is available on Western’s Remote Proctoring website at: https://remoteproctoring.uwo.ca.
+
+6.5 Support Services
+Please visit the Science & Basic Medical Sciences Academic Advising webpage for information on adding/dropping courses, academic considerations for absences, requests for relief, exam conflicts, and many other academic-related matters: https://www.uwo.ca/sci/counselling/.
+
+Students who are in emotional/mental distress should refer to Mental Health@Western (https://uwo.ca/health/) for a complete list of options about how to obtain help.
+
+Western is committed to reducing incidents of gender-based and sexual violence (GBSV) and providing compassionate support to anyone who has gone through these traumatic events.  If you have experienced GBSV (either recently or in the past), you will find information about support services for survivors, including emergency contacts, at:
+https://www.uwo.ca/health/student_support/survivor_support/get-help.html. 
+To connect with a case manager or set up an appointment, please contact support@uwo.ca.
+Learning-skills counsellors at Learning Development and Success (https://learning.uwo.ca) are ready to help you improve your learning skills.  They offer presentations on strategies for improving time management, multiple-choice exam preparation/writing, textbook reading, and more.  Individual support is offered throughout the Fall/Winter terms in the drop-in Learning Help Centre, and year-round through individual counselling.
+
+Additional student-run support services are offered by the USC,  https://westernusc.ca/services/.

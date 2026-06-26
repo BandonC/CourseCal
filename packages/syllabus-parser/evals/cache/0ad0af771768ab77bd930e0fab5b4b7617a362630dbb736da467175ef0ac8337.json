@@ -1,0 +1,59 @@
+{
+  "key": "0ad0af771768ab77bd930e0fab5b4b7617a362630dbb736da467175ef0ac8337",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-06-26T02:43:35.545Z",
+  "data": {
+    "course": {
+      "name": "Reasoning and Critical Thinking",
+      "code": "PHILOSOP 1230A/B 650",
+      "instructor": null,
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "Practice Exercises",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "Graded for completion, not accuracy. Online with flexible deadlines. Weekly cadence throughout the term.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-05",
+          "end_date": "2026-04-09",
+          "count": null
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "Described as weekly with flexible deadlines; no specific day or individual due dates stated. Weight is the series total."
+      },
+      {
+        "title": "Midterm Examination",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "seventh week of classes",
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "Online with Proctortrack. Asynchronous — completed at any time during a designated time window. Designated assessment requiring supporting documentation for academic consideration. Precise date posted on course BrightSpace.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Syllabus states 'usually scheduled during the seventh week of classes' with exact date posted on BrightSpace; no specific calendar date provided."
+      },
+      {
+        "title": "Final Examination",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 50,
+        "notes": "Online with Proctortrack. Synchronous — everyone completes it at the scheduled time. Scheduled by the Office of the Registrar (OOR) during the final exam period.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No specific date given; scheduled by the Office of the Registrar during the final examination period, which falls after semester_end."
+      }
+    ]
+  }
+}

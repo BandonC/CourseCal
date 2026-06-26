@@ -9,12 +9,16 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eval:record": "tsx evals/run.ts --record",
+    "eval:replay": "tsx evals/run.ts --replay",
+    "eval:baseline": "tsx evals/run.ts --baseline"
   },
   "devDependencies": {
     "@types/node": "^24",
     "dotenv": "^17.4.2",
     "fast-check": "^4.8.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.8"
   },

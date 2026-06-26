@@ -1,0 +1,14 @@
+{
+  "course": {
+    "code": "DS 1000A",
+    "name": "Data Science Concepts"
+  },
+  "deliverables": [
+    { "title": "Assignment 1", "type": "assignment", "due_date": "2025-09-29", "weight": 5, "date_kind": "explicit" },
+    { "title": "Assignment 2", "type": "assignment", "due_date": "2025-10-13", "weight": 5, "date_kind": "explicit" },
+    { "title": "Assignment 3", "type": "assignment", "due_date": "2025-11-10", "weight": 5, "date_kind": "explicit" },
+    { "title": "Assignment 4", "type": "assignment", "due_date": "2025-12-08", "weight": 5, "date_kind": "explicit" },
+    { "title": "Midterm", "type": "exam", "due_date": "2025-11-02", "weight": 35, "date_kind": "explicit" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 50, "date_kind": "none" }
+  ]
+}

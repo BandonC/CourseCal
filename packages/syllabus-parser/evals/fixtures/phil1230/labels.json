@@ -1,0 +1,17 @@
+{
+  "course": {
+    "code": "PHILOSOP 1230B",
+    "name": "Reasoning and Critical Thinking"
+  },
+  "deliverables": [
+    {
+      "title": "Practice exercises",
+      "type": "assignment",
+      "weight": 10,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "end_date": "2026-04-09" }
+    },
+    { "title": "Midterm examination", "type": "exam", "due_date": null, "weight": 40, "date_kind": "relative" },
+    { "title": "Final examination", "type": "exam", "due_date": null, "weight": 50, "date_kind": "none" }
+  ]
+}

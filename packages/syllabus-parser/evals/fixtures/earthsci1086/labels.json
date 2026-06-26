@@ -1,0 +1,20 @@
+{
+  "course": {
+    "code": "EARTHSCI 1086G",
+    "name": "Origin and Geology of the Solar System"
+  },
+  "deliverables": [
+    { "title": "Mid-Term Test", "type": "exam", "due_date": "2025-02-11", "weight": 25, "date_kind": "explicit" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 25, "date_kind": "none" },
+    { "title": "Scientific Report - First Submission", "type": "assignment", "due_date": "2025-02-26", "weight": 25, "date_kind": "explicit" },
+    { "title": "Scientific Report - Revised Submission", "type": "assignment", "due_date": "2025-04-02", "weight": 10, "date_kind": "explicit" },
+    { "title": "Participation (forums and polls)", "type": "participation", "due_date": "2025-04-02", "weight": 5, "date_kind": "explicit" },
+    {
+      "title": "Graded Quizzes",
+      "type": "quiz",
+      "weight": 10,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "count": 8, "end_date": "2025-04-02" }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+Department of Mathematics
+
+Math 1600B Course Outline
+
+1. Course Information
+
+Course Information
+
+Mathematics 1600B Winter 2025/2026
+
+List of Prerequisites
+One or more of Ontario Secondary School MCV4U, Mathematics 1229A/B, Mathematics 1120A/B, Calculus 1000A/B or Calculus 1500A/B. Calculus 1000A/B or Calculus 1500A/B may be taken as a pre-or corequisite.
+
+Unless you have either the prerequisites for this course or written special permission from the Department of Mathematics to enroll in it, you may be removed and withdrawn from this course in accordance with university policy. This may be done after the add/drop deadline of the academic term, and the course will be marked as withdrawn (WDN) on your academic record. This decision may not be appealed.
+
+2. Instructor Information
+
+Instructors
+Email
+Office
+Phone
+Office Hours
+Prof. Matthias Franz
+(Course Coordinator)
+mfranz
+
+TBA
+Prof. Anibal Medina-Mardones
+anibal.medina.mardones
+
+TBA
+TA TBA
+
+Students must contact the instructor of the section in which they are enrolled. They must use their Western (@uwo.ca) email address and include course and section number (e.g., “Math 1600B 001”) in the subject line of the email. The email must furthermore adhere to professional standards (proper salutation, complete sentences, correct English etc.).
+
+Office hours (2h/week) will be held in person, details TBA. In case of an ongoing pandemic (flu, covid, etc.), office hours may be conducted online.
+3. Course Syllabus, Schedule, Delivery Mode
+Complex numbers; vectors, lines and planes; solving linear systems; spanning sets and linear independence; matrix algebra; the fundamental subspaces of a matrix, bases, dimension and rank; introduction to linear transformations; determinants; eigenvalues and eigenvectors; similarity and diagonalization; Markov chains and other applications.
+
+At a successful completion of the course, a student will be able to
+solve computational problems (that are related to the course material, but may or may not have been discussed in exactly the given form during the course),
+state important definitions and results from the course in a precise way,
+give examples and counterexamples to the notions and results from the course,
+use correct notation and correct terminology in answers and computations.
+
+This course has in-person lectures at the times and locations specified above. Students are expected to attend all classes (this includes arriving on time for the classes) and to review the material of each class before the next one. Use of electronic devices during class and/or taking pictures of the board may require permission of the instructor.
+
+4. Course Materials
+Costs of Textbooks and Other Learning Materials/Activities
+
+Textbook and Other Learning Materials
+• Required textbook:
+
+W. Keith Nicholson, Linear Algebra with Applications, Version 2023-A
+
+Optional:
+
+W. Keith Nicholson, Linear Algebra with Applications, Student Partial Solution Manual, Version 2023-A
+
+Both books are free and can be downloaded from the OWL site of the course.
+
+All course material will be posted to OWL: https://westernu.brightspace.com/
+
+Students are responsible for checking the course OWL site (https://westernu.brightspace.com/) regularly for news and updates. This is the primary method by which information will be disseminated to all students in the class, besides announcements in class.
+
+If students need assistance with the course OWL site, they can seek support on the OWL Brightspace Help page.  Alternatively, they can contact the Western Technology Services Helpdesk.  They can be contacted by phone at 519-661-3800 or ext. 83800.
+
+Technical Requirements
+
+In case of a switch to online learning, students are required to have stable internet connection, computer with working microphone and webcam and an up-to-date web browser like Firefox, Chrome or Safari, a document scanner or scanning app.
+
+5. Methods of Evaluation
+
+Grading Scheme and Assessment Dates
+
+The overall course grade will be calculated as listed below:
+Midterm Tests (2)25% each, 50% in total
+Final Exam50%
+
+Tentative midterm dates: Thu Feb 5th and Thu Mar 12th 2026, 7-8:30pm.
+
+If a student requests to correct a mistake in the grading of an exam, the instructor may also correct other mistakes that were not brought to his attention by the student, even if this results in the deduction of marks.
+
+There will be homework assignments, approximately one per week. Students are expected to do the homework problems (as well as to continuously review the course material) and to compare their answres with the solutions that are posted or contained in the solutions manual.
+
+General information about missed coursework
+Students must familiarize themselves with the University Policy on Academic Consideration – Undergraduate Students in First Entry Programs, posted on the Academic Calendar:
+https://uwo.ca/univsec//pdf/academic_policies/appeals/academic_consideration_Sep24.pdf,
+
+This policy does not apply to requests for Academic Consideration submitted for attempted or completed work, whether online or in person.
+
+The policy also does not apply to students experiencing longer-term impacts on their academic responsibilities. These students should consult Accessible Education.
+
+For procedures on how to submit Academic Consideration requests, please see the information posted on the Office of the Registrar’s webpage:
+https://registrar.uwo.ca/academics/academic_considerations/
+All requests for Academic Consideration must be made within 48 hours after the assessment date or submission deadline.
+
+All Academic Consideration requests must include supporting documentation; however, recognizing that formal documentation may not be available in some extenuating circumstances, the policy allows students to make one Academic Consideration request without supporting documentation in this course. However, the following assessments are excluded from this and, therefore, always require formal supporting documentation:
+Examinations scheduled during official examination periods (Defined by policy)
+The first midterm exam (Designated by the instructor as the one assessment that always requires documentation when requesting Academic Consideration)
+
+When a student mistakenly submits their one allowed Academic Consideration request without supporting documentation for the assessments listed above or those in the Coursework with Assessment Flexibility section below, the request cannot be recalled and reapplied. This privilege is forfeited.
+
+Evaluation Scheme for Missed Assessments
+If a midterm exam is missed, a make-up exam will be offered.
+
+When a student misses the Final Exam and their Academic Consideration has been granted, they will be allowed to write the Special Examination (the name given by the University to a makeup Final Exam). See the Academic Calendar for details (under Special Examinations), especially for those who miss multiple final exams within one examination period.
+
+Essential Learning Requirements
+Even when Academic Considerations are granted for missed coursework, the following are deemed essential to earn a passing grade: a minimal grade of 45% on the final exam to ensure that students demonstrate sufficient mastery of the learning outcomes. If the grade of the final exam is below 45%, then the overall final grade cannot exceed 49%.
+
+6. Additional Statements
+
+6.1 Religious Accommodation
+When a recognized religious holiday or observance conflicts with an examination, test, or other scheduled academic obligation, students must request accommodation via the University’s Student Absence Portal (SAP). This request should identify the conflict and specify which course component(s) (e.g. test, midterm, exam) are affected.
+
+Students are encouraged to submit the SAP request as early as possible, but no later than two weeks before any examination, or one week before any mid-term test or quiz, to allow sufficient time for adjustment.
+
+The SAP request serves as official notification to both the course instructor and the Academic Advising Office, in accordance with University policy: https://www.uwo.ca/univsec/pdf/academic_policies/appeals/accommodation_religious.pdf
+
+The Faculty of Science considers religious accommodations as scheduling conflicts.  Instructors should provide either a make-up exam or an earlier sitting of the same exam to accommodate the student.
+
+For more information on recognized religious holidays, please visit the Diversity Calendar posted on the Equity, Diversity & Inclusion website - https://www.edi.uwo.ca
+
+6.2 Academic Accommodation Policies
+Students with disabilities are encouraged to contact Accessible Education, which provides recommendations for accommodation based on medical documentation or psychological and cognitive testing.  The policy on Academic Accommodation for Students with Disabilities can be found at:
+https://www.uwo.ca/univsec/pdf/academic_policies/appeals/Academic Accommodation_disabilities.pdf.
+
+6.3 General Academic Policies
+The website for Registrar Services is https://www.registrar.uwo.ca/.
+Use of @uwo.ca email: In accordance with policy, https://www.uwo.ca/univsec/pdf/policies_procedures/section1/mapp113.pdf, the centrally administered e-mail account provided to students will be considered the individual’s official university email address.  It is the responsibility of the account holder to ensure that emails received from the University at their official university address are attended to in a timely manner.
+Requests for Relief (formally known as “appeals”)
+Policy on Request for Relief from Academic Decision:
+https://uwo.ca/univsec//pdf/academic_policies/appeals/requests_for_relief_from_academic_decisions.pdf
+Procedures on Request for Relief from Academic Decision (Undergraduate):
+https://uwo.ca/univsec//pdf/academic_policies/appeals/undergrad_requests_for_relief_procedure.pdf
+
+6.4 Scholastic Offences
+Policy on Scholastic Offences: https://uwo.ca/univsec//pdf/academic_policies/appeals/scholastic_offences.pdf
+Procedures on Scholastic Offences (Undergraduate):
+https://uwo.ca/univsec//pdf/academic_policies/appeals/undergrad_scholastic_offence_procedure.pdf
+
+Use of Electronic Devices During Assessments
+In courses offered by the Faculty of Science, the possession of unauthorized electronic devices during any in-person assessment (such as tests, midterms, and final examinations) is strictly prohibited. This includes, but is not limited to: mobile phones, smart watches, smart glasses, and wireless earbuds or headphones.
+Unless explicitly stated otherwise in advance by the instructor, the presence of any such device at your desk, on your person, or within reach during an assessment will be treated as a scholastic offence, even if the device is not in use.
+Only devices expressly permitted by the instructor (e.g., non-programmable calculators) may be brought into the assessment room. It is your responsibility to review and comply with these expectations.
+
+Use of Generative AI Tools
+Unless otherwise stated, the use of generative AI tools (e.g., ChatGPT, Microsoft Copilot, Google Gemini, or similar platforms) is not permitted in the completion of any course assessments, including but not limited to: assignments, lab reports, presentations, tests, and final examinations.
+Using such tools for content generation, code writing, problem solving, translation, or summarization in the context of assessments—when not explicitly allowed—will be treated as a scholastic offence.
+If the use of generative AI is permitted for a particular assessment, the conditions of use will be specified by the instructor in advance. If no such permission is granted, students must assume that use is prohibited. It is your responsibility to seek clarification before using any AI tools in academic work.
+
+Tests and examinations in this course may be conducted using a remote proctoring service.  By taking this course, you are consenting to the use of this software and acknowledge that you will be required to provide personal information (including some biometric data) and the session will be recorded.  Completion of this course will require you to have a reliable internet connection and a device that meets the technical requirements for this service.  More information about this remote proctoring service, including technical requirements, is available on Western’s Remote Proctoring website at:
+https://remoteproctoring.uwo.ca.
+
+6.5 Support Services
+
+Please visit the Science & Basic Medical Sciences Academic Advising webpage for information on adding/dropping courses, academic considerations for absences, requests for relief, exam conflicts, and many other academic-related matters: https://www.uwo.ca/sci/counselling/.
+
+Students who are in emotional/mental distress should refer to Mental Health@Western (https://uwo.ca/health/) for a complete list of options about how to obtain help.
+
+Please contact the course instructor if you require lecture or printed material in an alternate format or if any other arrangements can make this course more accessible to you.  If you have any questions regarding accommodations, you may also wish to contact Accessible Education at
+http://academicsupport.uwo.ca/accessible_education/index.html
+Learning-skills counsellors at Learning Development and Success (https://learning.uwo.ca) are ready to help you improve your learning skills.  They offer presentations on strategies for improving time management, multiple-choice exam preparation/writing, textbook reading, and more.  Individual support is offered throughout the Fall/Winter terms in the drop-in Learning Help Centre, and year-round through individual counselling.
+
+Additional student-run support services are offered by the USC,  https://westernusc.ca/services/.

@@ -1,0 +1,23 @@
+{
+  "course": {
+    "code": "CS1026A",
+    "name": "Computer Science Fundamentals I"
+  },
+  "deliverables": [
+    { "title": "Assignment 1", "type": "assignment", "due_date": "2025-09-29", "weight": 5, "date_kind": "explicit" },
+    { "title": "Assignment 2", "type": "assignment", "due_date": "2025-10-24", "weight": 8, "date_kind": "explicit" },
+    { "title": "Assignment 3", "type": "assignment", "due_date": "2025-11-26", "weight": 10, "date_kind": "explicit" },
+    { "title": "Assignment 4", "type": "assignment", "due_date": "2025-12-09", "weight": 10, "date_kind": "explicit" },
+    { "title": "Quiz 1", "type": "quiz", "due_date": "2025-10-09", "weight": 10, "date_kind": "explicit" },
+    { "title": "Quiz 2", "type": "quiz", "due_date": "2025-11-13", "weight": 10, "date_kind": "explicit" },
+    {
+      "title": "Labs",
+      "type": "other",
+      "weight": 7,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "count": 11 }
+    },
+    { "title": "Participation", "type": "participation", "due_date": null, "weight": 10, "date_kind": "none" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 30, "date_kind": "none" }
+  ]
+}

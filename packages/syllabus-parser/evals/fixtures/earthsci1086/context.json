@@ -1,0 +1,8 @@
+{
+  "semesterStart": "2025-01-06",
+  "semesterEnd": "2025-04-04",
+  "today": "2025-01-06",
+  "timezone": "America/Toronto",
+  "readingWeeks": [{ "start": "2025-02-17", "end": "2025-02-21" }],
+  "holidays": ["2025-02-17"]
+}
