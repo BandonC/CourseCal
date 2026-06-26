@@ -510,7 +510,7 @@ These are the explicit "portfolio depth" additions on top of normal feature work
 - Results section in library README with honest numbers
 
 ### 12.2 Prompt engineering as first-class artifact
-- `packages/syllabus-parser/src/prompts/` directory with versioned prompts (`v1.txt`, `v2.txt`, ...)
+- `packages/syllabus-parser/src/prompts/` directory with versioned prompts (`v1.ts`, `v2.ts`, ...) — TypeScript string exports, not `.txt`, since the library cannot read the filesystem at runtime (§5.2 purity); the filename carries the version
 - `PROMPT_DESIGN.md` walks through iteration history: what each version added, what it fixed, what it broke, what eval score it achieved
 - Documents schema design choices (why `confidence` levels, why structured `recurrence`, why `ambiguity_reason` required)
 

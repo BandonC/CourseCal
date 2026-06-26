@@ -22,10 +22,18 @@ Syllabus text is user-controlled content fed into an LLM (§9, `../CLAUDE.md`). 
 
 | Version | Date       | What it adds / changes                                                                                                                                                                                                                                               | What it fixed | What it broke | Eval score              |
 | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------- | ----------------------- |
-| v1      | 2026-06-13 | Initial prompt: course + graded-deliverable extraction via the `extract_syllabus` tool; injection fence; absolute-vs-relative date handling (`due_date` / `due_date_expression`); recurring-vs-enumerated rule; confidence + ambiguity rules; weight = series total. | — (baseline)  | —             | _TBD (Phase 6 harness)_ |
+| v1      | 2026-06-13 | Initial prompt: course + graded-deliverable extraction via the `extract_syllabus` tool; injection fence; absolute-vs-relative date handling (`due_date` / `due_date_expression`); recurring-vs-enumerated rule; confidence + ambiguity rules; weight = series total. | — (baseline)  | —             | 98.6% recall · 100% explicit-date · 90.7% precision (see `EVALS.md`) |
 
 ### v1 notes / known limitations
 
 - **Relative recurrence anchors are not resolved in v1.** The model emits recurrence `start_date`/`end_date` as ISO directly; a cadence stated relative to the term ("weekly quizzes starting Week 2") is not run through the date resolver — if the model can't pin the anchor it lowers confidence. Candidate for v2 if it shows up in the eval set.
 - **Single-`due_date` resolution only.** The post-extraction resolution pass resolves a deliverable's own `due_date_expression`; it does not yet resolve relative expressions embedded inside a recurrence descriptor.
-- Eval numbers are pending the Phase 6 harness; this table gets a real score per version then.
+### Candidates for v2 (from the v1 eval)
+
+The Phase 6 eval (10 syllabi, 69 deliverables; `EVALS.md`) put v1 at **98.6% recall, 100% explicit-date accuracy, 90.7% precision** on the committed run. The precision gap — not recall — is where v1 leaves room, and the failures are specific enough to target:
+
+- **Ungraded-item over-extraction (the main one).** v1 pulls in items with no grade weight that should be skipped: weekly homework presented as practice, mandatory-but-unweighted integrity/orientation quizzes, proctoring onboarding, makeup sittings. This is consistent across record runs. A v2 would sharpen the "graded deliverable" boundary — extract only items that carry weight or a stated grade consequence.
+- **Recurrence handling is the unstable spot run-to-run.** Depending on the sample, a weekly series collapses to one dated item, or a numbered lab table gets enumerated into N one-offs instead of one recurrence. v2 should make "a stated weekly cadence is one recurrence" robust to a numbered table.
+- **Occasional duplicate series row** — the individual occurrences *and* a "series total" summary for the same item.
+
+Per the protocol, addressing these is a new `v2.ts` + a row above + an `eval:record` re-run — not an in-place edit to this version.
