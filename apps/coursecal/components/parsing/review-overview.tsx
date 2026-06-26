@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ParseResult } from "@coursecal/syllabus-parser";
 import { Button } from "@/components/ui/button";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { ReviewStep } from "./review-step";
 import type { ParsedCourse } from "./types";
 
@@ -24,8 +25,21 @@ export function ReviewOverview({
   onConfirm: (courses: ParsedCourse[]) => void;
   onRestart: () => void;
 }) {
+  const { capture } = useAnalytics();
   const [working, setWorking] = useState(courses);
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Fired once when the review step is first shown (not on each edit open/close).
+  useEffect(() => {
+    capture({
+      name: "review_reached",
+      properties: {
+        course_count: courses.length,
+        to_check_count: courses.reduce((sum, c) => sum + toCheckCount(c.result), 0),
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const editing = working.find((c) => c.sourceId === editingId) ?? null;
 

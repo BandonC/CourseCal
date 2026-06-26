@@ -8,6 +8,7 @@ import {
   saveSemesterAction,
 } from "@/app/(app)/upload/actions";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import type { SemesterId } from "@/lib/db/ids";
 import { buildIcsForCourses } from "@/lib/ics/build";
 import type { ParsedCourse, Semester } from "./types";
@@ -37,6 +38,7 @@ export function ExportStep({
   existingSemesterId?: SemesterId;
   onRestart: () => void;
 }) {
+  const { capture } = useAnalytics();
   const [icsError, setIcsError] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -55,6 +57,7 @@ export function ExportStep({
       setIcsError(built.error);
       return;
     }
+    capture({ name: "ics_downloaded", properties: { course_count: courses.length } });
     const blob = new Blob([built.value], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -67,6 +70,14 @@ export function ExportStep({
 
   async function addToCalendar() {
     setMessage(null);
+    capture({
+      name: "export_to_calendar_clicked",
+      properties: {
+        course_count: courses.length,
+        dated_deliverable_count: datedCount(courses),
+        is_add_to_existing: !!existingSemesterId,
+      },
+    });
 
     let sid = semesterId;
     if (!sid) {

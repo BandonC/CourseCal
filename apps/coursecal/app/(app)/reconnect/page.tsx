@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { ReconnectButton } from "@/components/reconnect/reconnect-button";
 import { signIn } from "@/lib/auth";
 import { requireUser } from "@/lib/auth/session";
 
@@ -28,9 +28,7 @@ export default async function ReconnectPage() {
           );
         }}
       >
-        <Button type="submit" size="lg">
-          Reconnect Google
-        </Button>
+        <ReconnectButton />
       </form>
     </main>
   );

@@ -3,10 +3,13 @@
 import {
   parseSyllabus,
   type DryRunResult,
+  type ParseError,
   type ParseResult,
+  type Result,
 } from "@coursecal/syllabus-parser";
 import { z } from "zod";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
+import { captureServer } from "@/lib/analytics/posthog-server";
 import { getOptionalUser } from "@/lib/auth/session";
 import { syncDeliverablesToCalendar, type SyncSummary } from "@/lib/calendar/export-sync";
 import { courseColorForIndex } from "@/lib/courses/colors";
@@ -22,7 +25,8 @@ import {
   ParseInputSchema,
   SaveSemesterInputSchema,
 } from "@/lib/parse/schema";
-import type { CourseId, SemesterId } from "@/lib/db/ids";
+import type { ParseTrigger } from "@/lib/analytics/events";
+import type { CourseId, SemesterId, UserId } from "@/lib/db/ids";
 
 // Authenticated, rate-limited parse action — the Phase-2 exception
 // (unauthenticated, no rate limit — see DECISIONS.md) is now fully closed: every
@@ -41,6 +45,35 @@ const PARSE_ERROR_MESSAGES: Record<string, string> = {
   llm_error: "The parser couldn't process this syllabus. Please try again.",
   invalid_response: "The parser returned an unexpected result. Please try again.",
 };
+
+// Emit the parse outcome (server-authoritative — counts and confidence buckets only,
+// never titles/dates). Skips dryRun success (no real parse) and the DryRunResult
+// shape, which carries no deliverables.
+async function captureParseOutcome(
+  userId: UserId,
+  trigger: ParseTrigger,
+  result: Result<ParseResult | DryRunResult, ParseError>,
+): Promise<void> {
+  if (!result.ok) {
+    await captureServer(userId, {
+      name: "syllabus_parse_failed",
+      properties: { error_kind: result.error.kind, trigger },
+    });
+    return;
+  }
+  if (!("deliverables" in result.data)) return;
+  const d = result.data.deliverables;
+  await captureServer(userId, {
+    name: "syllabus_parse_succeeded",
+    properties: {
+      deliverable_count: d.length,
+      low_confidence_count: d.filter((x) => x.confidence === "low").length,
+      medium_confidence_count: d.filter((x) => x.confidence === "medium").length,
+      has_recurrence: d.some((x) => x.recurrence !== null),
+      trigger,
+    },
+  });
+}
 
 export async function parseSyllabusAction(
   input: unknown,
@@ -66,6 +99,10 @@ export async function parseSyllabusAction(
   if (!dryRun) {
     const recent = await countParsesSince(user.userId, new Date(Date.now() - DAY_MS));
     if (recent >= MAX_PARSES_PER_DAY) {
+      await captureServer(user.userId, {
+        name: "syllabus_parse_failed",
+        properties: { error_kind: "rate_limited", trigger: "upload" },
+      });
       return actionErr(
         "You've reached the daily limit of syllabus parses. Try again tomorrow.",
         "rate_limited",
@@ -77,6 +114,8 @@ export async function parseSyllabusAction(
   const result = dryRun
     ? await parseSyllabus(text, context, { dryRun: true })
     : await parseSyllabus(text, context);
+
+  if (!dryRun) await captureParseOutcome(user.userId, "upload", result);
 
   if (!result.ok) {
     const message =
@@ -110,6 +149,10 @@ export async function reparseCourseAction(
 
   const recent = await countParsesSince(user.userId, new Date(Date.now() - DAY_MS));
   if (recent >= MAX_PARSES_PER_DAY) {
+    await captureServer(user.userId, {
+      name: "syllabus_parse_failed",
+      properties: { error_kind: "rate_limited", trigger: "reparse" },
+    });
     return actionErr(
       "You've reached the daily limit of syllabus parses. Try again tomorrow.",
       "rate_limited",
@@ -126,6 +169,8 @@ export async function reparseCourseAction(
     today,
     timezone: ctx.timezone,
   });
+
+  await captureParseOutcome(user.userId, "reparse", result);
 
   if (!result.ok) {
     const message =
@@ -167,6 +212,14 @@ export async function saveSemesterAction(
         color: courseColorForIndex(i),
       })),
     });
+    await captureServer(user.userId, {
+      name: "semester_saved",
+      properties: {
+        course_count: courses.length,
+        deliverable_count: courses.reduce((s, c) => s + c.result.deliverables.length, 0),
+        is_add_to_existing: false,
+      },
+    });
     return actionOk(ids);
   } catch {
     // Raw DB errors may leak schema/state — return a safe message (Sentry will
@@ -198,6 +251,17 @@ export async function addCoursesToSemesterAction(
       parsed.data.courses.map((c) => ({ result: c.result, syllabusText: c.syllabusText })),
     );
     if (!result) return actionErr("Semester not found.", "not_found");
+    await captureServer(user.userId, {
+      name: "semester_saved",
+      properties: {
+        course_count: parsed.data.courses.length,
+        deliverable_count: parsed.data.courses.reduce(
+          (s, c) => s + c.result.deliverables.length,
+          0,
+        ),
+        is_add_to_existing: true,
+      },
+    });
     return actionOk(result);
   } catch {
     return actionErr("Couldn't add the courses. Please try again.", "save_failed");
@@ -224,5 +288,14 @@ export async function exportSemesterToCalendarAction(
     await getSyncableDeliverablesForSemester(user.userId, parsed.data as SemesterId)
   ).filter((d): d is typeof d & { dueDate: string } => d.dueDate !== null);
 
-  return actionOk(await syncDeliverablesToCalendar(user.userId, rows));
+  const summary = await syncDeliverablesToCalendar(user.userId, rows);
+  await captureServer(user.userId, {
+    name: "calendar_export_completed",
+    properties: {
+      created: summary.created,
+      failed: summary.failed,
+      reconnect_needed: summary.reconnectNeeded,
+    },
+  });
+  return actionOk(summary);
 }

@@ -62,6 +62,7 @@ export function SyllabusFlow({
           sources={step.sources}
           semesterStart={step.semester.start}
           semesterEnd={step.semester.end}
+          isAddToExisting={!!existingSemester}
           onComplete={(courses) =>
             setStep({ name: "review", semester: step.semester, courses })
           }

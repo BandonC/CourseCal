@@ -6,8 +6,20 @@ import { ParseResultSchema, type ParseResult } from "@coursecal/syllabus-parser"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { DeliverableField } from "@/lib/analytics/events";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { DeliverableRow } from "./deliverable-row";
 import { NullableField } from "./nullable-field";
+
+// Maps the form's deliverable field keys to the analytics field vocabulary.
+const FIELD_MAP: Record<string, DeliverableField> = {
+  title: "title",
+  type: "type",
+  due_date: "due_date",
+  due_time: "due_time",
+  weight_percent: "weight",
+  notes: "notes",
+};
 
 export function ReviewStep({
   result,
@@ -34,10 +46,31 @@ export function ReviewStep({
   });
   const { register, control, handleSubmit, formState } = form;
   const { fields } = useFieldArray({ control, name: "deliverables" });
+  const { capture } = useAnalytics();
+
+  // On save, emit one deliverable_edited per distinct field the user touched (from
+  // RHF's dirty tracking) — never the values, just which fields changed.
+  const submit = (edited: ParseResult) => {
+    const dirty = formState.dirtyFields.deliverables;
+    if (Array.isArray(dirty)) {
+      const changed = new Set<DeliverableField>();
+      for (const row of dirty) {
+        if (!row) continue;
+        for (const key of Object.keys(row)) {
+          const field = FIELD_MAP[key];
+          if (field) changed.add(field);
+        }
+      }
+      for (const field of changed) {
+        capture({ name: "deliverable_edited", properties: { field, context: "review" } });
+      }
+    }
+    onConfirm(edited);
+  };
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onConfirm)} className="space-y-6">
+      <form onSubmit={handleSubmit(submit)} className="space-y-6">
         {showCourse ? (
           <section className="space-y-4 rounded-lg border border-border p-4">
             <div className="space-y-1.5">

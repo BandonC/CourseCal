@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { parseSyllabusAction } from "@/app/(app)/upload/actions";
 import { Button } from "@/components/ui/button";
+import { bucketCharCount } from "@/lib/analytics/events";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { extractPdfText } from "@/lib/extract";
 import type { ParsedCourse, Source } from "./types";
 
@@ -24,21 +26,26 @@ export function ParseQueue({
   sources,
   semesterStart,
   semesterEnd,
+  isAddToExisting,
   onComplete,
   onRestart,
 }: {
   sources: Source[];
   semesterStart: string;
   semesterEnd: string;
+  isAddToExisting: boolean;
   onComplete: (courses: ParsedCourse[]) => void;
   onRestart: () => void;
 }) {
+  const { capture } = useAnalytics();
   const [items, setItems] = useState<Item[]>(() =>
     sources.map((source) => ({ source, status: "queued" })),
   );
   const [running, setRunning] = useState(false);
   // StrictMode mounts effects twice in dev; guard so the queue runs once.
   const started = useRef(false);
+  // One syllabus_uploaded per source regardless of retries.
+  const uploaded = useRef<Set<string>>(new Set());
 
   function patch(index: number, next: Partial<Item>) {
     setItems((prev) => prev.map((it, i) => (i === index ? { ...it, ...next } : it)));
@@ -53,6 +60,18 @@ export function ParseQueue({
       text = extracted.text;
     } else {
       text = source.text;
+    }
+
+    if (!uploaded.current.has(source.id)) {
+      uploaded.current.add(source.id);
+      capture({
+        name: "syllabus_uploaded",
+        properties: {
+          input_method: source.kind,
+          char_count_bucket: bucketCharCount(text.length),
+          is_add_to_existing: isAddToExisting,
+        },
+      });
     }
 
     patch(index, { status: "parsing" });

@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
+import { captureServer } from "@/lib/analytics/posthog-server";
 import { getOptionalUser } from "@/lib/auth/session";
 import { cascadeDeleteEvents } from "@/lib/calendar/cascade-delete";
 import type { CourseId, DeliverableId, SemesterId, SeriesId } from "@/lib/db/ids";
@@ -42,6 +43,10 @@ export async function deleteSemesterAction(
   if (cascade.kind === "failed") return actionErr(CALENDAR_FAILED, "calendar_failed");
 
   await deleteSemester(user.userId, parsed.data as SemesterId);
+  await captureServer(user.userId, {
+    name: "semester_deleted",
+    properties: { event_count: eventIds.length },
+  });
   return actionOk({ deleted: true, reconnectNeeded: false });
 }
 
@@ -62,6 +67,10 @@ export async function deleteCourseAction(
   if (cascade.kind === "failed") return actionErr(CALENDAR_FAILED, "calendar_failed");
 
   await deleteCourse(parsed.data as CourseId);
+  await captureServer(user.userId, {
+    name: "course_deleted",
+    properties: { event_count: eventIds.length },
+  });
   return actionOk({ deleted: true, reconnectNeeded: false });
 }
 
@@ -87,6 +96,10 @@ export async function deleteSeriesAction(
   if (cascade.kind === "failed") return actionErr(CALENDAR_FAILED, "calendar_failed");
 
   await deleteSeries(ids.data.courseId as CourseId, ids.data.seriesId as SeriesId);
+  await captureServer(user.userId, {
+    name: "deliverable_deleted",
+    properties: { is_series: true, event_count: eventIds.length },
+  });
   return actionOk({ deleted: true, reconnectNeeded: false });
 }
 
@@ -110,5 +123,9 @@ export async function deleteDeliverableAction(
   if (cascade.kind === "failed") return actionErr(CALENDAR_FAILED, "calendar_failed");
 
   await deleteDeliverable(id);
+  await captureServer(user.userId, {
+    name: "deliverable_deleted",
+    properties: { is_series: false, event_count: eventIds.length },
+  });
   return actionOk({ deleted: true, reconnectNeeded: false });
 }

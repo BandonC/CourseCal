@@ -76,33 +76,29 @@ export type AnalyticsEvent =
       properties: { created: number; failed: number; reconnect_needed: boolean };
     }
   | { name: "ics_downloaded"; properties: { course_count: number } }
-  // Edit + sync flow (course detail)
+  // Edit + sync flow (course detail) — outcome is the server's own EditCalendarOutcome
   | {
       name: "deliverable_calendar_synced";
       properties: {
-        outcome: "patched" | "created" | "deleted" | "skipped" | "not_found";
+        outcome:
+          | "patched"
+          | "created"
+          | "recreated"
+          | "deleted"
+          | "none"
+          | "failed"
+          | "skipped";
       };
     }
-  // Delete flow (tiered, §7.3) — kept as distinct events for funnel clarity
-  | {
-      name: "semester_deleted";
-      properties: {
-        course_count: number;
-        deliverable_count: number;
-        reconnect_blocked: boolean;
-      };
-    }
-  | {
-      name: "course_deleted";
-      properties: { deliverable_count: number; reconnect_blocked: boolean };
-    }
+  // Delete flow (tiered, §7.3) — distinct events for funnel clarity. Fired server-side
+  // only on a successful delete; event_count is the number of Calendar events the
+  // cascade removed (cheap, authoritative, non-PII). A blocked delete fires nothing
+  // here — that path is visible through reconnect_initiated instead.
+  | { name: "semester_deleted"; properties: { event_count: number } }
+  | { name: "course_deleted"; properties: { event_count: number } }
   | {
       name: "deliverable_deleted";
-      properties: {
-        is_series: boolean;
-        series_size: number | null;
-        reconnect_blocked: boolean;
-      };
+      properties: { is_series: boolean; event_count: number };
     }
   // Reconnect flow
   | { name: "reconnect_initiated"; properties?: Record<string, never> }

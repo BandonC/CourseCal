@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { ParseResultSchema } from "@coursecal/syllabus-parser";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
+import { captureServer } from "@/lib/analytics/posthog-server";
 import { getOptionalUser } from "@/lib/auth/session";
 import { cascadeDeleteEvents } from "@/lib/calendar/cascade-delete";
 import { calendarOAuthClient, type CalendarOAuthClient } from "@/lib/calendar/client";
@@ -230,7 +231,16 @@ export async function exportCourseToCalendarAction(
     await getSyncableDeliverablesForCourse(user.userId, parsed.data as CourseId)
   ).filter((d): d is typeof d & { dueDate: string } => d.dueDate !== null);
 
-  return actionOk(await syncDeliverablesToCalendar(user.userId, rows));
+  const summary = await syncDeliverablesToCalendar(user.userId, rows);
+  await captureServer(user.userId, {
+    name: "calendar_export_completed",
+    properties: {
+      created: summary.created,
+      failed: summary.failed,
+      reconnect_needed: summary.reconnectNeeded,
+    },
+  });
+  return actionOk(summary);
 }
 
 // Commits a re-parse replacement (§7.1): the client sends the reviewed fresh
