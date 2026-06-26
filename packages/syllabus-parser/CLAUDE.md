@@ -49,7 +49,7 @@ Parse and other expected failures return `{ ok: false, error }` (`src/result.ts`
 - Prompts live in `src/prompts/` as **versioned TypeScript string exports** (`v1.ts`, `v2.ts`, …). They are exported strings, not `.txt` files, because the library cannot read the filesystem at runtime (purity) and there is no bundler for text imports. The filename carries the version.
 - **No inline prompt string literals in business logic.** `parse.ts` imports the active version from `src/prompts/`; it does not contain prompt prose.
 - `docs/PROMPT_DESIGN.md` records the iteration history: what each version added, fixed, broke, and the eval score it achieved, plus the schema-design rationale (why `confidence`, why structured `recurrence`, why `ambiguity_reason` required).
-- **Never tweak a prompt to fix a single parse failure without versioning the change.** A prompt edit = a new `vN.ts` + a `PROMPT_DESIGN.md` entry + a re-run of the evals (once the harness exists in Phase 6). Until the harness exists, a prompt change still means a new version file and a design-doc entry.
+- **Never tweak a prompt to fix a single parse failure without versioning the change.** A prompt edit = a new `vN.ts` + a `PROMPT_DESIGN.md` entry + a re-run of the evals (`pnpm eval:record`, then commit the refreshed cache + report). The harness exists as of Phase 6 — see `evals/` and `docs/EVALS.md`.
 - The prompt bare and structured — no "you are a helpful assistant" preamble. Match the existing version's voice.
 
 ### Prompt injection
