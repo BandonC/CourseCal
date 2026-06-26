@@ -1,0 +1,4 @@
+# Eval fixtures and the recorded response cache must stay LF on every platform: the
+# cache key hashes the syllabus text, so a CRLF checkout would change the key and miss
+# the cache. Force LF regardless of core.autocrlf.
+* text eol=lf

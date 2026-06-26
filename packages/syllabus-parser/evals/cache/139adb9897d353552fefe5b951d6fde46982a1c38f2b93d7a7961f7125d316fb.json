@@ -1,0 +1,107 @@
+{
+  "key": "139adb9897d353552fefe5b951d6fde46982a1c38f2b93d7a7961f7125d316fb",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-06-26T02:42:29.763Z",
+  "data": {
+    "course": {
+      "name": "Computer Science Fundamentals II",
+      "code": "CS 1027B / CS 2121B / CS 9643B",
+      "instructor": "Bryan Sarlo, Roberto Solis-Oba",
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2026-01-30",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty: 10% per day, max 3 days late.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2026-02-25",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty: 10% per day, max 3 days late.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2026-03-17",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty: 10% per day, max 3 days late.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 4",
+        "type": "assignment",
+        "due_date": "2026-04-06",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty: 10% per day, max 3 days late.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Labs (10 weekly labs, lowest 2 dropped)",
+        "type": "other",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 8,
+        "notes": "10 weekly labs worth 1% each; lowest 2 dropped (effective 8%). Labs run weeks of Jan 12–16 through Mar 23–27. Must attend scheduled session and submit files on OWL within 24 hours of lab session. Generally pass/fail.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-12",
+          "end_date": "2026-03-27",
+          "count": 10
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "Labs run during a week window (no specific weekday stated); exact day depends on each student's registered lab section."
+      },
+      {
+        "title": "Midterm Test",
+        "type": "exam",
+        "due_date": "2026-02-28",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 20,
+        "notes": "Tentatively scheduled Saturday, February 28, 5–7pm. 2 hours. Multiple choice, written/drawn answers, and algorithm design. No electronic devices. Locations announced on OWL. If missed with valid academic consideration, weight shifts to final exam (making final worth 60%).",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date and time described as tentative in the syllabus."
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "Exam period April 12–30, 2026; exact date to be announced by the University (likely in March)",
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "3 hours. Multiple choice, written/drawn answers, and algorithm design. No electronic devices. Scheduled by the University.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date, time, and location not yet determined at time of syllabus publication; only the exam period (Apr 12–30) is known."
+      }
+    ]
+  }
+}

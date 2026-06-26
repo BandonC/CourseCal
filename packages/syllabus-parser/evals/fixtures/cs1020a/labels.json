@@ -1,0 +1,24 @@
+{
+  "course": {
+    "code": "COMPSCI 1020A",
+    "name": "Foundations of Computer Science"
+  },
+  "deliverables": [
+    { "title": "Quiz 1", "type": "quiz", "due_date": "2025-09-24", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 2", "type": "quiz", "due_date": "2025-10-01", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 3", "type": "quiz", "due_date": "2025-10-08", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 4", "type": "quiz", "due_date": "2025-10-22", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 5", "type": "quiz", "due_date": "2025-10-29", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 6", "type": "quiz", "due_date": "2025-11-12", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 7", "type": "quiz", "due_date": "2025-11-26", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 8", "type": "quiz", "due_date": "2025-12-03", "weight": null, "date_kind": "explicit" },
+    { "title": "Quiz 9", "type": "quiz", "due_date": "2025-12-08", "weight": null, "date_kind": "explicit" },
+    { "title": "Assignment 1", "type": "assignment", "due_date": "2025-10-06", "weight": 7, "date_kind": "explicit" },
+    { "title": "Assignment 2", "type": "assignment", "due_date": "2025-11-10", "weight": 7, "date_kind": "explicit" },
+    { "title": "Assignment 3", "type": "assignment", "due_date": "2025-12-08", "weight": 7, "date_kind": "explicit" },
+    { "title": "Test 1", "type": "exam", "due_date": "2025-10-15", "weight": 12.5, "date_kind": "explicit" },
+    { "title": "Test 2", "type": "exam", "due_date": "2025-11-19", "weight": 12.5, "date_kind": "explicit" },
+    { "title": "zyBook exercises", "type": "other", "due_date": "2025-12-09", "weight": 5, "date_kind": "explicit" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 35, "date_kind": "none" }
+  ]
+}

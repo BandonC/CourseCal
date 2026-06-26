@@ -1,0 +1,43 @@
+{
+  "course": {
+    "code": "ANTHRO 1025F",
+    "name": "Introduction to Sociocultural and Linguistic Anthropology"
+  },
+  "deliverables": [
+    {
+      "title": "Weekly Discussion Activities",
+      "type": "participation",
+      "weight": 20,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "end_date": "2025-12-09" }
+    },
+    {
+      "title": "Weekly Quizzes",
+      "type": "quiz",
+      "weight": 40,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "end_date": "2025-12-09" }
+    },
+    {
+      "title": "Cultural Research Paper",
+      "type": "assignment",
+      "due_date": null,
+      "weight": 10,
+      "date_kind": "none"
+    },
+    {
+      "title": "Linguistic Research Paper",
+      "type": "assignment",
+      "due_date": null,
+      "weight": 10,
+      "date_kind": "none"
+    },
+    {
+      "title": "Final Exam",
+      "type": "exam",
+      "due_date": null,
+      "weight": 20,
+      "date_kind": "none"
+    }
+  ]
+}

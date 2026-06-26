@@ -1,0 +1,107 @@
+{
+  "key": "8b1b09794620a2046fc0b78a594ee2682074f7c22baaa28e7e8825fdad284be3",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-06-26T02:41:08.930Z",
+  "data": {
+    "course": {
+      "name": "Calculus II for Mathematical and Physical Sciences",
+      "code": "Calc 1501B",
+      "instructor": "Dr. Kelvin Chan",
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "In-class Participation (iClicker polls)",
+        "type": "participation",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "Graded on completion based on percentage of questions answered. At least 80% = 5/5; 70–79% = 4/5; 60–69% = 3/5; 50–59% = 2/5; 40–49% = 1/5; Less than 40% = 0. Specific poll dates on OWL.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "No specific dates given; participation is ongoing throughout the semester per OWL."
+      },
+      {
+        "title": "Quizzes (best 6 of 8)",
+        "type": "quiz",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "8 quizzes administered through WebWork; best 6 count. Dates on OWL. Partially cumulative. First 2 missed quizzes do not require Academic Consideration.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-05",
+          "end_date": "2026-04-09",
+          "count": 8
+        },
+        "confidence": "low",
+        "ambiguity_reason": "No specific quiz dates or days of week provided; dates listed as 'See OWL'. Count of 8 is stated but schedule is unspecified."
+      },
+      {
+        "title": "Written Assignment 1",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "Submitted through gradescope.ca. 48-hour no-late-penalty period; after that, 100% late penalty. Exact date on OWL.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date provided; listed as 'See OWL'. Weight inferred from '3 assignments each worth 5%'."
+      },
+      {
+        "title": "Written Assignment 2",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "Submitted through gradescope.ca. 48-hour no-late-penalty period; after that, 100% late penalty. Exact date on OWL.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date provided; listed as 'See OWL'. Weight inferred from '3 assignments each worth 5%'."
+      },
+      {
+        "title": "Written Assignment 3",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "Submitted through gradescope.ca. 48-hour no-late-penalty period; after that, 100% late penalty. Exact date on OWL.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date provided; listed as 'See OWL'. Weight inferred from '3 assignments each worth 5%'."
+      },
+      {
+        "title": "Midterm Test",
+        "type": "exam",
+        "due_date": "2026-02-26",
+        "due_date_expression": null,
+        "due_time": "19:00",
+        "weight_percent": 30,
+        "notes": "In-person, closed-book, 120-minute written test. Covers weeks 1–6. Mix of multiple-choice, fill-in-the-blanks, matching, and short-answer. No calculators or aids permitted. Make-up tentatively scheduled Friday, March 6 from 7–9 pm.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "In-person, closed-book, 180-minute written exam. Covers all course material. No calculators or aids permitted. Scheduled by the Registrar's Office during April 12–30, 2026 exam period.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date not provided; scheduled by the Registrar's Office during the April 12–30 exam period."
+      }
+    ]
+  }
+}

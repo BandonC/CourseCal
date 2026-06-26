@@ -192,7 +192,6 @@ A pnpm workspace with the library and app side by side:
 │       ├── tests/
 │       ├── evals/              ← eval harness + test set
 │       ├── docs/
-│       │   ├── PARSING.md
 │       │   ├── DATES.md
 │       │   ├── PROMPT_DESIGN.md
 │       │   └── EVALS.md
@@ -438,7 +437,7 @@ Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKE
 
 Loose sequencing — not a strict timeline. Ship each phase to friends for feedback before moving on.
 
-> **Status (2026-06-22):** Phases 0–4 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`); Phase 4 merged (PR #8). Phase 5 (the real `app/(app)/dashboard`, course detail at `app/(app)/course/[id]` with inline deliverable + course-header edit and per-deliverable Calendar patch per §6.4, tiered deletes with cascade-to-Calendar and block-and-reconnect per §7.3, add-course-to-existing-semester at `app/(app)/semester/[id]/add`, per-course sync resume, and re-parse replacement) is implemented on a feature branch, pending review/merge — the preview deploy is the end-to-end gate, since Calendar patch/delete need DB + Google auth that can't run locally. The dashboard placeholder is now replaced. Known open item: source-map upload for Sentry is still deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`).
+> **Status (2026-06-25):** Phases 0–5 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`); Phase 5 merged (PR #9) — the real `app/(app)/dashboard`, course detail at `app/(app)/course/[id]` with inline edit + per-deliverable Calendar patch (§6.4), tiered cascade-to-Calendar deletes with block-and-reconnect (§7.3), add-course-to-existing-semester, per-course sync resume, and re-parse replacement. Phase 6 (engineering-depth) is in review: the stratified eval harness with honest numbers (`packages/syllabus-parser/evals/`, `docs/EVALS.md`) and ADR-001–008 (`docs/adr/`). Known open item: source-map upload for Sentry is still deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`).
 
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.
@@ -489,7 +488,7 @@ Deploy to production, share with whoever you choose to share with.
 
 ### 11.3 Repo
 - MIT license
-- Clean commit history (squashed PRs, conventional commit titles)
+- Clean commit history (squashed PRs, plain imperative commit subjects — no conventional-commit type prefixes; see root `CLAUDE.md`)
 - GitHub Actions: typecheck + lint + tests on every PR
 - README leads with screenshot, eval numbers, live demo link
 
@@ -510,7 +509,7 @@ These are the explicit "portfolio depth" additions on top of normal feature work
 - Results section in library README with honest numbers
 
 ### 12.2 Prompt engineering as first-class artifact
-- `packages/syllabus-parser/src/prompts/` directory with versioned prompts (`v1.txt`, `v2.txt`, ...)
+- `packages/syllabus-parser/src/prompts/` directory with versioned prompts (`v1.ts`, `v2.ts`, ...) — TypeScript string exports, not `.txt`, since the library cannot read the filesystem at runtime (§5.2 purity); the filename carries the version
 - `PROMPT_DESIGN.md` walks through iteration history: what each version added, what it fixed, what it broke, what eval score it achieved
 - Documents schema design choices (why `confidence` levels, why structured `recurrence`, why `ambiguity_reason` required)
 

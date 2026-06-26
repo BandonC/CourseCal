@@ -1,0 +1,21 @@
+{
+  "course": {
+    "code": "CALC 1000A",
+    "name": "Calculus I"
+  },
+  "deliverables": [
+    { "title": "Assignment 1", "type": "assignment", "due_date": "2025-10-10", "weight": 4, "date_kind": "explicit" },
+    { "title": "Assignment 2", "type": "assignment", "due_date": "2025-11-10", "weight": 4, "date_kind": "explicit" },
+    { "title": "Assignment 3", "type": "assignment", "due_date": "2025-11-28", "weight": 4, "date_kind": "explicit" },
+    {
+      "title": "Quizzes",
+      "type": "quiz",
+      "weight": 10,
+      "date_kind": "relative",
+      "recurrence": { "unit": "week", "interval": 1, "count": 8 }
+    },
+    { "title": "iClicker Lecture Questions", "type": "participation", "due_date": null, "weight": 4, "date_kind": "none" },
+    { "title": "Midterm Test", "type": "exam", "due_date": "2025-10-24", "weight": 30, "date_kind": "explicit" },
+    { "title": "Final Exam", "type": "exam", "due_date": null, "weight": 44, "date_kind": "none" }
+  ]
+}

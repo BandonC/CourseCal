@@ -1,0 +1,1335 @@
+{
+  "generatedAt": "2026-06-26T02:46:23.740Z",
+  "model": "claude-sonnet-4-6",
+  "promptVersion": "v1",
+  "systems": [
+    {
+      "name": "syllabus-parser v1",
+      "overall": {
+        "counts": {
+          "labels": 69,
+          "predicted": 75,
+          "matched": 68,
+          "typeMatched": 67,
+          "explicitTotal": 41,
+          "explicitExact": 41,
+          "explicitWithin1": 41,
+          "relativeTotal": 0,
+          "relativeExact": 0,
+          "relativeWithin1": 0,
+          "weightTotal": 59,
+          "weightExact": 59,
+          "recurrenceTotal": 8,
+          "recurrenceDetected": 7
+        },
+        "metrics": {
+          "recall": 0.9855072463768116,
+          "precision": 0.9066666666666666,
+          "typeAccuracy": 0.9852941176470589,
+          "explicitDateAccuracy": 1,
+          "explicitDateWithin1": 1,
+          "relativeDateAccuracy": 0,
+          "weightAccuracy": 1,
+          "recurrenceAccuracy": 0.875
+        }
+      },
+      "perFixture": [
+        {
+          "slug": "calc1000a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 7,
+            "matched": 7,
+            "typeMatched": 7,
+            "explicitTotal": 4,
+            "explicitExact": 4,
+            "explicitWithin1": 4,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 7,
+            "weightExact": 7,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 1
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": []
+        },
+        {
+          "slug": "calc1501b",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 7,
+            "matched": 7,
+            "typeMatched": 7,
+            "explicitTotal": 1,
+            "explicitExact": 1,
+            "explicitWithin1": 1,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 7,
+            "weightExact": 7,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 1
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": []
+        },
+        {
+          "slug": "cs1020a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 16,
+            "predicted": 17,
+            "matched": 15,
+            "typeMatched": 15,
+            "explicitTotal": 14,
+            "explicitExact": 14,
+            "explicitWithin1": 14,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 6,
+            "weightExact": 6,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.9375,
+            "precision": 0.8823529411764706,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "zyBook exercises"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quizzes (series total)"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "ZyBooks Participation Activities"
+            }
+          ]
+        },
+        {
+          "slug": "cs1026a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 9,
+            "predicted": 10,
+            "matched": 9,
+            "typeMatched": 8,
+            "explicitTotal": 6,
+            "explicitExact": 6,
+            "explicitWithin1": 6,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 9,
+            "weightExact": 9,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 1
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 0.9,
+            "typeAccuracy": 0.8888888888888888,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": [
+            {
+              "kind": "hallucinated",
+              "detail": "Orientation Quiz"
+            },
+            {
+              "kind": "wrong_type",
+              "detail": "Labs: predicted assignment, expected other"
+            }
+          ]
+        },
+        {
+          "slug": "cs1027b",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 7,
+            "matched": 7,
+            "typeMatched": 7,
+            "explicitTotal": 5,
+            "explicitExact": 5,
+            "explicitWithin1": 5,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 7,
+            "weightExact": 7,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 1
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": []
+        },
+        {
+          "slug": "ds1000a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 6,
+            "predicted": 6,
+            "matched": 6,
+            "typeMatched": 6,
+            "explicitTotal": 5,
+            "explicitExact": 5,
+            "explicitWithin1": 5,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 6,
+            "weightExact": 6,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 0
+          },
+          "failures": []
+        },
+        {
+          "slug": "earthsci1086",
+          "meta": {
+            "format": "prose",
+            "discipline": "STEM",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 6,
+            "predicted": 9,
+            "matched": 6,
+            "typeMatched": 6,
+            "explicitTotal": 4,
+            "explicitExact": 4,
+            "explicitWithin1": 4,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 6,
+            "weightExact": 6,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 0.6666666666666666,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "hallucinated",
+              "detail": "Academic Integrity Quiz"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "ProctorTrack Onboarding"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Mid-Term Makeup Test"
+            },
+            {
+              "kind": "wrong_recurrence",
+              "detail": "Graded Quizzes: no recurrence detected"
+            }
+          ]
+        },
+        {
+          "slug": "math1600b",
+          "meta": {
+            "format": "prose",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 3,
+            "predicted": 4,
+            "matched": 3,
+            "typeMatched": 3,
+            "explicitTotal": 2,
+            "explicitExact": 2,
+            "explicitWithin1": 2,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 3,
+            "weightExact": 3,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 0.75,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "hallucinated",
+              "detail": "Homework Assignments"
+            }
+          ]
+        },
+        {
+          "slug": "phil1230",
+          "meta": {
+            "format": "prose",
+            "discipline": "humanities",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 3,
+            "predicted": 3,
+            "matched": 3,
+            "typeMatched": 3,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 3,
+            "weightExact": 3,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 1
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": []
+        },
+        {
+          "slug": "writ1025f",
+          "meta": {
+            "format": "prose",
+            "discipline": "humanities",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 5,
+            "predicted": 5,
+            "matched": 5,
+            "typeMatched": 5,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 5,
+            "weightExact": 5,
+            "recurrenceTotal": 2,
+            "recurrenceDetected": 2
+          },
+          "metrics": {
+            "recall": 1,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 1
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "name": "regex baseline",
+      "overall": {
+        "counts": {
+          "labels": 69,
+          "predicted": 77,
+          "matched": 30,
+          "typeMatched": 30,
+          "explicitTotal": 20,
+          "explicitExact": 3,
+          "explicitWithin1": 3,
+          "relativeTotal": 0,
+          "relativeExact": 0,
+          "relativeWithin1": 0,
+          "weightTotal": 22,
+          "weightExact": 1,
+          "recurrenceTotal": 3,
+          "recurrenceDetected": 0
+        },
+        "metrics": {
+          "recall": 0.43478260869565216,
+          "precision": 0.38961038961038963,
+          "typeAccuracy": 1,
+          "explicitDateAccuracy": 0.15,
+          "explicitDateWithin1": 0.15,
+          "relativeDateAccuracy": 0,
+          "weightAccuracy": 0.045454545454545456,
+          "recurrenceAccuracy": 0
+        }
+      },
+      "perFixture": [
+        {
+          "slug": "calc1000a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 2,
+            "matched": 2,
+            "typeMatched": 2,
+            "explicitTotal": 1,
+            "explicitExact": 1,
+            "explicitWithin1": 1,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 2,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.2857142857142857,
+            "precision": 1,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Assignment 1"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 3"
+            },
+            {
+              "kind": "missed",
+              "detail": "Quizzes"
+            },
+            {
+              "kind": "missed",
+              "detail": "iClicker Lecture Questions"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Midterm Test: predicted null, expected 30"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 44"
+            }
+          ]
+        },
+        {
+          "slug": "calc1501b",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 3,
+            "matched": 2,
+            "typeMatched": 2,
+            "explicitTotal": 1,
+            "explicitExact": 1,
+            "explicitWithin1": 1,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 2,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.2857142857142857,
+            "precision": 0.6666666666666666,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "In-class participation (iClicker polls)"
+            },
+            {
+              "kind": "missed",
+              "detail": "Quizzes"
+            },
+            {
+              "kind": "missed",
+              "detail": "Written Assignment 1"
+            },
+            {
+              "kind": "missed",
+              "detail": "Written Assignment 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Written Assignment 3"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Midterm"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Midterm Test: predicted null, expected 30"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 40"
+            }
+          ]
+        },
+        {
+          "slug": "cs1020a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 16,
+            "predicted": 17,
+            "matched": 13,
+            "typeMatched": 13,
+            "explicitTotal": 12,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 5,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.8125,
+            "precision": 0.7647058823529411,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Quiz 9"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 3"
+            },
+            {
+              "kind": "missed",
+              "detail": "zyBook exercises"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Final"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Final"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Final"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Final"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 1: predicted 2025-10-01, expected 2025-09-24"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 2: predicted 2025-10-08, expected 2025-10-01"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 3: predicted 2025-10-22, expected 2025-10-08"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 4: predicted 2025-10-29, expected 2025-10-22"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 5: predicted 2025-11-12, expected 2025-10-29"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 6: predicted 2025-11-26, expected 2025-11-12"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 7: predicted 2025-12-03, expected 2025-11-26"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 8: predicted 2025-12-08, expected 2025-12-03"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Assignment 1: predicted 2025-11-10, expected 2025-10-06"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Assignment 1: predicted null, expected 7"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Assignment 2: predicted 2025-12-08, expected 2025-11-10"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Assignment 2: predicted null, expected 7"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Test 1: predicted 2025-11-19, expected 2025-10-15"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Test 1: predicted null, expected 12.5"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Test 2: predicted 2025-11-29, expected 2025-11-19"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Test 2: predicted null, expected 12.5"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 35"
+            }
+          ]
+        },
+        {
+          "slug": "cs1026a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 9,
+            "predicted": 6,
+            "matched": 3,
+            "typeMatched": 3,
+            "explicitTotal": 1,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 3,
+            "weightExact": 0,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.3333333333333333,
+            "precision": 0.5,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Assignment 1"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 3"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 4"
+            },
+            {
+              "kind": "missed",
+              "detail": "Quiz 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Participation"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Final"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Exam 5"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quizzes"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Quiz 1: predicted 2025-11-13, expected 2025-10-09"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Quiz 1: predicted null, expected 10"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 30"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Labs: predicted null, expected 7"
+            },
+            {
+              "kind": "wrong_recurrence",
+              "detail": "Labs: no recurrence detected"
+            }
+          ]
+        },
+        {
+          "slug": "cs1027b",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 7,
+            "predicted": 17,
+            "matched": 6,
+            "typeMatched": 6,
+            "explicitTotal": 4,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 6,
+            "weightExact": 0,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.8571428571428571,
+            "precision": 0.35294117647058826,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Assignment 4"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Exam"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 1"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 2"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 3"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 4"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 5"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab 6"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Midterm"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Assignment 2: predicted 2026-03-17, expected 2026-02-25"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Assignment 2: predicted null, expected 8"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Assignment 3: predicted 2026-04-06, expected 2026-03-17"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Assignment 3: predicted null, expected 8"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 40"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Labs: predicted null, expected 8"
+            },
+            {
+              "kind": "wrong_recurrence",
+              "detail": "Labs: no recurrence detected"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Midterm Test: predicted 2026-01-30, expected 2026-02-28"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Midterm Test: predicted null, expected 20"
+            },
+            {
+              "kind": "wrong_date_explicit",
+              "detail": "Assignment 1: predicted 2026-02-25, expected 2026-01-30"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Assignment 1: predicted null, expected 8"
+            }
+          ]
+        },
+        {
+          "slug": "ds1000a",
+          "meta": {
+            "format": "table-heavy",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 6,
+            "predicted": 11,
+            "matched": 1,
+            "typeMatched": 1,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 1,
+            "weightExact": 1,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.16666666666666666,
+            "precision": 0.09090909090909091,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 1,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Assignment 1"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 3"
+            },
+            {
+              "kind": "missed",
+              "detail": "Assignment 4"
+            },
+            {
+              "kind": "missed",
+              "detail": "Midterm"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Lab"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Assignment 15"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Assignment 15"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Assignment 15"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Assignment 15"
+            }
+          ]
+        },
+        {
+          "slug": "earthsci1086",
+          "meta": {
+            "format": "prose",
+            "discipline": "STEM",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 6,
+            "predicted": 21,
+            "matched": 3,
+            "typeMatched": 3,
+            "explicitTotal": 1,
+            "explicitExact": 1,
+            "explicitWithin1": 1,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 3,
+            "weightExact": 0,
+            "recurrenceTotal": 1,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0.5,
+            "precision": 0.14285714285714285,
+            "typeAccuracy": 1,
+            "explicitDateAccuracy": 1,
+            "explicitDateWithin1": 1,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Scientific Report - First Submission"
+            },
+            {
+              "kind": "missed",
+              "detail": "Scientific Report - Revised Submission"
+            },
+            {
+              "kind": "missed",
+              "detail": "Participation (forums and polls)"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Test"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Essay"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Essay"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quizzes"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quizzes"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 1"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 2"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 3"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 3"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Midterm"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Midterm"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 4"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 4"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Essay"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 5"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 6"
+            },
+            {
+              "kind": "hallucinated",
+              "detail": "Quiz 7"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Final Exam: predicted null, expected 25"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Graded Quizzes: predicted null, expected 10"
+            },
+            {
+              "kind": "wrong_recurrence",
+              "detail": "Graded Quizzes: no recurrence detected"
+            },
+            {
+              "kind": "wrong_weight",
+              "detail": "Mid-Term Test: predicted null, expected 25"
+            }
+          ]
+        },
+        {
+          "slug": "math1600b",
+          "meta": {
+            "format": "prose",
+            "discipline": "STEM",
+            "recurrence": "one-off"
+          },
+          "counts": {
+            "labels": 3,
+            "predicted": 0,
+            "matched": 0,
+            "typeMatched": 0,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 0,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0,
+            "precision": 0,
+            "typeAccuracy": 0,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Midterm Test 1"
+            },
+            {
+              "kind": "missed",
+              "detail": "Midterm Test 2"
+            },
+            {
+              "kind": "missed",
+              "detail": "Final Exam"
+            }
+          ]
+        },
+        {
+          "slug": "phil1230",
+          "meta": {
+            "format": "prose",
+            "discipline": "humanities",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 3,
+            "predicted": 0,
+            "matched": 0,
+            "typeMatched": 0,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 0,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0,
+            "precision": 0,
+            "typeAccuracy": 0,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Practice exercises"
+            },
+            {
+              "kind": "missed",
+              "detail": "Midterm examination"
+            },
+            {
+              "kind": "missed",
+              "detail": "Final examination"
+            }
+          ]
+        },
+        {
+          "slug": "writ1025f",
+          "meta": {
+            "format": "prose",
+            "discipline": "humanities",
+            "recurrence": "recurring-heavy"
+          },
+          "counts": {
+            "labels": 5,
+            "predicted": 0,
+            "matched": 0,
+            "typeMatched": 0,
+            "explicitTotal": 0,
+            "explicitExact": 0,
+            "explicitWithin1": 0,
+            "relativeTotal": 0,
+            "relativeExact": 0,
+            "relativeWithin1": 0,
+            "weightTotal": 0,
+            "weightExact": 0,
+            "recurrenceTotal": 0,
+            "recurrenceDetected": 0
+          },
+          "metrics": {
+            "recall": 0,
+            "precision": 0,
+            "typeAccuracy": 0,
+            "explicitDateAccuracy": 0,
+            "explicitDateWithin1": 0,
+            "relativeDateAccuracy": 0,
+            "weightAccuracy": 0,
+            "recurrenceAccuracy": 0
+          },
+          "failures": [
+            {
+              "kind": "missed",
+              "detail": "Weekly Discussion Activities"
+            },
+            {
+              "kind": "missed",
+              "detail": "Weekly Quizzes"
+            },
+            {
+              "kind": "missed",
+              "detail": "Cultural Research Paper"
+            },
+            {
+              "kind": "missed",
+              "detail": "Linguistic Research Paper"
+            },
+            {
+              "kind": "missed",
+              "detail": "Final Exam"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "key": "e60b7ce099252ba6ede2bc09d24b1c318e0c6bc3f3c93b4ab99c5e71018a9847",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-06-26T02:43:10.820Z",
+  "data": {
+    "course": {
+      "name": "Earth Sciences 1086G",
+      "code": "ES1086G",
+      "instructor": "Dr. Gordon Osinski",
+      "semester_start": "2025-01-06",
+      "semester_end": "2025-04-04"
+    },
+    "deliverables": [
+      {
+        "title": "Academic Integrity Quiz",
+        "type": "quiz",
+        "due_date": "2025-01-17",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Mandatory. No weight stated explicitly, but listed as a required deadline.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "No grade weight stated; listed as mandatory but unweighted in grading breakdown"
+      },
+      {
+        "title": "ProctorTrack Onboarding",
+        "type": "other",
+        "due_date": "2025-02-07",
+        "due_date_expression": null,
+        "due_time": "15:00",
+        "weight_percent": null,
+        "notes": "Required onboarding for remote proctoring; no grade weight assigned.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "No grade weight stated; administrative requirement rather than graded deliverable, but listed as a hard deadline"
+      },
+      {
+        "title": "Mid-Term Test",
+        "type": "exam",
+        "due_date": "2025-02-11",
+        "due_date_expression": null,
+        "due_time": "09:00",
+        "weight_percent": 25,
+        "notes": "Tentative date pending approval from Exam Central. Covers Units 1, 2, and 3 (Chapters 1–11). Online, proctored, synchronous.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date described as tentative; official time to be confirmed via OWL announcement"
+      },
+      {
+        "title": "Mid-Term Makeup Test",
+        "type": "exam",
+        "due_date": "2025-02-13",
+        "due_date_expression": null,
+        "due_time": "18:00",
+        "weight_percent": 25,
+        "notes": "Only available to students with an approved accommodation from faculty counsellors.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date described as tentative; only for accommodated students"
+      },
+      {
+        "title": "Scientific Report – Essay Submission #1",
+        "type": "assignment",
+        "due_date": "2025-02-26",
+        "due_date_expression": null,
+        "due_time": "15:00",
+        "weight_percent": 25,
+        "notes": "First version of the scientific report/essay. Feedback provided for revision. Late penalty: 2% within 2 hours; 10% per day for up to 5 days after deadline.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Scientific Report – Essay Submission #2 (Revised)",
+        "type": "assignment",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "15:00",
+        "weight_percent": 10,
+        "notes": "Second (revised) version of the scientific report. Submission is not mandatory; if not submitted, grade defaults to Essay #1 grade. All submissions will be marked.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Participation (Forums & Online Polls)",
+        "type": "participation",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 5,
+        "notes": "Requires one post per week to forums (starting January 15) plus replies to two classmates' posts each week. Also includes participation in OWL polls throughout course notes.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Graded Quizzes (8 total: 1, 2, 3a, 3b, 4, 5, 6, 7)",
+        "type": "quiz",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 10,
+        "notes": "8 graded quizzes (numbered 1, 2, 3a, 3b, 4, 5, 6, 7). Asynchronous, not timed. Spelling and grammar count. No accommodations available. Self-tests also available but not graded.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "April 7–30, set by Registrar's office",
+        "due_time": null,
+        "weight_percent": 25,
+        "notes": "Covers Units 4–7 (Chapters 12–19). Not cumulative. Online, proctored, synchronous. Exact date and time to be determined by Registrar.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date and time not stated; only a window of April 7–30 provided, set by the Registrar"
+      }
+    ]
+  }
+}
