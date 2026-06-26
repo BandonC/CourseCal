@@ -46,9 +46,12 @@ const nextConfig: NextConfig = {
 // Source maps upload only when SENTRY_AUTH_TOKEN is present in the build env
 // (set in Vercel Production) — the bundler plugin skips upload without it, so
 // local builds and token-less environments succeed and just leave prod traces
-// minified. org/project are not secret, so they live here directly.
+// minified. org/project are not secret, so they live here directly. Uploaded
+// source maps are deleted from the build afterward (plugin default), so they're
+// never served to the client.
 export default withSentryConfig(nextConfig, {
   org: "brandon-9f",
   project: "coursecal",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
 });
