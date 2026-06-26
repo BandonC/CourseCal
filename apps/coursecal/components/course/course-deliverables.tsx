@@ -155,8 +155,8 @@ function Display({
   return (
     <>
       <div className="flex items-center justify-between gap-2">
-        <span className="font-medium">{d.title}</span>
-        <div className="flex items-center gap-2">
+        <span className="min-w-0 truncate font-medium">{d.title}</span>
+        <div className="flex shrink-0 items-center gap-2">
           <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
             {d.confidence}
           </Badge>
