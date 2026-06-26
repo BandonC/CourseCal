@@ -424,10 +424,11 @@ ANTHROPIC_API_KEY=
 ANTHROPIC_MODEL=
 TOKEN_ENCRYPTION_KEY=
 NEXT_PUBLIC_POSTHOG_KEY=
+NEXT_PUBLIC_POSTHOG_HOST=
 NEXT_PUBLIC_SENTRY_DSN=
 ```
 
-Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`, `NEXT_PUBLIC_POSTHOG_KEY`, and `NEXT_PUBLIC_SENTRY_DSN` are optional; everything else is required.
+Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, and `NEXT_PUBLIC_SENTRY_DSN` are optional; everything else is required. `NEXT_PUBLIC_POSTHOG_HOST` selects the PostHog cloud region for ingestion (defaults to US — `https://us.i.posthog.com` — in code when unset); client events are reverse-proxied through the same-origin `/ingest` path (a `next.config.ts` rewrite) so ad-blockers don't drop them.
 
 Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKEN` (with `org`/`project` set in `next.config.ts`). It is not part of the runtime Zod-validated set — when absent, builds still succeed and just skip upload (errors still report; prod traces stay minified). See `.env.example` and DECISIONS 2026-06-20.
 

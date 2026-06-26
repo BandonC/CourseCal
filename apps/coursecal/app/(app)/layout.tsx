@@ -1,3 +1,4 @@
+import { AnalyticsIdentify } from "@/lib/analytics/identify";
 import { requireUser } from "@/lib/auth/session";
 
 // Gate for every authed route under (app). requireUser() redirects to /login
@@ -9,6 +10,11 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await requireUser();
-  return children;
+  const user = await requireUser();
+  return (
+    <>
+      <AnalyticsIdentify userId={user.userId} />
+      {children}
+    </>
+  );
 }
