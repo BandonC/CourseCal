@@ -192,7 +192,6 @@ A pnpm workspace with the library and app side by side:
 │       ├── tests/
 │       ├── evals/              ← eval harness + test set
 │       ├── docs/
-│       │   ├── PARSING.md
 │       │   ├── DATES.md
 │       │   ├── PROMPT_DESIGN.md
 │       │   └── EVALS.md
