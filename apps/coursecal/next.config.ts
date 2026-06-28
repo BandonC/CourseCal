@@ -54,4 +54,11 @@ export default withSentryConfig(nextConfig, {
   project: "coursecal",
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
+  // Tunnel browser error envelopes through a same-origin route so ad-blockers
+  // (which block ingest.sentry.io directly) don't drop client-side crash
+  // reports — same rationale as the PostHog /ingest proxy. The SDK generates the
+  // route and only forwards to the configured project, so it's not an open relay.
+  // Cheap while we're errors-only (tracesSampleRate 0, no replay); revisit the
+  // function-invocation cost if tracing or session replay is ever enabled.
+  tunnelRoute: "/monitoring",
 });
