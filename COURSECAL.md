@@ -424,10 +424,11 @@ ANTHROPIC_API_KEY=
 ANTHROPIC_MODEL=
 TOKEN_ENCRYPTION_KEY=
 NEXT_PUBLIC_POSTHOG_KEY=
+NEXT_PUBLIC_POSTHOG_HOST=
 NEXT_PUBLIC_SENTRY_DSN=
 ```
 
-Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`, `NEXT_PUBLIC_POSTHOG_KEY`, and `NEXT_PUBLIC_SENTRY_DSN` are optional; everything else is required.
+Validated at startup with Zod — fail fast on missing config. `ANTHROPIC_MODEL`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, and `NEXT_PUBLIC_SENTRY_DSN` are optional; everything else is required. `NEXT_PUBLIC_POSTHOG_HOST` selects the PostHog cloud region for ingestion (defaults to US — `https://us.i.posthog.com` — in code when unset); client events are reverse-proxied through the same-origin `/ingest` path (a `next.config.ts` rewrite) so ad-blockers don't drop them.
 
 Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKEN` (with `org`/`project` set in `next.config.ts`). It is not part of the runtime Zod-validated set — when absent, builds still succeed and just skip upload (errors still report; prod traces stay minified). See `.env.example` and DECISIONS 2026-06-20.
 
@@ -437,7 +438,7 @@ Separately, Sentry **source-map upload** reads build-time-only `SENTRY_AUTH_TOKE
 
 Loose sequencing — not a strict timeline. Ship each phase to friends for feedback before moving on.
 
-> **Status (2026-06-25):** Phases 0–5 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`); Phase 5 merged (PR #9) — the real `app/(app)/dashboard`, course detail at `app/(app)/course/[id]` with inline edit + per-deliverable Calendar patch (§6.4), tiered cascade-to-Calendar deletes with block-and-reconnect (§7.3), add-course-to-existing-semester, per-course sync resume, and re-parse replacement. Phase 6 (engineering-depth) is in review: the stratified eval harness with honest numbers (`packages/syllabus-parser/evals/`, `docs/EVALS.md`) and ADR-001–008 (`docs/adr/`). Known open item: source-map upload for Sentry is still deferred (error reporting is live; needs `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`).
+> **Status (2026-06-25):** Phases 0–5 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`); Phase 5 merged (PR #9) — the real `app/(app)/dashboard`, course detail at `app/(app)/course/[id]` with inline edit + per-deliverable Calendar patch (§6.4), tiered cascade-to-Calendar deletes with block-and-reconnect (§7.3), add-course-to-existing-semester, per-course sync resume, and re-parse replacement. Phase 6 (engineering-depth) is in review: the stratified eval harness with honest numbers (`packages/syllabus-parser/evals/`, `docs/EVALS.md`) and ADR-001–008 (`docs/adr/`). Source-map upload for Sentry is now wired in `next.config.ts` (`authToken` from `SENTRY_AUTH_TOKEN`; org/project are set there directly); the only remaining step is operational — set `SENTRY_AUTH_TOKEN` in Vercel Production so prod stack traces de-minify.
 
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.

@@ -130,7 +130,7 @@ export function SourcePicker({
               key={s.id}
               className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm"
             >
-              <span className="truncate">
+              <span className="min-w-0 truncate">
                 <span className="text-muted-foreground">
                   {s.kind === "pdf" ? "PDF" : "Pasted"} ·{" "}
                 </span>

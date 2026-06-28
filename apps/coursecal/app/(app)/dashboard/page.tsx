@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EmptyState } from "@/components/empty-state";
 import { DeleteSemesterButton } from "@/components/semester/delete-semester-button";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -41,14 +42,15 @@ export default async function DashboardPage() {
       </header>
 
       {semesters.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 rounded-lg border border-dashed border-border py-16 text-center">
-          <p className="text-muted-foreground">
-            No semesters yet. Upload your syllabi to build your first plan.
-          </p>
-          <Link href="/upload" className={buttonVariants()}>
-            New semester
-          </Link>
-        </div>
+        <EmptyState
+          title="No semesters yet"
+          description="Upload your course syllabi and Coursecal builds your semester plan — every deadline on a timeline, hell weeks flagged, exported to Google Calendar."
+          action={
+            <Link href="/upload" className={buttonVariants()}>
+              New semester
+            </Link>
+          }
+        />
       ) : (
         <ul className="space-y-6">
           {semesters.map((s) => (

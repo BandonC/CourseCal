@@ -30,6 +30,8 @@ const envSchema = z.object({
 
   // Observability — optional until launch.
   NEXT_PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),
+  // PostHog cloud ingestion host (region). Optional — defaults to US in code.
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().min(1).optional(),
   NEXT_PUBLIC_SENTRY_DSN: z.string().min(1).optional(),
 });
 

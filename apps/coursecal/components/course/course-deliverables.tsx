@@ -27,7 +27,19 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { DeleteDeliverableDialog } from "@/components/course/delete-deliverable-dialog";
+import type { DeliverableField } from "@/lib/analytics/events";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import type { CourseDeliverable } from "@/lib/db/queries/courses";
+
+// Maps the edit form's field keys to the analytics field vocabulary.
+const FIELD_MAP: Record<string, DeliverableField> = {
+  title: "title",
+  type: "type",
+  dueDate: "due_date",
+  dueTime: "due_time",
+  weightPercent: "weight",
+  notes: "notes",
+};
 
 const CONFIDENCE_VARIANT: Record<Confidence, "outline" | "secondary" | "destructive"> = {
   high: "outline",
@@ -143,8 +155,8 @@ function Display({
   return (
     <>
       <div className="flex items-center justify-between gap-2">
-        <span className="font-medium">{d.title}</span>
-        <div className="flex items-center gap-2">
+        <span className="min-w-0 truncate font-medium">{d.title}</span>
+        <div className="flex shrink-0 items-center gap-2">
           <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
             {d.confidence}
           </Badge>
@@ -209,6 +221,7 @@ function EditForm({
   onSaved: (d: CourseDeliverable) => void;
 }) {
   const router = useRouter();
+  const { capture } = useAnalytics();
   const { register, control, handleSubmit, formState } = useForm<DeliverableEdit>({
     resolver: zodResolver(DeliverableEditSchema),
     defaultValues: {
@@ -228,6 +241,18 @@ function EditForm({
       toast.error(res.error);
       return;
     }
+    const changed = new Set<DeliverableField>();
+    for (const key of Object.keys(formState.dirtyFields)) {
+      const field = FIELD_MAP[key];
+      if (field) changed.add(field);
+    }
+    for (const field of changed) {
+      capture({ name: "deliverable_edited", properties: { field, context: "course_detail" } });
+    }
+    capture({
+      name: "deliverable_calendar_synced",
+      properties: { outcome: res.data.calendar },
+    });
     onSaved({
       ...d,
       title: values.title,
