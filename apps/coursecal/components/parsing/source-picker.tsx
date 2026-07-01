@@ -1,5 +1,6 @@
 "use client";
 
+import { FileUpIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,7 +83,7 @@ export function SourcePicker({
           addFiles(e.dataTransfer.files);
         }}
         onClick={() => fileInput.current?.click()}
-        className={`flex cursor-pointer flex-col items-center gap-1 rounded-lg border border-dashed px-6 py-10 text-center text-sm ${dragActive ? "border-ring bg-muted/50" : "border-input"}`}
+        className={`flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed px-6 py-10 text-center text-sm transition-colors ${dragActive ? "border-ring bg-accent" : "border-input bg-card hover:bg-muted/40"}`}
       >
         <input
           ref={fileInput}
@@ -95,6 +96,9 @@ export function SourcePicker({
             e.target.value = ""; // allow re-adding the same file
           }}
         />
+        <span className="flex size-10 items-center justify-center rounded-full bg-accent text-primary">
+          <FileUpIcon className="size-5" />
+        </span>
         <span className="font-medium">Drop PDFs here, or click to choose</span>
         <span className="text-muted-foreground">
           Add one syllabus per course. Files are read in your browser — only the
@@ -102,7 +106,7 @@ export function SourcePicker({
         </span>
       </div>
 
-      <div className="space-y-2 rounded-lg border border-border p-4">
+      <div className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-sm">
         <Label htmlFor="paste-text">Or paste a syllabus</Label>
         <Input
           id="paste-label"
@@ -128,7 +132,7 @@ export function SourcePicker({
           {sources.map((s) => (
             <li
               key={s.id}
-              className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm"
+              className="flex items-center justify-between rounded-lg border border-border bg-card px-3 py-2 text-sm"
             >
               <span className="min-w-0 truncate">
                 <span className="text-muted-foreground">

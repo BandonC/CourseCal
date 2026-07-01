@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { PencilIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { ConflictReport } from "@/lib/conflict-detection";
 import type { SemesterTimelineData } from "@/lib/db/queries/semesters";
@@ -77,13 +79,18 @@ export function SemesterTimeline({
 
       <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
         {data.courses.map((c) => (
-          <li key={c.id} className="flex items-center gap-1.5">
-            <span
-              className="size-2.5 rounded-full"
-              style={{ backgroundColor: c.color }}
-              aria-hidden
-            />
-            {courseLabel(c)}
+          <li key={c.id}>
+            <Link
+              href={`/course/${c.id}`}
+              className="flex items-center gap-1.5 hover:underline"
+            >
+              <span
+                className="size-2.5 rounded-full"
+                style={{ backgroundColor: c.color }}
+                aria-hidden
+              />
+              {courseLabel(c)}
+            </Link>
           </li>
         ))}
       </ul>
@@ -92,7 +99,7 @@ export function SemesterTimeline({
         {weeks.map((w) => (
           <li
             key={w.index}
-            className={`rounded-lg border p-3 ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border"}`}
+            className={`rounded-xl border p-3 shadow-xs ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border bg-card"}`}
           >
             <div className="flex items-baseline justify-between gap-2">
               <h2 className="text-sm font-medium">
@@ -116,25 +123,33 @@ export function SemesterTimeline({
                 {w.items.map((d) => {
                   const c = courseById.get(d.courseId)!;
                   return (
-                    <li
-                      key={d.id}
-                      className="rounded-md border-l-2 bg-muted/30 px-2 py-1.5"
-                      style={{ borderLeftColor: c.color }}
-                    >
-                      <p className="flex items-center gap-1.5 text-sm">
-                        <span className="truncate">{d.title}</span>
-                        {clustered.has(d.id) ? (
-                          <span className="rounded bg-destructive/10 px-1 text-[10px] font-medium text-destructive">
-                            cluster
-                          </span>
-                        ) : null}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {courseLabel(c)} · {shortDate(d.dueDate!)}
-                        {d.dueTime ? ` ${d.dueTime.slice(0, 5)}` : ""} ·{" "}
-                        <span className="capitalize">{d.type}</span>
-                        {d.weightPercent ? ` · ${Number(d.weightPercent)}%` : ""}
-                      </p>
+                    <li key={d.id}>
+                      <Link
+                        href={`/course/${d.courseId}`}
+                        className="group flex items-center gap-2 rounded-md border-l-2 bg-muted/30 px-2 py-1.5 transition-colors hover:bg-muted/60"
+                        style={{ borderLeftColor: c.color }}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="flex items-center gap-1.5 text-sm">
+                            <span className="truncate">{d.title}</span>
+                            {clustered.has(d.id) ? (
+                              <span className="rounded bg-destructive/10 px-1 text-[10px] font-medium text-destructive">
+                                cluster
+                              </span>
+                            ) : null}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {courseLabel(c)} · {shortDate(d.dueDate!)}
+                            {d.dueTime ? ` ${d.dueTime.slice(0, 5)}` : ""} ·{" "}
+                            <span className="capitalize">{d.type}</span>
+                            {d.weightPercent ? ` · ${Number(d.weightPercent)}%` : ""}
+                          </p>
+                        </div>
+                        <PencilIcon
+                          className="size-3.5 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-foreground"
+                          aria-hidden
+                        />
+                      </Link>
                     </li>
                   );
                 })}

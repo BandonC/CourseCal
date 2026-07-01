@@ -2,13 +2,16 @@
 
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
+import { useIsDark } from "@/lib/use-is-dark"
 
-// The app is light-mode only (no .dark class / theme toggle — DECISIONS
-// 2026-06-14), so the theme is fixed rather than pulled from next-themes.
+// Follows the app theme via the `.dark` class (useIsDark) rather than next-themes
+// (which the app doesn't use). The toast colors themselves come from our --popover
+// tokens below, which already adapt; theme also sets sonner's own base styling.
 const Toaster = ({ ...props }: ToasterProps) => {
+  const isDark = useIsDark()
   return (
     <Sonner
-      theme="light"
+      theme={isDark ? "dark" : "light"}
       className="toaster group"
       icons={{
         success: (

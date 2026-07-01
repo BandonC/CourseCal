@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
+import { BackLink } from "@/components/back-link";
 import { CourseDeliverables } from "@/components/course/course-deliverables";
 import { CourseHeaderEdit } from "@/components/course/course-header-edit";
 import { DeleteCourseButton } from "@/components/course/delete-course-button";
@@ -34,12 +34,7 @@ export default async function CoursePage({
 
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
-      <Link
-        href={`/semester/${course.semesterId}`}
-        className="text-sm text-muted-foreground hover:underline"
-      >
-        ← Back to semester
-      </Link>
+      <BackLink href={`/semester/${course.semesterId}`}>Back to semester</BackLink>
 
       <div className="flex items-start justify-between gap-4">
         <CourseHeaderEdit

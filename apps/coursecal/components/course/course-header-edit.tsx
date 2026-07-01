@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PencilIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,23 +60,24 @@ export function CourseHeaderEdit({
 
   if (!editing) {
     return (
-      <header className="space-y-1">
-        <div className="flex flex-wrap items-center gap-3">
+      <header className="space-y-2">
+        <div className="space-y-1">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             {code ? `${code} · ${name}` : name}
           </h1>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              reset({ courseId, name, code, instructor });
-              setEditing(true);
-            }}
-          >
-            Edit
-          </Button>
+          {instructor ? <p className="text-muted-foreground">{instructor}</p> : null}
         </div>
-        {instructor ? <p className="text-muted-foreground">{instructor}</p> : null}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            reset({ courseId, name, code, instructor });
+            setEditing(true);
+          }}
+        >
+          <PencilIcon className="size-4" />
+          Edit
+        </Button>
       </header>
     );
   }

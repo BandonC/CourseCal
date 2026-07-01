@@ -81,7 +81,7 @@ export function ReviewOverview({
           return (
             <li
               key={c.sourceId}
-              className="flex items-center justify-between gap-3 rounded-lg border border-border px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-sm"
             >
               <div className="min-w-0">
                 <p className="truncate font-medium">{c.result.course.name}</p>

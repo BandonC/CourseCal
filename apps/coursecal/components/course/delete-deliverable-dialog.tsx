@@ -67,7 +67,7 @@ export function DeleteDeliverableDialog({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger
         render={
-          <Button variant="ghost" size="sm">
+          <Button variant="destructive" size="sm">
             Delete
           </Button>
         }

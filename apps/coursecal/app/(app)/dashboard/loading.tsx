@@ -10,7 +10,7 @@ export default function DashboardLoading() {
       </div>
       <div className="space-y-6">
         {[0, 1].map((i) => (
-          <div key={i} className="space-y-4 rounded-lg border border-border p-5">
+          <div key={i} className="space-y-4 rounded-xl border border-border bg-card p-6 shadow-sm">
             <Skeleton className="h-6 w-40" />
             <div className="space-y-3">
               <Skeleton className="h-5 w-full" />
