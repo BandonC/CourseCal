@@ -27,7 +27,7 @@ export function DeleteCourseButton({
   return (
     <TypeToConfirmDialog
       trigger={
-        <Button variant="outline" size="sm">
+        <Button variant="destructive" size="sm">
           Delete course
         </Button>
       }

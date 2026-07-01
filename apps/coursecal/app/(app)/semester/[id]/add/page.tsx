@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
+import { BackLink } from "@/components/back-link";
 import { SyllabusFlow } from "@/components/parsing/syllabus-flow";
 import { requireUser } from "@/lib/auth/session";
 import type { SemesterId } from "@/lib/db/ids";
@@ -26,12 +26,7 @@ export default async function AddCoursePage({
 
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
-      <Link
-        href={`/semester/${semester.id}`}
-        className="text-sm text-muted-foreground hover:underline"
-      >
-        ← Back to semester
-      </Link>
+      <BackLink href={`/semester/${semester.id}`}>Back to semester</BackLink>
       <header className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Add courses</h1>
         <p className="text-muted-foreground">{semester.name}</p>

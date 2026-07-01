@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { after } from "next/server";
 import { z } from "zod";
+import { BackLink } from "@/components/back-link";
 import { buttonVariants } from "@/components/ui/button";
 import { captureServer } from "@/lib/analytics/posthog-server";
 import { requireUser } from "@/lib/auth/session";
@@ -57,6 +58,7 @@ export default async function SemesterPage({
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
+      <BackLink href="/dashboard">Back to dashboard</BackLink>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <header className="space-y-1">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{data.name}</h1>
@@ -66,7 +68,7 @@ export default async function SemesterPage({
         </header>
         <Link
           href={`/semester/${data.id}/add`}
-          className={buttonVariants({ variant: "outline", size: "sm" })}
+          className={buttonVariants({ variant: "default", size: "sm" })}
         >
           Add course
         </Link>

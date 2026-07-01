@@ -72,7 +72,7 @@ export function ReviewStep({
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(submit)} className="space-y-6">
         {showCourse ? (
-          <section className="space-y-4 rounded-lg border border-border p-4">
+          <section className="space-y-4 rounded-xl border border-border bg-card p-4 shadow-sm">
             <div className="space-y-1.5">
               <Label htmlFor="course-name">Course</Label>
               <Input id="course-name" {...register("course.name")} />

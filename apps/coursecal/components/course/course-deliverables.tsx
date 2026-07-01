@@ -41,9 +41,9 @@ const FIELD_MAP: Record<string, DeliverableField> = {
   notes: "notes",
 };
 
-const CONFIDENCE_VARIANT: Record<Confidence, "outline" | "secondary" | "destructive"> = {
-  high: "outline",
-  medium: "secondary",
+const CONFIDENCE_VARIANT: Record<Confidence, "success" | "warning" | "destructive"> = {
+  high: "success",
+  medium: "warning",
   low: "destructive",
 };
 
@@ -116,7 +116,7 @@ function DeliverableRow({
   const [editing, setEditing] = useState(false);
 
   return (
-    <li className="space-y-2 rounded-lg border border-border p-4">
+    <li className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-sm">
       {editing ? (
         <EditForm
           d={d}
@@ -160,7 +160,7 @@ function Display({
           <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
             {d.confidence}
           </Badge>
-          <Button type="button" size="sm" variant="ghost" onClick={onEdit}>
+          <Button type="button" size="sm" variant="outline" onClick={onEdit}>
             Edit
           </Button>
           <DeleteDeliverableDialog

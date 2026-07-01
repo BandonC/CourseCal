@@ -19,6 +19,42 @@ type Step =
   | { name: "review"; semester: Semester; courses: ParsedCourse[] }
   | { name: "export"; semester: Semester; courses: ParsedCourse[] };
 
+const STEP_LABELS = ["Setup", "Parse", "Review", "Export"] as const;
+const STEP_INDEX: Record<Step["name"], number> = {
+  setup: 0,
+  parsing: 1,
+  review: 2,
+  export: 3,
+};
+
+// Step indicator across the top of the flow — orients the user without any
+// navigation of its own (the steps advance as the flow progresses).
+function FlowSteps({ current }: { current: number }) {
+  return (
+    <ol className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+      {STEP_LABELS.map((label, i) => {
+        const state = i < current ? "done" : i === current ? "current" : "todo";
+        return (
+          <li key={label} className="flex items-center gap-2">
+            <span
+              className={`flex size-6 items-center justify-center rounded-full text-xs font-medium ${
+                state === "todo"
+                  ? "bg-muted text-muted-foreground"
+                  : "bg-primary text-primary-foreground"
+              }`}
+            >
+              {i + 1}
+            </span>
+            <span className={state === "current" ? "font-medium" : "text-muted-foreground"}>
+              {label}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 export function SyllabusFlow({
   existingSemester,
 }: {
@@ -39,56 +75,65 @@ export function SyllabusFlow({
     });
   }
 
-  switch (step.name) {
-    case "setup":
-      return (
-        <SetupStep
-          onSubmit={startParsing}
-          existingSemester={
-            existingSemester
-              ? {
-                  name: existingSemester.name,
-                  start: existingSemester.start,
-                  end: existingSemester.end,
-                }
-              : undefined
-          }
-        />
-      );
+  return (
+    <div className="space-y-8">
+      <FlowSteps current={STEP_INDEX[step.name]} />
+      {renderStep()}
+    </div>
+  );
 
-    case "parsing":
-      return (
-        <ParseQueue
-          sources={step.sources}
-          semesterStart={step.semester.start}
-          semesterEnd={step.semester.end}
-          isAddToExisting={!!existingSemester}
-          onComplete={(courses) =>
-            setStep({ name: "review", semester: step.semester, courses })
-          }
-          onRestart={() => setStep({ name: "setup" })}
-        />
-      );
+  function renderStep() {
+    switch (step.name) {
+      case "setup":
+        return (
+          <SetupStep
+            onSubmit={startParsing}
+            existingSemester={
+              existingSemester
+                ? {
+                    name: existingSemester.name,
+                    start: existingSemester.start,
+                    end: existingSemester.end,
+                  }
+                : undefined
+            }
+          />
+        );
 
-    case "review":
-      return (
-        <ReviewOverview
-          courses={step.courses}
-          onConfirm={(courses) =>
-            setStep({ name: "export", semester: step.semester, courses })
-          }
-          onRestart={() => setStep({ name: "setup" })}
-        />
-      );
+      case "parsing":
+        return (
+          <ParseQueue
+            sources={step.sources}
+            semesterStart={step.semester.start}
+            semesterEnd={step.semester.end}
+            isAddToExisting={!!existingSemester}
+            onComplete={(courses) =>
+              setStep({ name: "review", semester: step.semester, courses })
+            }
+            onRestart={() => setStep({ name: "setup" })}
+          />
+        );
 
-    case "export":
-      return (
-        <ExportStep
-          semester={step.semester}
-          courses={step.courses}
-          existingSemesterId={existingSemester?.id}
-          onRestart={() => setStep({ name: "setup" })}
-        />
-      );
+      case "review":
+        return (
+          <ReviewOverview
+            courses={step.courses}
+            onConfirm={(courses) =>
+              setStep({ name: "export", semester: step.semester, courses })
+            }
+            onRestart={() => setStep({ name: "setup" })}
+          />
+        );
+
+      case "export":
+        return (
+          <ExportStep
+            semester={step.semester}
+            courses={step.courses}
+            existingSemesterId={existingSemester?.id}
+            onRestart={() => setStep({ name: "setup" })}
+          />
+        );
+    }
   }
 }

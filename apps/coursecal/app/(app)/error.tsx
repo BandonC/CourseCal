@@ -2,6 +2,7 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";
+import { TriangleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 
@@ -22,6 +23,7 @@ export default function AppError({
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-4 py-16 text-center">
+      <TriangleAlertIcon className="size-8 text-muted-foreground" aria-hidden />
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold">Something went wrong</h1>
         <p className="text-muted-foreground text-sm">

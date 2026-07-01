@@ -1,5 +1,6 @@
 "use client";
 
+import { CalendarCheckIcon } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -8,6 +9,7 @@ import {
   saveSemesterAction,
 } from "@/app/(app)/upload/actions";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import type { SemesterId } from "@/lib/db/ids";
 import { buildIcsForCourses } from "@/lib/ics/build";
@@ -125,79 +127,91 @@ export function ExportStep({
 
   if (phase === "done" && summary) {
     return (
-      <div className="space-y-4">
-        <p>
-          {existingSemesterId
-            ? `${courses.length} ${courses.length === 1 ? "course" : "courses"} added to `
-            : null}
-          <span className="font-medium">{semester.name}</span>
-          {existingSemesterId
-            ? "."
-            : ` (${courses.length} ${courses.length === 1 ? "course" : "courses"}) was saved.`}{" "}
-          {summary.created > 0
-            ? `${summary.created} event(s) added to Google Calendar.`
-            : "No new events to add."}
-        </p>
-        {summary.failed > 0 ? (
-          <p className="text-sm text-destructive">
-            {summary.failed} event(s) couldn&apos;t be added.
+      <Card>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
+              <CalendarCheckIcon className="size-5" />
+            </span>
+            <p className="font-heading text-lg font-semibold tracking-tight">
+              {existingSemesterId ? "Courses added" : "Semester saved"}
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {existingSemesterId
+              ? `${courses.length} ${courses.length === 1 ? "course" : "courses"} added to `
+              : null}
+            <span className="font-medium text-foreground">{semester.name}</span>
+            {existingSemesterId
+              ? "."
+              : ` (${courses.length} ${courses.length === 1 ? "course" : "courses"}) was saved.`}{" "}
+            {summary.created > 0
+              ? `${summary.created} event(s) added to Google Calendar.`
+              : "No new events to add."}
           </p>
-        ) : null}
-        {summary.reconnectNeeded ? (
-          <p className="text-sm text-destructive">
-            Your Google access expired. Reconnect to finish adding events.
-          </p>
-        ) : null}
-        {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
-        <div className="flex flex-wrap gap-3">
-          {semesterId ? (
-            <Link href={`/semester/${semesterId}`} className={buttonVariants()}>
-              View timeline
-            </Link>
+          {summary.failed > 0 ? (
+            <p className="text-sm text-destructive">
+              {summary.failed} event(s) couldn&apos;t be added.
+            </p>
           ) : null}
           {summary.reconnectNeeded ? (
-            <Link href="/reconnect" className={buttonVariants({ variant: "outline" })}>
-              Reconnect Google
-            </Link>
+            <p className="text-sm text-destructive">
+              Your Google access expired. Reconnect to finish adding events.
+            </p>
           ) : null}
-          {summary.failed > 0 && !summary.reconnectNeeded ? (
-            <Button onClick={addToCalendar} disabled={busy}>
-              Retry
+          {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
+          <div className="flex flex-wrap gap-3">
+            {semesterId ? (
+              <Link href={`/semester/${semesterId}`} className={buttonVariants()}>
+                View timeline
+              </Link>
+            ) : null}
+            {summary.reconnectNeeded ? (
+              <Link href="/reconnect" className={buttonVariants({ variant: "outline" })}>
+                Reconnect Google
+              </Link>
+            ) : null}
+            {summary.failed > 0 && !summary.reconnectNeeded ? (
+              <Button onClick={addToCalendar} disabled={busy}>
+                Retry
+              </Button>
+            ) : null}
+            <Button variant="outline" onClick={download}>
+              Download .ics
             </Button>
-          ) : null}
-          <Button variant="outline" onClick={download}>
-            Download .ics
-          </Button>
-          <Button variant="ghost" onClick={onRestart}>
-            {existingSemesterId ? "Add more courses" : "New semester"}
-          </Button>
-        </div>
-      </div>
+            <Button variant="ghost" onClick={onRestart}>
+              {existingSemesterId ? "Add more courses" : "New semester"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <p>
-        <span className="font-medium">{semester.name}</span> is ready with{" "}
-        {courses.length} {courses.length === 1 ? "course" : "courses"}. {datedCount(courses)}{" "}
-        dated deliverable(s) will be added to your calendar; dateless items are skipped.
-      </p>
-      {phase === "error" && message ? (
-        <p className="text-sm text-destructive">{message}</p>
-      ) : null}
-      {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={addToCalendar} disabled={busy}>
-          {buttonLabel}
-        </Button>
-        <Button variant="outline" onClick={download}>
-          Download .ics
-        </Button>
-        <Button variant="ghost" onClick={onRestart} disabled={busy}>
-          Start over
-        </Button>
-      </div>
-    </div>
+    <Card>
+      <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">{semester.name}</span> is ready with{" "}
+          {courses.length} {courses.length === 1 ? "course" : "courses"}. {datedCount(courses)}{" "}
+          dated deliverable(s) will be added to your calendar; dateless items are skipped.
+        </p>
+        {phase === "error" && message ? (
+          <p className="text-sm text-destructive">{message}</p>
+        ) : null}
+        {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
+        <div className="flex flex-wrap gap-3">
+          <Button onClick={addToCalendar} disabled={busy}>
+            {buttonLabel}
+          </Button>
+          <Button variant="outline" onClick={download}>
+            Download .ics
+          </Button>
+          <Button variant="ghost" onClick={onRestart} disabled={busy}>
+            Start over
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

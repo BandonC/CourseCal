@@ -131,7 +131,7 @@ export function ParseQueue({
         {items.map((it) => (
           <li
             key={it.source.id}
-            className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm"
+            className="flex items-center justify-between rounded-lg border border-border bg-card px-3 py-2 text-sm shadow-xs"
           >
             <span className="truncate">{it.source.label}</span>
             <span

@@ -8,7 +8,7 @@ export default function CourseLoading() {
       <Skeleton className="h-9 w-64" />
       <div className="space-y-3">
         {[0, 1, 2].map((i) => (
-          <Skeleton key={i} className="h-24 w-full rounded-lg" />
+          <Skeleton key={i} className="h-24 w-full rounded-xl" />
         ))}
       </div>
     </main>

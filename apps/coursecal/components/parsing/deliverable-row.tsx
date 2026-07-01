@@ -20,9 +20,9 @@ import {
 import { NullableField } from "./nullable-field";
 
 // Confidence is the model's own assessment (§8.3) — shown, not edited.
-const CONFIDENCE_VARIANT: Record<Confidence, "outline" | "secondary" | "destructive"> = {
-  high: "outline",
-  medium: "secondary",
+const CONFIDENCE_VARIANT: Record<Confidence, "success" | "warning" | "destructive"> = {
+  high: "success",
+  medium: "warning",
   low: "destructive",
 };
 
@@ -35,7 +35,7 @@ export function DeliverableRow({ index }: { index: number }) {
   const titleError = formState.errors.deliverables?.[index]?.title;
 
   return (
-    <li className="space-y-3 rounded-lg border border-border p-4">
+    <li className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-sm">
       <div className="flex items-center justify-between gap-2">
         <Badge variant={CONFIDENCE_VARIANT[confidence]} className="capitalize">
           {confidence} confidence

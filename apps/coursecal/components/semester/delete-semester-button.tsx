@@ -25,7 +25,7 @@ export function DeleteSemesterButton({
   return (
     <TypeToConfirmDialog
       trigger={
-        <Button variant="ghost" size="sm">
+        <Button variant="destructive" size="sm">
           Delete
         </Button>
       }

@@ -2,8 +2,15 @@ import Link from "next/link";
 import { EmptyState } from "@/components/empty-state";
 import { DeleteSemesterButton } from "@/components/semester/delete-semester-button";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { signOut } from "@/lib/auth";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { requireUser } from "@/lib/auth/session";
 import { getDashboardData, type DashboardCourse } from "@/lib/db/queries/semesters";
 
@@ -17,28 +24,11 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your semesters</h1>
-          <p className="text-sm text-muted-foreground">
-            Signed in as <span className="font-medium">{user.email}</span>
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link href="/upload" className={buttonVariants()}>
-            New semester
-          </Link>
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/login" });
-            }}
-          >
-            <Button type="submit" variant="outline">
-              Sign out
-            </Button>
-          </form>
-        </div>
+      <header className="space-y-1">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your semesters</h1>
+        <p className="text-sm text-muted-foreground">
+          Signed in as <span className="font-medium">{user.email}</span>
+        </p>
       </header>
 
       {semesters.length === 0 ? (
@@ -52,33 +42,35 @@ export default async function DashboardPage() {
           }
         />
       ) : (
-        <ul className="space-y-6">
+        <ul className="space-y-5">
           {semesters.map((s) => (
-            <li key={s.id} className="space-y-4 rounded-lg border border-border p-5">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <Link
-                  href={`/semester/${s.id}`}
-                  className="text-xl font-medium tracking-tight hover:underline"
-                >
-                  {s.name}
-                </Link>
-                <div className="flex items-center gap-3">
-                  <span className="text-sm text-muted-foreground">
+            <li key={s.id}>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl">
+                    <Link href={`/semester/${s.id}`} className="hover:underline">
+                      {s.name}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription>
                     {s.startDate} → {s.endDate}
-                  </span>
-                  <DeleteSemesterButton semesterId={s.id} semesterName={s.name} />
-                </div>
-              </div>
-
-              {s.courses.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No courses.</p>
-              ) : (
-                <ul className="divide-y divide-border">
-                  {s.courses.map((c) => (
-                    <CourseRow key={c.id} course={c} />
-                  ))}
-                </ul>
-              )}
+                  </CardDescription>
+                  <CardAction>
+                    <DeleteSemesterButton semesterId={s.id} semesterName={s.name} />
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  {s.courses.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No courses.</p>
+                  ) : (
+                    <ul className="divide-y divide-border">
+                      {s.courses.map((c) => (
+                        <CourseRow key={c.id} course={c} />
+                      ))}
+                    </ul>
+                  )}
+                </CardContent>
+              </Card>
             </li>
           ))}
         </ul>
@@ -105,15 +97,17 @@ function CourseRow({ course }: { course: DashboardCourse }) {
         <span className={course.code ? "text-muted-foreground" : "font-medium"}>
           {course.name}
         </span>
-        <span className="ml-auto text-sm text-muted-foreground">
-          {course.total} {course.total === 1 ? "item" : "items"}
+        <span className="ml-auto flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">
+            {course.total} {course.total === 1 ? "item" : "items"}
+          </span>
+          {course.toCheck > 0 ? (
+            <Badge variant="secondary">{course.toCheck} to check</Badge>
+          ) : null}
+          {course.unsynced > 0 ? (
+            <Badge variant="outline">{course.unsynced} unsynced</Badge>
+          ) : null}
         </span>
-        {course.toCheck > 0 ? (
-          <Badge variant="secondary">{course.toCheck} to check</Badge>
-        ) : null}
-        {course.unsynced > 0 ? (
-          <Badge variant="outline">{course.unsynced} unsynced</Badge>
-        ) : null}
       </Link>
     </li>
   );
