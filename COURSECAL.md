@@ -104,7 +104,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 - Canvas/Moodle/Brightspace API integrations
 
 ### 2.3 Deferred (revisit only if user signal warrants)
-- Semester-over-semester memory ("you used this last fall")
+- Semester-over-semester memory ("you used this last fall") — revisit if clusters of classmates from the same course appear; if built, match on an exact normalized-text hash (never course-code/term metadata) and cache de-identified extracted facts only. See DECISIONS 2026-07-03.
 - Delta paste for quick updates ("Midterm moved to Oct 28")
 - Separate email/SMS reminders
 - Weekly digest emails
