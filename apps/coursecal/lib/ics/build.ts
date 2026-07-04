@@ -1,4 +1,4 @@
-import { createEvents, type DateArray, type EventAttributes } from "ics";
+import { type Alarm, createEvents, type DateArray, type DurationObject, type EventAttributes } from "ics";
 import type { Course, Deliverable, ParseResult } from "@coursecal/syllabus-parser";
 import { expandRecurrence } from "@/lib/recurrence/expand";
 
@@ -12,6 +12,15 @@ type BuildResult = { ok: true; value: string } | { ok: false; error: string };
 
 function coursePrefix(course: Course): string {
   return course.code ?? course.name;
+}
+
+// A single DISPLAY reminder. Google export leans on the calendar's default
+// reminders (reminders.useDefault); .ics has no equivalent, so non-Google clients
+// get nothing unless the VALARM is explicit. Triggers are expressed in
+// minutes/hours only: ics' setDuration always emits the `T` separator and drops
+// zero-valued fields, so a day-valued duration produces the malformed `-P1DT`.
+function displayAlarm(title: string, trigger: DurationObject): Alarm {
+  return { action: "display", description: title, trigger };
 }
 
 function descriptionFor(d: Deliverable, weight: number | null): string {
@@ -48,6 +57,8 @@ function makeEvent(
       startInputType: "local",
       startOutputType: "local",
       duration: { minutes: 30 },
+      // Timed deadline: remind 30 min before (mirrors Google's common default).
+      alarms: [displayAlarm(base.title, { minutes: 30, before: true })],
     };
   }
 
@@ -56,7 +67,9 @@ function makeEvent(
   const start: DateArray = [y, m, day];
   const next = new Date(Date.UTC(y, m - 1, day + 1));
   const end: DateArray = [next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate()];
-  return { ...base, start, end };
+  // All-day: DTSTART is midnight, so remind at 9am on the due day (PT9H) rather
+  // than 30 min before (which would fire at 11:30pm the night before).
+  return { ...base, start, end, alarms: [displayAlarm(base.title, { hours: 9 })] };
 }
 
 // One course's dated deliverables as VEVENT attributes (recurring items expanded).
