@@ -85,6 +85,27 @@ describe("buildIcs", () => {
     expect(built.value).not.toContain("P1DT");
   });
 
+  it("attaches a display reminder 30 min before a timed deadline", () => {
+    const built = buildIcs(
+      result([deliverable({ due_date: "2026-09-15", due_time: "23:59" })]),
+    );
+    expect(built.ok).toBe(true);
+    if (!built.ok) return;
+    expect(built.value).toContain("BEGIN:VALARM");
+    expect(built.value).toContain("ACTION:DISPLAY");
+    expect(built.value).toContain("TRIGGER:-PT30M");
+  });
+
+  it("reminds at 9am on the due day for an all-day deadline", () => {
+    const built = buildIcs(result([deliverable({ due_date: "2026-09-15" })]));
+    expect(built.ok).toBe(true);
+    if (!built.ok) return;
+    expect(built.value).toContain("BEGIN:VALARM");
+    expect(built.value).toContain("TRIGGER:PT9H");
+    // Never a day-valued duration — ics emits the malformed `-P1DT` for those.
+    expect(built.value).not.toMatch(/TRIGGER:-?P\d+DT(\r?\n)/);
+  });
+
   it("splits a recurring item's series weight across occurrences", () => {
     const built = buildIcs(
       result([
