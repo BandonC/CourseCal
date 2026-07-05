@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DeliverableTypeSchema, type Confidence } from "@coursecal/syllabus-parser";
 import { toast } from "sonner";
 import {
+  resolveDeliverableFlagAction,
   updateDeliverableAction,
   type EditCalendarOutcome,
 } from "@/app/(app)/course/[id]/actions";
@@ -116,36 +117,22 @@ function DeliverableRow({
 }) {
   const [editing, setEditing] = useState(false);
   const [resolving, setResolving] = useState(false);
-  const router = useRouter();
-  const { capture } = useAnalytics();
 
-  // "Looks good": confirm a flagged (medium/low) item without opening the form —
-  // resubmit its current values, which the edit action treats as a human review
-  // (confidence → high, flag cleared, event's "Flagged" line dropped) and returns
-  // the calendar outcome for the toast. Same path as an edit, just no field changes.
+  // "Looks good": confirm a flagged (medium/low) item without opening the form.
+  // DB-only (confidence → high, flag cleared) — no Calendar round-trip, so it's
+  // instant and can't fail on a sync; the event's cosmetic "Flagged" line stays
+  // until a real edit.
   async function markResolved() {
     if (resolving) return;
     setResolving(true);
     try {
-      const res = await updateDeliverableAction({
-        deliverableId: d.id,
-        title: d.title,
-        type: d.type,
-        dueDate: d.dueDate,
-        dueTime: d.dueTime ? d.dueTime.slice(0, 5) : null,
-        weightPercent: d.weightPercent != null ? Number(d.weightPercent) : null,
-        notes: d.notes,
-      });
+      const res = await resolveDeliverableFlagAction(d.id);
       if (!res.ok) {
         toast.error(res.error);
         return;
       }
-      capture({
-        name: "deliverable_calendar_synced",
-        properties: { outcome: res.data.calendar },
-      });
       onSaved({ ...d, confidence: "high", ambiguityReason: null });
-      notify(res.data.calendar, () => router.push("/reconnect"));
+      toast.success("Marked as checked");
     } finally {
       setResolving(false);
     }
@@ -205,13 +192,14 @@ function Display({
           {d.confidence !== "high" ? (
             <Button
               type="button"
-              size="sm"
-              variant="outline"
+              size="icon-sm"
+              variant="ghost"
               onClick={onResolve}
               disabled={resolving}
+              title="Mark as checked"
+              aria-label="Mark as checked"
             >
-              <CheckIcon className="size-4" />
-              Looks good
+              <CheckIcon />
             </Button>
           ) : null}
           <Button type="button" size="sm" variant="outline" onClick={onEdit}>
