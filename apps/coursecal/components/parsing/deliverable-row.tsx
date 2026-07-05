@@ -55,7 +55,7 @@ export function DeliverableRow({ index }: { index: number }) {
             <Button
               type="button"
               size="icon-sm"
-              variant="ghost"
+              variant="outline"
               onClick={markResolved}
               title="Mark as checked"
               aria-label="Mark as checked"
