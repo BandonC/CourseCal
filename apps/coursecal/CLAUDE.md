@@ -93,8 +93,9 @@ The Calendar wrapper lives in `lib/calendar/`. Treat it as the only place that t
 Extraction lives in `lib/extract/` — client-side modules.
 
 - **PDFs are extracted in the browser** via `unpdf` (client component); only extracted text is sent to the server. Vercel's ~4.5 MB request-body limit rules out server-side file upload, and the PDF never needs to leave the user's machine.
+- **DOCX files are extracted in the browser** via `mammoth` (v2), dynamically imported so its bundle loads only when a `.docx` is processed. Same seam as PDF: raw text only, file never uploaded. Only `.docx` (not the legacy binary `.doc`).
 - The parse server action accepts text only — it validates length and rate limit, never files.
-- **Pasted syllabi** come in through a plain `<textarea>` — the browser strips markup on paste, so the input is already plain text. No HTML processing, no `html-to-text` in v1 (deferred; see `COURSECAL.md` §2.3).
+- **Pasted syllabi** come in through a plain `<textarea>` — the browser strips markup on paste, so the input is usually plain text already. `cleanPastedText` (`lib/extract/paste.ts`) strips stray HTML via `DOMParser` only when a source drops tags into `text/plain` (v2, §2.3) — still no `html-to-text` dependency.
 - The library (`syllabus-parser`) takes plain text. The app's job is to give it good plain text.
 - If extraction fails (encrypted PDF, corrupted file, empty output), surface a useful error to the user. Don't pass an empty string to the library and expect it to handle it.
 

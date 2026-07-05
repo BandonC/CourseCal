@@ -26,7 +26,7 @@ export type AnalyticsEvent =
   | {
       name: "syllabus_uploaded";
       properties: {
-        input_method: "pdf" | "paste";
+        input_method: "pdf" | "docx" | "paste";
         char_count_bucket: CharCountBucket;
         is_add_to_existing: boolean;
       };

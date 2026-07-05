@@ -6,10 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { cleanPastedText } from "@/lib/extract";
 import type { Source } from "./types";
+
+const DOCX_MIME =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
 function isPdf(file: File): boolean {
   return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+}
+
+function isDocx(file: File): boolean {
+  return file.type === DOCX_MIME || file.name.toLowerCase().endsWith(".docx");
 }
 
 // Collects syllabus sources — any mix of dropped/chosen PDFs and pasted text —
@@ -33,21 +41,27 @@ export function SourcePicker({
   function addFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     const picked = [...files];
-    const pdfs = picked.filter(isPdf);
-    setError(pdfs.length < picked.length ? "Some files weren't PDFs and were skipped." : null);
+    const supported = picked.filter((f) => isPdf(f) || isDocx(f));
+    setError(
+      supported.length < picked.length
+        ? "Some files weren't PDFs or Word (.docx) files and were skipped."
+        : null,
+    );
     setSources((prev) => [
       ...prev,
-      ...pdfs.map((file) => ({
-        id: crypto.randomUUID(),
-        kind: "pdf" as const,
-        label: file.name,
-        file,
-      })),
+      ...supported.map((file): Source =>
+        isPdf(file)
+          ? { id: crypto.randomUUID(), kind: "pdf", label: file.name, file }
+          : { id: crypto.randomUUID(), kind: "docx", label: file.name, file },
+      ),
     ]);
   }
 
   function addPaste() {
-    if (pasteText.trim().length === 0) {
+    // Strip stray HTML markup (§2.3) before storing — a plain textarea usually
+    // yields plain text, but some sources drop tags into text/plain.
+    const cleaned = cleanPastedText(pasteText);
+    if (cleaned.trim().length === 0) {
       setError("Paste some syllabus text first.");
       return;
     }
@@ -57,7 +71,7 @@ export function SourcePicker({
         id: crypto.randomUUID(),
         kind: "paste",
         label: pasteLabel.trim() || `Pasted syllabus ${prev.length + 1}`,
-        text: pasteText,
+        text: cleaned,
       },
     ]);
     setPasteText("");
@@ -88,7 +102,7 @@ export function SourcePicker({
         <input
           ref={fileInput}
           type="file"
-          accept="application/pdf,.pdf"
+          accept={`application/pdf,.pdf,${DOCX_MIME},.docx`}
           multiple
           className="hidden"
           onChange={(e) => {
@@ -99,7 +113,7 @@ export function SourcePicker({
         <span className="flex size-10 items-center justify-center rounded-full bg-accent text-primary">
           <FileUpIcon className="size-5" />
         </span>
-        <span className="font-medium">Drop PDFs here, or click to choose</span>
+        <span className="font-medium">Drop PDFs or Word docs here, or click to choose</span>
         <span className="text-muted-foreground">
           Add one syllabus per course. Files are read in your browser — only the
           extracted text is sent.
@@ -136,7 +150,7 @@ export function SourcePicker({
             >
               <span className="min-w-0 truncate">
                 <span className="text-muted-foreground">
-                  {s.kind === "pdf" ? "PDF" : "Pasted"} ·{" "}
+                  {s.kind === "pdf" ? "PDF" : s.kind === "docx" ? "Word" : "Pasted"} ·{" "}
                 </span>
                 {s.label}
               </span>
