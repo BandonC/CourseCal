@@ -61,6 +61,17 @@ export function SyllabusFlow({
   existingSemester?: { id: SemesterId; name: string; start: string; end: string };
 }) {
   const [step, setStep] = useState<Step>({ name: "setup" });
+  // The semester courses are added to: the prop (add-course route) or, in the
+  // new-semester flow, the semester just created this session. Tracking the latter
+  // lets the export screen offer "Add another course" without a detour through the
+  // timeline. active = whichever applies; null means a fresh new semester.
+  const [createdSemester, setCreatedSemester] = useState<{
+    id: SemesterId;
+    name: string;
+    start: string;
+    end: string;
+  } | null>(null);
+  const active = existingSemester ?? createdSemester;
 
   function startParsing({
     semesterName,
@@ -89,13 +100,7 @@ export function SyllabusFlow({
           <SetupStep
             onSubmit={startParsing}
             existingSemester={
-              existingSemester
-                ? {
-                    name: existingSemester.name,
-                    start: existingSemester.start,
-                    end: existingSemester.end,
-                  }
-                : undefined
+              active ? { name: active.name, start: active.start, end: active.end } : undefined
             }
           />
         );
@@ -106,7 +111,7 @@ export function SyllabusFlow({
             sources={step.sources}
             semesterStart={step.semester.start}
             semesterEnd={step.semester.end}
-            isAddToExisting={!!existingSemester}
+            isAddToExisting={!!active}
             onComplete={(courses) =>
               setStep({ name: "review", semester: step.semester, courses })
             }
@@ -130,8 +135,17 @@ export function SyllabusFlow({
           <ExportStep
             semester={step.semester}
             courses={step.courses}
-            existingSemesterId={existingSemester?.id}
+            existingSemesterId={active?.id}
+            canStartNew={!existingSemester}
             onRestart={() => setStep({ name: "setup" })}
+            onAddAnother={(target) => {
+              setCreatedSemester(target);
+              setStep({ name: "setup" });
+            }}
+            onNewSemester={() => {
+              setCreatedSemester(null);
+              setStep({ name: "setup" });
+            }}
           />
         );
     }

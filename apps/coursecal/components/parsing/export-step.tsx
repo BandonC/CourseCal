@@ -31,14 +31,25 @@ export function ExportStep({
   semester,
   courses,
   existingSemesterId,
+  canStartNew,
   onRestart,
+  onAddAnother,
+  onNewSemester,
 }: {
   semester: Semester;
   courses: ParsedCourse[];
   // Set when adding to an existing semester — the save goes through the add action
   // instead of creating a new semester.
   existingSemesterId?: SemesterId;
+  // Whether a fresh "New semester" is offered (false on the add-course route, which
+  // is scoped to one semester).
+  canStartNew: boolean;
+  // "Start over" (pre-export): back to setup, keeping the current add-target.
   onRestart: () => void;
+  // "Add another course" (post-save): re-enter the flow adding to the just-saved semester.
+  onAddAnother: (target: { id: SemesterId; name: string; start: string; end: string }) => void;
+  // "New semester" (post-save): back to setup for a brand-new semester.
+  onNewSemester: () => void;
 }) {
   const { capture } = useAnalytics();
   const [icsError, setIcsError] = useState<string | null>(null);
@@ -176,12 +187,29 @@ export function ExportStep({
                 Retry
               </Button>
             ) : null}
+            {semesterId ? (
+              <Button
+                variant="outline"
+                onClick={() =>
+                  onAddAnother({
+                    id: semesterId,
+                    name: semester.name,
+                    start: semester.start,
+                    end: semester.end,
+                  })
+                }
+              >
+                Add another course
+              </Button>
+            ) : null}
             <Button variant="outline" onClick={download}>
               Download .ics
             </Button>
-            <Button variant="ghost" onClick={onRestart}>
-              {existingSemesterId ? "Add more courses" : "New semester"}
-            </Button>
+            {canStartNew ? (
+              <Button variant="ghost" onClick={onNewSemester}>
+                New semester
+              </Button>
+            ) : null}
           </div>
         </CardContent>
       </Card>
