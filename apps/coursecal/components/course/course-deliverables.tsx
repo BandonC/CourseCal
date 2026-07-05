@@ -193,7 +193,7 @@ function Display({
             <Button
               type="button"
               size="icon-sm"
-              variant="ghost"
+              variant="outline"
               onClick={onResolve}
               disabled={resolving}
               title="Mark as checked"
