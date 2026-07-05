@@ -21,7 +21,7 @@ export default async function AppLayout({
   return (
     <>
       <AnalyticsIdentify userId={user.userId} />
-      <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur print:hidden">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3">
           <Link href="/dashboard" aria-label="Coursecal dashboard">
             <Wordmark />

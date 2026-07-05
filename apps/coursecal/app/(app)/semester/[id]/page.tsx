@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { after } from "next/server";
 import { z } from "zod";
 import { BackLink } from "@/components/back-link";
+import { PrintScheduleButton } from "@/components/semester/print-schedule-button";
+import { SemesterSchedule } from "@/components/semester/semester-schedule";
 import { buttonVariants } from "@/components/ui/button";
 import { captureServer } from "@/lib/analytics/posthog-server";
 import { requireUser } from "@/lib/auth/session";
@@ -58,22 +60,28 @@ export default async function SemesterPage({
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
-      <BackLink href="/dashboard">Back to dashboard</BackLink>
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <header className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{data.name}</h1>
-          <p className="text-muted-foreground">
-            {data.startDate} → {data.endDate}
-          </p>
-        </header>
-        <Link
-          href={`/semester/${data.id}/add`}
-          className={buttonVariants({ variant: "default", size: "sm" })}
-        >
-          Add course
-        </Link>
+      <div className="flex flex-col gap-6 print:hidden">
+        <BackLink href="/dashboard">Back to dashboard</BackLink>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <header className="space-y-1">
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{data.name}</h1>
+            <p className="text-muted-foreground">
+              {data.startDate} → {data.endDate}
+            </p>
+          </header>
+          <div className="flex flex-wrap gap-2">
+            <PrintScheduleButton courseCount={data.courses.length} />
+            <Link
+              href={`/semester/${data.id}/add`}
+              className={buttonVariants({ variant: "default", size: "sm" })}
+            >
+              Add course
+            </Link>
+          </div>
+        </div>
+        <SemesterTimeline data={data} report={report} />
       </div>
-      <SemesterTimeline data={data} report={report} />
+      <SemesterSchedule data={data} />
     </main>
   );
 }
