@@ -14,6 +14,19 @@ import { courses, deliverables, semesters } from "@/lib/db/schema";
 // Calendar cascade and after ownership is established, so they delete by id (the
 // semester delete keeps the userId predicate as belt-and-suspenders).
 
+// Every synced Calendar event across the whole account, for account deletion
+// (§14). No ownership branch — it is the user's entire tree, joined up to userId.
+// Returns [] when nothing is synced (no token needed for an empty cascade).
+export async function gatherAllEventIdsForUser(userId: UserId): Promise<string[]> {
+  const rows = await db
+    .select({ eventId: deliverables.googleEventId })
+    .from(deliverables)
+    .innerJoin(courses, eq(deliverables.courseId, courses.id))
+    .innerJoin(semesters, eq(courses.semesterId, semesters.id))
+    .where(and(eq(semesters.userId, userId), isNotNull(deliverables.googleEventId)));
+  return rows.map((r) => r.eventId as string);
+}
+
 export async function gatherSemesterEventIds(
   userId: UserId,
   semesterId: SemesterId,

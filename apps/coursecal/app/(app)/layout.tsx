@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, UserIcon } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Wordmark } from "@/components/wordmark";
@@ -34,6 +34,14 @@ export default async function AppLayout({
             >
               <PlusIcon className="size-4 sm:hidden" />
               <span className="hidden sm:inline">New semester</span>
+            </Link>
+            <Link
+              href="/account"
+              aria-label="Account"
+              className={buttonVariants({ variant: "ghost", size: "sm" })}
+            >
+              <UserIcon className="size-4 sm:hidden" />
+              <span className="hidden sm:inline">Account</span>
             </Link>
             <ThemeToggle />
             <form

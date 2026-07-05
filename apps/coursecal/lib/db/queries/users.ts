@@ -49,6 +49,62 @@ export async function getUserById(userId: UserId) {
   return row ?? null;
 }
 
+/**
+ * Hard-delete the user and everything under them. The FK cascade (§7.3) removes
+ * semesters → courses → deliverables and parse_events; the encrypted refresh
+ * token goes with the users row. Calendar events live in Google, not the DB
+ * cascade — the caller removes those first (account action).
+ */
+export async function deleteUser(userId: UserId): Promise<void> {
+  await db.delete(users).where(eq(users.id, userId));
+}
+
+/**
+ * The user's own data for the export (§14, data portability). Their identity and
+ * their nested semesters/courses/deliverables — no internal ids, no
+ * google_event_id, and never google_id or the encrypted refresh token. This
+ * payload is PII (email, name, syllabus text); it is returned only to the user
+ * and must never be logged or sent to analytics/Sentry.
+ */
+export async function getUserExport(userId: UserId) {
+  return db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: { email: true, name: true, timezone: true, createdAt: true },
+    with: {
+      semesters: {
+        columns: { name: true, startDate: true, endDate: true, createdAt: true },
+        with: {
+          courses: {
+            columns: {
+              name: true,
+              code: true,
+              instructor: true,
+              originalSyllabusText: true,
+              createdAt: true,
+            },
+            with: {
+              deliverables: {
+                columns: {
+                  title: true,
+                  type: true,
+                  dueDate: true,
+                  dueTime: true,
+                  weightPercent: true,
+                  notes: true,
+                  confidence: true,
+                  ambiguityReason: true,
+                  seriesId: true,
+                  createdAt: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 /** Persist the refresh token encrypted (the one capture moment — ADR-008). */
 export async function setEncryptedRefreshToken(
   userId: UserId,
