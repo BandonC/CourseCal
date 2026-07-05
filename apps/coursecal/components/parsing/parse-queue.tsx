@@ -5,7 +5,7 @@ import { parseSyllabusAction } from "@/app/(app)/upload/actions";
 import { Button } from "@/components/ui/button";
 import { bucketCharCount } from "@/lib/analytics/events";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
-import { extractPdfText } from "@/lib/extract";
+import { extractDocxText, extractPdfText } from "@/lib/extract";
 import type { ParsedCourse, Source } from "./types";
 
 type Status = "queued" | "extracting" | "parsing" | "done" | "failed";
@@ -13,7 +13,7 @@ type Item = { source: Source; status: Status; error?: string; parsed?: ParsedCou
 
 const STATUS_LABEL: Record<Status, string> = {
   queued: "Queued",
-  extracting: "Reading PDF…",
+  extracting: "Reading file…",
   parsing: "Parsing…",
   done: "Done",
   failed: "Failed",
@@ -53,9 +53,12 @@ export function ParseQueue({
 
   async function parseOne(source: Source, index: number): Promise<Item> {
     let text: string;
-    if (source.kind === "pdf") {
+    if (source.kind === "pdf" || source.kind === "docx") {
       patch(index, { status: "extracting" });
-      const extracted = await extractPdfText(source.file);
+      const extracted =
+        source.kind === "pdf"
+          ? await extractPdfText(source.file)
+          : await extractDocxText(source.file);
       if (!extracted.ok) return { source, status: "failed", error: extracted.error };
       text = extracted.text;
     } else {

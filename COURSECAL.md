@@ -99,7 +99,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 - CI-integrated eval runs
 - Task/todo management, study planner, GPA tracker, social features
 - Native mobile app
-- DOCX support
+- ~~DOCX support~~ — **added in v2 (2026-07):** client-side `mammoth` extraction feeding the existing text-only parse action, mirroring the PDF path
 - Automated update detection (re-upload with diff)
 - Canvas/Moodle/Brightspace API integrations
 
@@ -168,7 +168,6 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 ### 4.2 Non-choices
 - No Redux/Zustand. URL params + server components + `useState` cover v1 needs.
 - No separate backend. Server actions replace Flask.
-- No DOCX parsing in v1.
 - No Python services. JS-only stack.
 
 ---
@@ -603,7 +602,7 @@ Note: pricing should be verified against current Anthropic rates before launch �
 
 - **When to add account deletion / data export?** Before any meaningful user growth. Pre-launch if time permits.
 - **When to support non-Google calendars natively?** `.ics` export covers Apple/Outlook now; native deferred indefinitely.
-- **When to add DOCX support?** When users ask. Likely v1.5.
+- ~~**When to add DOCX support?** When users ask. Likely v1.5.~~ Done in v2 (2026-07) — client-side `mammoth` extraction.
 - **When to revisit Python PDF service?** If `unpdf` misses >10% of deliverables across the test set.
 - **When to publish library to npm?** Only if there's external demand, since maintenance is non-trivial.
 - **Pricing?** Free for v1. Revisit only if hosting/Anthropic costs become meaningful.

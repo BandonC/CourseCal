@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -7,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DeliverableTypeSchema, type Confidence } from "@coursecal/syllabus-parser";
 import { toast } from "sonner";
 import {
+  resolveDeliverableFlagAction,
   updateDeliverableAction,
   type EditCalendarOutcome,
 } from "@/app/(app)/course/[id]/actions";
@@ -114,6 +116,27 @@ function DeliverableRow({
   onRemove: (ids: string[]) => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [resolving, setResolving] = useState(false);
+
+  // "Looks good": confirm a flagged (medium/low) item without opening the form.
+  // DB-only (confidence → high, flag cleared) — no Calendar round-trip, so it's
+  // instant and can't fail on a sync; the event's cosmetic "Flagged" line stays
+  // until a real edit.
+  async function markResolved() {
+    if (resolving) return;
+    setResolving(true);
+    try {
+      const res = await resolveDeliverableFlagAction(d.id);
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
+      onSaved({ ...d, confidence: "high", ambiguityReason: null });
+      toast.success("Marked as checked");
+    } finally {
+      setResolving(false);
+    }
+  }
 
   return (
     <li className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-sm">
@@ -132,6 +155,8 @@ function DeliverableRow({
           courseId={courseId}
           siblingIds={siblingIds}
           onEdit={() => setEditing(true)}
+          onResolve={markResolved}
+          resolving={resolving}
           onRemove={onRemove}
         />
       )}
@@ -144,12 +169,16 @@ function Display({
   courseId,
   siblingIds,
   onEdit,
+  onResolve,
+  resolving,
   onRemove,
 }: {
   d: CourseDeliverable;
   courseId: string;
   siblingIds: string[];
   onEdit: () => void;
+  onResolve: () => void;
+  resolving: boolean;
   onRemove: (ids: string[]) => void;
 }) {
   return (
@@ -160,6 +189,19 @@ function Display({
           <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
             {d.confidence}
           </Badge>
+          {d.confidence !== "high" ? (
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="outline"
+              onClick={onResolve}
+              disabled={resolving}
+              title="Mark as checked"
+              aria-label="Mark as checked"
+            >
+              <CheckIcon />
+            </Button>
+          ) : null}
           <Button type="button" size="sm" variant="outline" onClick={onEdit}>
             Edit
           </Button>

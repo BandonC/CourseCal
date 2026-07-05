@@ -19,6 +19,7 @@ import {
 } from "@/lib/db/queries/courses";
 import { gatherCourseEventIds } from "@/lib/db/queries/deletes";
 import {
+  clearDeliverableFlag,
   clearGoogleEventId,
   getDeliverableForEdit,
   getSyncableDeliverablesForCourse,
@@ -41,6 +42,27 @@ export type EditCalendarOutcome =
   | "skipped";
 
 type EditResult = { calendar: EditCalendarOutcome; reconnectNeeded: boolean };
+
+// Confirm a flagged deliverable's "to check" flag without editing it — a human
+// review clears the model's uncertainty. DB-only (confidence → high, ambiguity
+// cleared); no Calendar round-trip, so it's instant and can't fail on a sync. The
+// event's cosmetic "Flagged" line is left until a real edit.
+export async function resolveDeliverableFlagAction(
+  deliverableId: string,
+): Promise<ActionResult<null>> {
+  const user = await getOptionalUser();
+  if (!user) return actionErr("You must be signed in to edit.", "unauthenticated");
+
+  const parsed = z.uuid().safeParse(deliverableId);
+  if (!parsed.success) return actionErr("Invalid deliverable.", "invalid_input");
+  const id = parsed.data as DeliverableId;
+
+  const row = await getDeliverableForEdit(user.userId, id);
+  if (!row) return actionErr("Deliverable not found.", "not_found");
+
+  await clearDeliverableFlag(id);
+  return actionOk(null);
+}
 
 // Inline deliverable edit (§3.2 / §6.4): update the DB row (source of truth),
 // then reconcile its single Calendar event by the date transition —

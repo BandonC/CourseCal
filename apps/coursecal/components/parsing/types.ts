@@ -6,6 +6,7 @@ import type { ParseResult } from "@coursecal/syllabus-parser";
 
 export type Source =
   | { id: string; kind: "pdf"; label: string; file: File }
+  | { id: string; kind: "docx"; label: string; file: File }
   | { id: string; kind: "paste"; label: string; text: string };
 
 export type ParsedCourse = {

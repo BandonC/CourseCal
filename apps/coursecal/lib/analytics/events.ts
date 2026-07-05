@@ -26,7 +26,7 @@ export type AnalyticsEvent =
   | {
       name: "syllabus_uploaded";
       properties: {
-        input_method: "pdf" | "paste";
+        input_method: "pdf" | "docx" | "paste";
         char_count_bucket: CharCountBucket;
         is_add_to_existing: boolean;
       };
@@ -76,6 +76,7 @@ export type AnalyticsEvent =
       properties: { created: number; failed: number; reconnect_needed: boolean };
     }
   | { name: "ics_downloaded"; properties: { course_count: number } }
+  | { name: "schedule_printed"; properties: { course_count: number } }
   // Edit + sync flow (course detail) — outcome is the server's own EditCalendarOutcome
   | {
       name: "deliverable_calendar_synced";
