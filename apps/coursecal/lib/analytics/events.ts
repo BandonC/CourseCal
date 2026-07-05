@@ -100,6 +100,11 @@ export type AnalyticsEvent =
       name: "deliverable_deleted";
       properties: { is_series: boolean; event_count: number };
     }
+  // Account flow (§14) — server-authoritative. Export carries no payload; delete
+  // reports how many Calendar events couldn't be removed (proceed-and-warn), a
+  // non-PII count.
+  | { name: "account_exported"; properties?: Record<string, never> }
+  | { name: "account_deleted"; properties: { orphaned_event_count: number } }
   // Reconnect flow
   | { name: "reconnect_initiated"; properties?: Record<string, never> }
   // Conflict-view (timeline)
