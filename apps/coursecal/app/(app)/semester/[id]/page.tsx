@@ -70,7 +70,7 @@ export default async function SemesterPage({
             </p>
           </header>
           <div className="flex flex-wrap gap-2">
-            <PrintScheduleButton courseCount={data.courses.length} />
+            <PrintScheduleButton semesterName={data.name} courseCount={data.courses.length} />
             <Link
               href={`/semester/${data.id}/add`}
               className={buttonVariants({ variant: "default", size: "sm" })}
