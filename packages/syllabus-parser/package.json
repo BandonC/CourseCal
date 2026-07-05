@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "eval:record": "tsx evals/run.ts --record",
     "eval:replay": "tsx evals/run.ts --replay",
-    "eval:baseline": "tsx evals/run.ts --baseline"
+    "eval:baseline": "tsx evals/run.ts --baseline",
+    "eval:check": "tsx evals/run.ts --check"
   },
   "devDependencies": {
     "@types/node": "^24",

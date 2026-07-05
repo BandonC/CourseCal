@@ -46,6 +46,8 @@ type CacheEntry = {
 
 export class RecordReplayLLMClient implements LLMClient {
   private readonly inner: LLMClient;
+  /** Replay cache misses seen so far — the CI gate (run.ts --check) fails on > 0. */
+  misses = 0;
 
   constructor(
     private readonly mode: Mode,
@@ -68,6 +70,7 @@ export class RecordReplayLLMClient implements LLMClient {
     }
 
     if (this.mode === "replay") {
+      this.misses++;
       return {
         ok: false,
         error: {
