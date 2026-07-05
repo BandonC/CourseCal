@@ -160,3 +160,13 @@ export async function updateDeliverableFields(
     .set({ ...fields, updatedAt: new Date() })
     .where(eq(deliverables.id, id));
 }
+
+// Confirm a flagged row (a human review) without touching its content: confidence
+// → high, ambiguity cleared, so it stops counting as "to check". No Calendar work —
+// the flag is app metadata; the event's cosmetic "Flagged" line waits for a real edit.
+export async function clearDeliverableFlag(id: DeliverableId): Promise<void> {
+  await db
+    .update(deliverables)
+    .set({ confidence: "high", ambiguityReason: null, updatedAt: new Date() })
+    .where(eq(deliverables.id, id));
+}

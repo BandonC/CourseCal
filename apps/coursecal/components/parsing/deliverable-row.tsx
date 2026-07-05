@@ -52,9 +52,15 @@ export function DeliverableRow({ index }: { index: number }) {
             {confidence} confidence
           </Badge>
           {confidence !== "high" ? (
-            <Button type="button" size="sm" variant="outline" onClick={markResolved}>
-              <CheckIcon className="size-4" />
-              Looks good
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="ghost"
+              onClick={markResolved}
+              title="Mark as checked"
+              aria-label="Mark as checked"
+            >
+              <CheckIcon />
             </Button>
           ) : null}
         </div>
