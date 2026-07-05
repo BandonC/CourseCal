@@ -5,7 +5,12 @@ harness is a few hundred lines of hand-rolled TypeScript — no eval framework �
 parses ten real syllabi, scores the output against hand-authored ground truth, and
 writes `evals/report/report.{json,md}`. A regex baseline runs on the same set for a
 lift comparison. The harness lives in `evals/`; running it is `pnpm eval:record` /
-`eval:replay` / `eval:baseline` (see `evals/README.md`).
+`eval:replay` / `eval:baseline` / `eval:check` (see `evals/README.md`).
+
+A GitHub Actions job (`.github/workflows/evals.yml`) runs `eval:check` on every PR at
+**`$0`** — replay against the committed cache, no `ANTHROPIC_API_KEY`, no spend. It
+fails the build on any cache miss (a changed prompt/model must be re-recorded) or a
+headline metric below its floor (recall / precision / explicit-date; added in v2).
 
 ## Test set
 
@@ -111,6 +116,7 @@ the dateless items it *should* keep (participation, final exams), and the contra
 
 ```sh
 pnpm eval:replay     # re-score from the committed cache — deterministic, no API calls
+pnpm eval:check      # replay + assert (the CI gate): non-zero on a cache miss or a metric below floor
 pnpm eval:baseline   # regex baseline only
 pnpm eval:record     # re-parse via Anthropic on cache misses (spends tokens)
 ```
