@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
   DeliverableTypeSchema,
@@ -7,6 +8,7 @@ import {
   type ParseResult,
 } from "@coursecal/syllabus-parser";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,19 +29,35 @@ const CONFIDENCE_VARIANT: Record<Confidence, "success" | "warning" | "destructiv
 };
 
 export function DeliverableRow({ index }: { index: number }) {
-  const { register, control, watch, formState } = useFormContext<ParseResult>();
+  const { register, control, watch, setValue, formState } = useFormContext<ParseResult>();
 
   const confidence = watch(`deliverables.${index}.confidence`);
   const ambiguity = watch(`deliverables.${index}.ambiguity_reason`);
   const recurrence = watch(`deliverables.${index}.recurrence`);
   const titleError = formState.errors.deliverables?.[index]?.title;
 
+  // Confirm a flagged item — a human review clears the model's uncertainty, so
+  // mark it high-confidence and drop the reason. Carries into the saved semester
+  // (the confidence field is part of the ParseResult the form submits).
+  function markResolved() {
+    setValue(`deliverables.${index}.confidence`, "high");
+    setValue(`deliverables.${index}.ambiguity_reason`, null);
+  }
+
   return (
     <li className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-sm">
       <div className="flex items-center justify-between gap-2">
-        <Badge variant={CONFIDENCE_VARIANT[confidence]} className="capitalize">
-          {confidence} confidence
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant={CONFIDENCE_VARIANT[confidence]} className="capitalize">
+            {confidence} confidence
+          </Badge>
+          {confidence !== "high" ? (
+            <Button type="button" size="sm" variant="outline" onClick={markResolved}>
+              <CheckIcon className="size-4" />
+              Looks good
+            </Button>
+          ) : null}
+        </div>
         {recurrence ? (
           <span className="text-xs text-muted-foreground">
             Recurring · every {recurrence.interval} {recurrence.unit}

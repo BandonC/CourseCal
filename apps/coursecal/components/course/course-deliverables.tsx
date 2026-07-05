@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -114,6 +115,41 @@ function DeliverableRow({
   onRemove: (ids: string[]) => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [resolving, setResolving] = useState(false);
+  const router = useRouter();
+  const { capture } = useAnalytics();
+
+  // "Looks good": confirm a flagged (medium/low) item without opening the form —
+  // resubmit its current values, which the edit action treats as a human review
+  // (confidence → high, flag cleared, event's "Flagged" line dropped) and returns
+  // the calendar outcome for the toast. Same path as an edit, just no field changes.
+  async function markResolved() {
+    if (resolving) return;
+    setResolving(true);
+    try {
+      const res = await updateDeliverableAction({
+        deliverableId: d.id,
+        title: d.title,
+        type: d.type,
+        dueDate: d.dueDate,
+        dueTime: d.dueTime ? d.dueTime.slice(0, 5) : null,
+        weightPercent: d.weightPercent != null ? Number(d.weightPercent) : null,
+        notes: d.notes,
+      });
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
+      capture({
+        name: "deliverable_calendar_synced",
+        properties: { outcome: res.data.calendar },
+      });
+      onSaved({ ...d, confidence: "high", ambiguityReason: null });
+      notify(res.data.calendar, () => router.push("/reconnect"));
+    } finally {
+      setResolving(false);
+    }
+  }
 
   return (
     <li className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-sm">
@@ -132,6 +168,8 @@ function DeliverableRow({
           courseId={courseId}
           siblingIds={siblingIds}
           onEdit={() => setEditing(true)}
+          onResolve={markResolved}
+          resolving={resolving}
           onRemove={onRemove}
         />
       )}
@@ -144,12 +182,16 @@ function Display({
   courseId,
   siblingIds,
   onEdit,
+  onResolve,
+  resolving,
   onRemove,
 }: {
   d: CourseDeliverable;
   courseId: string;
   siblingIds: string[];
   onEdit: () => void;
+  onResolve: () => void;
+  resolving: boolean;
   onRemove: (ids: string[]) => void;
 }) {
   return (
@@ -160,6 +202,18 @@ function Display({
           <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
             {d.confidence}
           </Badge>
+          {d.confidence !== "high" ? (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={onResolve}
+              disabled={resolving}
+            >
+              <CheckIcon className="size-4" />
+              Looks good
+            </Button>
+          ) : null}
           <Button type="button" size="sm" variant="outline" onClick={onEdit}>
             Edit
           </Button>
