@@ -48,6 +48,9 @@ export default async function LoginPage({
       </div>
 
       <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-md">
+        <h2 className="mb-4 text-center text-lg font-semibold tracking-tight">
+          Sign in
+        </h2>
         <form
           action={async () => {
             "use server";
@@ -60,7 +63,7 @@ export default async function LoginPage({
           </Button>
         </form>
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          Sign in to create your account. No password required.
+          No password required. First time? Your account is created automatically.
         </p>
       </div>
     </main>
