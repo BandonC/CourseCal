@@ -89,7 +89,7 @@ export function ReviewOverview({
                   {c.result.deliverables.length} deliverable
                   {c.result.deliverables.length === 1 ? "" : "s"}
                   {toCheck > 0 ? (
-                    <span className="text-destructive"> · {toCheck} to check</span>
+                    <span className="text-warning"> · {toCheck} to check</span>
                   ) : null}
                 </p>
               </div>
