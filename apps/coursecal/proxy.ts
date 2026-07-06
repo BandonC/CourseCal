@@ -19,11 +19,11 @@ import { NextResponse, type NextRequest } from "next/server";
 // 'self' too. img allows Google avatar URLs; style-src keeps 'unsafe-inline'
 // because React sets inline style attributes (low-risk, not script).
 
-// Ship report-only first: violations surface in the browser console without
-// breaking the app. Flip to false once a full pass (parse → save → export, sign
-// in/out, PostHog in prod) shows a clean console. This is the last step to enable
-// enforcement.
-const REPORT_ONLY = true;
+// Enforcing. Set back to true to fall back to report-only (violations logged to
+// the console, not blocked) — the safe mode for vetting a policy change against a
+// full pass (parse → save → export, sign in/out, PostHog in prod) before letting
+// it block anything. The initial rollout ran report-only until that pass was clean.
+const REPORT_ONLY = false;
 
 // `next dev` needs eval (React Fast Refresh) and a dev websocket (HMR) that the
 // strict prod policy would block. These relaxations are dev-only — production
