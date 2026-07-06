@@ -26,9 +26,8 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Static security headers. A Content-Security-Policy is intentionally deferred
-  // to pre-launch — a correct Next CSP needs per-request nonces (see root
-  // CLAUDE.md security rules).
+  // Static security headers. The Content-Security-Policy is not here — it needs a
+  // per-request nonce, so it's set in proxy.ts (edge) instead.
   async headers() {
     return [
       {
@@ -37,6 +36,14 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // The app uses none of these device features — deny them outright.
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          // Force HTTPS for a year. No `preload` — that's a one-way door worth it
+          // only on a permanent custom domain (vercel.app is already preloaded).
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains",
+          },
         ],
       },
     ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
 import { PostHogProvider } from "@/lib/analytics/posthog-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -31,11 +32,15 @@ export const metadata: Metadata = {
 // keeps this cookie in sync.
 const themeScript = `(function(){try{var m=document.cookie.match(/(?:^|; )theme=([^;]+)/);var t=m?m[1]:null;if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Nonce set by proxy.ts for the CSP. Reading it here opts every route into
+  // dynamic rendering (intended — see proxy.ts). undefined only if a route
+  // somehow bypasses middleware; the inline script below then has no nonce.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
     <html
       lang="en"
@@ -43,7 +48,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col">
         <PostHogProvider>{children}</PostHogProvider>
