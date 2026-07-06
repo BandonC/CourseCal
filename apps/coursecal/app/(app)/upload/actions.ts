@@ -1,5 +1,6 @@
 "use server";
 
+import * as Sentry from "@sentry/nextjs";
 import {
   parseSyllabus,
   type DryRunResult,
@@ -221,9 +222,10 @@ export async function saveSemesterAction(
       },
     });
     return actionOk(ids);
-  } catch {
-    // Raw DB errors may leak schema/state — return a safe message (Sentry will
-    // capture the real error server-side once wired in a later phase).
+  } catch (err) {
+    // Raw DB errors may leak schema/state — capture server-side (PII off) and
+    // return a safe message; never surface the raw error to the client.
+    Sentry.captureException(err);
     return actionErr("Couldn't save your semester. Please try again.", "save_failed");
   }
 }
@@ -263,7 +265,8 @@ export async function addCoursesToSemesterAction(
       },
     });
     return actionOk(result);
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return actionErr("Couldn't add the courses. Please try again.", "save_failed");
   }
 }
