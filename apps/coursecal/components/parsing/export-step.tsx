@@ -166,20 +166,20 @@ export function ExportStep({
             </p>
           ) : null}
           {summary.reconnectNeeded ? (
-            <p className="text-sm text-destructive">
-              Your Google access expired. Reconnect to finish adding events.
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-sm text-destructive">
+                Your Google access expired. Reconnect to finish adding events.
+              </p>
+              <Link href="/reconnect" className={buttonVariants()}>
+                Reconnect Google
+              </Link>
+            </div>
           ) : null}
           {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
           <div className="flex flex-wrap gap-3">
             {semesterId ? (
               <Link href={`/semester/${semesterId}`} className={buttonVariants()}>
                 View timeline
-              </Link>
-            ) : null}
-            {summary.reconnectNeeded ? (
-              <Link href="/reconnect" className={buttonVariants({ variant: "outline" })}>
-                Reconnect Google
               </Link>
             ) : null}
             {summary.failed > 0 && !summary.reconnectNeeded ? (

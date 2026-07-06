@@ -14,3 +14,18 @@ export function calendarOAuthClient(refreshToken: string) {
 }
 
 export type CalendarOAuthClient = ReturnType<typeof calendarOAuthClient>;
+
+// Best-effort revocation of Coursecal's own OAuth grant, on account deletion.
+// revokeToken() posts the refresh token to Google's /revoke endpoint, which
+// revokes the entire grant (and any derived access tokens) — a full disconnect.
+// (revokeCredentials() can't be used: it only revokes an access token, which this
+// refresh-token-only client doesn't hold.) Swallows failures — the common case is
+// a grant the user already revoked — since deletion must never be blocked, and
+// never logs the token.
+export async function revokeGoogleGrant(refreshToken: string): Promise<void> {
+  try {
+    await calendarOAuthClient(refreshToken).revokeToken(refreshToken);
+  } catch {
+    // Already revoked / network error — deletion proceeds regardless.
+  }
+}

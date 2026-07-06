@@ -82,14 +82,16 @@ export function SemesterTimeline({
           <li key={c.id}>
             <Link
               href={`/course/${c.id}`}
-              className="flex items-center gap-1.5 hover:underline"
+              className="group flex items-center gap-1.5 text-primary"
             >
               <span
                 className="size-2.5 rounded-full"
                 style={{ backgroundColor: c.color }}
                 aria-hidden
               />
-              {courseLabel(c)}
+              <span className="underline decoration-primary/40 underline-offset-2 group-hover:decoration-primary">
+                {courseLabel(c)}
+              </span>
             </Link>
           </li>
         ))}

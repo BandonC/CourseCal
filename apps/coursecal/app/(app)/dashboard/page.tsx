@@ -84,18 +84,16 @@ function CourseRow({ course }: { course: DashboardCourse }) {
     <li>
       <Link
         href={`/course/${course.id}`}
-        className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 hover:bg-muted/40"
+        className="group flex flex-wrap items-center gap-x-3 gap-y-1 py-3 hover:bg-muted/40"
       >
         <span
           className="size-2.5 shrink-0 rounded-full"
           style={{ backgroundColor: course.color }}
           aria-hidden
         />
-        {course.code ? (
-          <span className="font-medium">{course.code}</span>
-        ) : null}
-        <span className={course.code ? "text-muted-foreground" : "font-medium"}>
-          {course.name}
+        <span className="text-primary underline decoration-primary/40 underline-offset-2 group-hover:decoration-primary">
+          {course.code ? <span className="font-medium">{course.code} </span> : null}
+          <span className={course.code ? "font-normal" : "font-medium"}>{course.name}</span>
         </span>
         <span className="ml-auto flex items-center gap-2">
           <span className="text-sm text-muted-foreground">

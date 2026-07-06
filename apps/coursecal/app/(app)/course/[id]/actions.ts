@@ -1,5 +1,6 @@
 "use server";
 
+import * as Sentry from "@sentry/nextjs";
 import { z } from "zod";
 import { ParseResultSchema } from "@coursecal/syllabus-parser";
 import { type ActionResult, actionErr, actionOk } from "@/lib/action-result";
@@ -298,7 +299,8 @@ export async function replaceCourseDeliverablesAction(
 
   try {
     await replaceCourseDeliverables(cid, resultParsed.data.deliverables);
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return actionErr("Couldn't replace the deliverables. Please try again.", "save_failed");
   }
   return actionOk({ reconnectNeeded: false });

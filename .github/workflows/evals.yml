@@ -1,0 +1,24 @@
+name: evals
+
+# The syllabus-parser eval gate. Runs in replay mode against the committed
+# response cache (evals/cache/) — no ANTHROPIC_API_KEY, no token spend. Fails the
+# PR on any cache miss (a changed prompt/model must be re-recorded) or a headline
+# metric below its floor. See packages/syllabus-parser/evals/run.ts (--check).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  eval-gate:
+    name: eval gate (replay, $0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @coursecal/syllabus-parser eval:check

@@ -95,8 +95,8 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 - External blog posts, demo videos, launch posts (Show HN / Reddit / etc.)
 - User recruitment campaigns
 - "Start-early recommendations" — Layer 3 of conflict detection (see Section 12.4)
-- Eval test set beyond ~10 syllabi
-- CI-integrated eval runs
+- Eval test set beyond ~10 syllabi (evaluated for v2 and kept out — the set already spans the structural axes; see DECISIONS 2026-07-05)
+- ~~CI-integrated eval runs~~ — **added in v2 (2026-07):** a `$0` replay-mode gate over the committed response cache (no API key, no spend); `.github/workflows/evals.yml`
 - Task/todo management, study planner, GPA tracker, social features
 - Native mobile app
 - ~~DOCX support~~ — **added in v2 (2026-07):** client-side `mammoth` extraction feeding the existing text-only parse action, mirroring the PDF path
@@ -109,7 +109,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 - Separate email/SMS reminders
 - Weekly digest emails
 - Public npm distribution + maintenance
-- HTML-markup cleanup for pasted syllabi (`html-to-text`) — v1 paste input is a plain textarea, which already yields plain text; revisit only if real pastes arrive mangled
+- ~~HTML-markup cleanup for pasted syllabi~~ — **added in v2 (2026-07):** `cleanPastedText` strips stray HTML via `DOMParser` when a paste looks like markup (no `html-to-text` dep); the plain textarea still yields plain text in the normal case
 
 ---
 
@@ -439,6 +439,8 @@ Loose sequencing — not a strict timeline. Ship each phase to friends for feedb
 
 > **Status (2026-06-28):** Phases 0–7 complete and deployed to production at **https://coursecal-lyart.vercel.app** (Vercel auto-deploys `main`). Phase 6 (PR #11): stratified eval harness (`packages/syllabus-parser/evals/`, `docs/EVALS.md`) + ADR-001–008 (`docs/adr/`). Phase 7 (PR #12): PostHog analytics (reverse-proxied `/ingest`, autocapture off, typed taxonomy in `lib/analytics/events.ts`), loading/error/empty/not-found states, mobile overflow fixes, marketing landing at `/`, and Sentry source-map upload. Sentry browser envelopes are tunneled through a same-origin `/monitoring` route (PR #13) so ad-blockers don't drop client crash reports. `NEXT_PUBLIC_POSTHOG_KEY`, `SENTRY_AUTH_TOKEN`, and `NEXT_PUBLIC_SENTRY_DSN` are set in Vercel and verified live. Deferred to Phase 8 (launch): root + profile READMEs (§11.3), a Content-Security-Policy (`next.config.ts`), MIT license, CI verification.
 
+> **Status (2026-07-05):** Near-term v2 shipped (PR #23) — account deletion + data export (§14), `.ics` VALARM reminders, DOCX upload + paste HTML-cleanup (§2.2/§2.3), a printable per-semester schedule export, "add another course" from the export screen, one-click "to check" flag resolution, and a `$0` replay-mode eval gate in CI (§2.2, `.github/workflows/evals.yml`). Eval-set *expansion* was evaluated and dropped (the ~10-fixture set already spans the structural axes; see DECISIONS 2026-07-05). Phase 8 (launch) items still open: security headers + CSP, a standard typecheck/lint/test CI, READMEs, MIT license.
+
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.
 
@@ -600,7 +602,7 @@ Note: pricing should be verified against current Anthropic rates before launch �
 
 ## 14. Open questions and future decisions
 
-- **When to add account deletion / data export?** Before any meaningful user growth. Pre-launch if time permits.
+- ~~**When to add account deletion / data export?** Before any meaningful user growth.~~ Done in v2 (2026-07) — `/account` page: PII-scoped JSON export + a type-to-confirm hard deletion (proceed-and-warn; revokes our own Google grant).
 - **When to support non-Google calendars natively?** `.ics` export covers Apple/Outlook now; native deferred indefinitely.
 - ~~**When to add DOCX support?** When users ask. Likely v1.5.~~ Done in v2 (2026-07) — client-side `mammoth` extraction.
 - **When to revisit Python PDF service?** If `unpdf` misses >10% of deliverables across the test set.
