@@ -44,7 +44,7 @@ export function SyncCourseButton({
   };
 
   return (
-    <Button size="sm" onClick={onClick} disabled={pending}>
+    <Button size="sm" onClick={onClick} loading={pending}>
       Sync {count} to Calendar
     </Button>
   );

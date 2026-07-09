@@ -85,12 +85,12 @@ export function DeleteDeliverableDialog({
           <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
           {seriesId ? (
             <>
-              <Button variant="outline" disabled={pending} onClick={deleteOne}>
+              <Button variant="outline" loading={pending} onClick={deleteOne}>
                 Delete this one
               </Button>
               <AlertDialogAction
                 variant="destructive"
-                disabled={pending}
+                loading={pending}
                 onClick={() =>
                   run(
                     () => deleteSeriesAction(courseId, seriesId),
@@ -103,7 +103,7 @@ export function DeleteDeliverableDialog({
               </AlertDialogAction>
             </>
           ) : (
-            <AlertDialogAction variant="destructive" disabled={pending} onClick={deleteOne}>
+            <AlertDialogAction variant="destructive" loading={pending} onClick={deleteOne}>
               Delete
             </AlertDialogAction>
           )}

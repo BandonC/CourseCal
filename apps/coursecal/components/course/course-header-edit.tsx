@@ -106,7 +106,7 @@ export function CourseHeaderEdit({
         </div>
       </div>
       <div className="flex gap-3">
-        <Button type="submit" disabled={formState.isSubmitting}>
+        <Button type="submit" loading={formState.isSubmitting}>
           Save
         </Button>
         <Button type="button" variant="outline" onClick={() => setEditing(false)}>

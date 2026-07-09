@@ -81,7 +81,8 @@ export function TypeToConfirmDialog({
           <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
-            disabled={!matches || pending}
+            disabled={!matches}
+            loading={pending}
             onClick={handleConfirm}
           >
             {confirmLabel}

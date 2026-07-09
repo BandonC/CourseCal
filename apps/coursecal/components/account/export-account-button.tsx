@@ -33,7 +33,7 @@ export function ExportAccountButton() {
   };
 
   return (
-    <Button variant="outline" onClick={onExport} disabled={pending}>
+    <Button variant="outline" onClick={onExport} loading={pending}>
       {pending ? "Preparing…" : "Download my data"}
     </Button>
   );
