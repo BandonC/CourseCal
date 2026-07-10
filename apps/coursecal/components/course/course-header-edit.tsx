@@ -109,7 +109,12 @@ export function CourseHeaderEdit({
         <Button type="submit" loading={formState.isSubmitting}>
           Save
         </Button>
-        <Button type="button" variant="outline" onClick={() => setEditing(false)}>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={formState.isSubmitting}
+          onClick={() => setEditing(false)}
+        >
           Cancel
         </Button>
       </div>

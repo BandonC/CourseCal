@@ -381,7 +381,12 @@ function EditForm({
         <Button type="submit" loading={formState.isSubmitting}>
           Save
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={formState.isSubmitting}
+          onClick={onCancel}
+        >
           Cancel
         </Button>
       </div>
