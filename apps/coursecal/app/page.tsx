@@ -1,4 +1,5 @@
 import { CalendarCheckIcon, FileUpIcon, ListChecksIcon } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { GetStartedButton } from "@/components/landing/get-started-button";
 import { TimelinePreview } from "@/components/landing/timeline-preview";
@@ -102,6 +103,15 @@ export default async function RootPage() {
         ))}
       </section>
       </main>
+
+      <footer className="border-t border-border">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-6 text-sm text-muted-foreground">
+          <span>© {new Date().getFullYear()} Coursecal</span>
+          <Link href="/privacy" className="hover:text-foreground">
+            Privacy
+          </Link>
+        </div>
+      </footer>
     </>
   );
 }
