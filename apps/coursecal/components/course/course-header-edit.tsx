@@ -49,10 +49,6 @@ export function CourseHeaderEdit({
       });
     } else if (calendar === "failed") {
       toast.warning("Saved, but some calendar titles couldn't update.");
-    } else if (calendar === "patched") {
-      toast.success("Course updated; calendar titles updated.");
-    } else {
-      toast.success("Course updated.");
     }
     setEditing(false);
     router.refresh();

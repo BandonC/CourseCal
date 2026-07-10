@@ -26,7 +26,6 @@ export function ExportAccountButton() {
       anchor.download = res.data.filename;
       anchor.click();
       URL.revokeObjectURL(url);
-      toast.success("Your data has been downloaded.");
     } finally {
       setPending(false);
     }

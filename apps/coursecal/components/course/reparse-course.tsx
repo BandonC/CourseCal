@@ -50,7 +50,6 @@ export function ReparseCourse({ courseId }: { courseId: string }) {
       setPhase({ name: "review", result });
       return;
     }
-    toast.success("Deliverables replaced");
     setPhase({ name: "idle" });
     router.refresh();
   }

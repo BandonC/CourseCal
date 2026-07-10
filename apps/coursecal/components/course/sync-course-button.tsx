@@ -34,8 +34,6 @@ export function SyncCourseButton({
         });
       } else if (failed > 0) {
         toast.warning(`Synced ${created}; ${failed} couldn't be added.`);
-      } else {
-        toast.success(`Synced ${created} to Calendar`);
       }
       router.refresh();
     } finally {

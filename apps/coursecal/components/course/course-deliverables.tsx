@@ -132,7 +132,6 @@ function DeliverableRow({
         return;
       }
       onSaved({ ...d, confidence: "high", ambiguityReason: null });
-      toast.success("Marked as checked");
     } finally {
       setResolving(false);
     }
@@ -233,15 +232,6 @@ function Display({
 
 function notify(outcome: EditCalendarOutcome, onReconnect: () => void) {
   switch (outcome) {
-    case "patched":
-    case "created":
-    case "recreated":
-    case "deleted":
-      toast.success("Calendar updated");
-      break;
-    case "none":
-      toast.success("Saved");
-      break;
     case "failed":
       toast.warning("Saved, but the calendar event couldn't be updated.");
       break;
