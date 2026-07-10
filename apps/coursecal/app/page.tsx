@@ -107,9 +107,14 @@ export default async function RootPage() {
       <footer className="border-t border-border">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-6 text-sm text-muted-foreground">
           <span>© {new Date().getFullYear()} Coursecal</span>
-          <Link href="/privacy" className="hover:text-foreground">
-            Privacy
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="hover:text-foreground">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-foreground">
+              Terms
+            </Link>
+          </div>
         </div>
       </footer>
     </>
