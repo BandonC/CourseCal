@@ -8,7 +8,6 @@ import type { DeleteResult } from "@/lib/actions/deletes";
 // error — nothing was removed and nothing was orphaned (block-and-reconnect).
 export function notifyDelete(
   res: ActionResult<DeleteResult>,
-  successMessage: string,
   onReconnect: () => void,
 ): boolean {
   if (!res.ok) {
@@ -21,6 +20,5 @@ export function notifyDelete(
     });
     return false;
   }
-  toast.success(successMessage);
   return true;
 }

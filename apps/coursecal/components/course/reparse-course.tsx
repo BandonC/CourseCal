@@ -50,7 +50,6 @@ export function ReparseCourse({ courseId }: { courseId: string }) {
       setPhase({ name: "review", result });
       return;
     }
-    toast.success("Deliverables replaced");
     setPhase({ name: "idle" });
     router.refresh();
   }
@@ -79,7 +78,7 @@ export function ReparseCourse({ courseId }: { courseId: string }) {
       variant="outline"
       size="sm"
       onClick={start}
-      disabled={phase.name === "parsing"}
+      loading={phase.name === "parsing"}
     >
       {phase.name === "parsing" ? "Re-parsing…" : "Re-parse syllabus"}
     </Button>

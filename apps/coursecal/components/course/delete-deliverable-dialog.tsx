@@ -46,12 +46,11 @@ export function DeleteDeliverableDialog({
   const run = async (
     fn: () => Promise<ActionResult<DeleteResult>>,
     ids: string[],
-    message: string,
   ) => {
     setPending(true);
     try {
       const res = await fn();
-      if (notifyDelete(res, message, () => router.push("/reconnect"))) {
+      if (notifyDelete(res, () => router.push("/reconnect"))) {
         onRemove(ids);
       }
     } finally {
@@ -61,7 +60,7 @@ export function DeleteDeliverableDialog({
   };
 
   const deleteOne = () =>
-    run(() => deleteDeliverableAction(deliverableId), [deliverableId], "Deliverable deleted");
+    run(() => deleteDeliverableAction(deliverableId), [deliverableId]);
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -85,25 +84,21 @@ export function DeleteDeliverableDialog({
           <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
           {seriesId ? (
             <>
-              <Button variant="outline" disabled={pending} onClick={deleteOne}>
+              <Button variant="outline" loading={pending} onClick={deleteOne}>
                 Delete this one
               </Button>
               <AlertDialogAction
                 variant="destructive"
-                disabled={pending}
+                loading={pending}
                 onClick={() =>
-                  run(
-                    () => deleteSeriesAction(courseId, seriesId),
-                    siblingIds,
-                    `Deleted ${seriesCount} deliverables`,
-                  )
+                  run(() => deleteSeriesAction(courseId, seriesId), siblingIds)
                 }
               >
                 Delete all {seriesCount}
               </AlertDialogAction>
             </>
           ) : (
-            <AlertDialogAction variant="destructive" disabled={pending} onClick={deleteOne}>
+            <AlertDialogAction variant="destructive" loading={pending} onClick={deleteOne}>
               Delete
             </AlertDialogAction>
           )}

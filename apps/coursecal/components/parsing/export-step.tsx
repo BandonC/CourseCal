@@ -127,14 +127,13 @@ export function ExportStep({
   }
 
   const busy = phase === "saving" || phase === "syncing";
-  const buttonLabel =
-    phase === "saving"
-      ? "Saving…"
-      : phase === "syncing"
-        ? "Adding to Google Calendar…"
-        : semesterId
-          ? "Retry adding to calendar"
-          : "Add to Google Calendar";
+  // One steady label for the whole action — the save-then-sync phases are a single
+  // click to the user, so a mid-action swap just flickered.
+  const buttonLabel = busy
+    ? "Adding to Google Calendar…"
+    : semesterId
+      ? "Retry adding to calendar"
+      : "Add to Google Calendar";
 
   if (phase === "done" && summary) {
     return (
@@ -229,7 +228,7 @@ export function ExportStep({
         ) : null}
         {icsError ? <p className="text-sm text-destructive">{icsError}</p> : null}
         <div className="flex flex-wrap gap-3">
-          <Button onClick={addToCalendar} disabled={busy}>
+          <Button onClick={addToCalendar} loading={busy}>
             {buttonLabel}
           </Button>
           <Button variant="outline" onClick={download}>

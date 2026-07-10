@@ -19,7 +19,7 @@ export function DeleteCourseButton({
 
   const onConfirm = async () => {
     const res = await deleteCourseAction(courseId);
-    if (notifyDelete(res, "Course deleted", () => router.push("/reconnect"))) {
+    if (notifyDelete(res, () => router.push("/reconnect"))) {
       router.push(`/semester/${semesterId}`);
     }
   };

@@ -49,10 +49,6 @@ export function CourseHeaderEdit({
       });
     } else if (calendar === "failed") {
       toast.warning("Saved, but some calendar titles couldn't update.");
-    } else if (calendar === "patched") {
-      toast.success("Course updated; calendar titles updated.");
-    } else {
-      toast.success("Course updated.");
     }
     setEditing(false);
     router.refresh();
@@ -106,10 +102,15 @@ export function CourseHeaderEdit({
         </div>
       </div>
       <div className="flex gap-3">
-        <Button type="submit" disabled={formState.isSubmitting}>
+        <Button type="submit" loading={formState.isSubmitting}>
           Save
         </Button>
-        <Button type="button" variant="outline" onClick={() => setEditing(false)}>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={formState.isSubmitting}
+          onClick={() => setEditing(false)}
+        >
           Cancel
         </Button>
       </div>

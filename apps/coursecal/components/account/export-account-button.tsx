@@ -26,14 +26,13 @@ export function ExportAccountButton() {
       anchor.download = res.data.filename;
       anchor.click();
       URL.revokeObjectURL(url);
-      toast.success("Your data has been downloaded.");
     } finally {
       setPending(false);
     }
   };
 
   return (
-    <Button variant="outline" onClick={onExport} disabled={pending}>
+    <Button variant="outline" onClick={onExport} loading={pending}>
       {pending ? "Preparing…" : "Download my data"}
     </Button>
   );
