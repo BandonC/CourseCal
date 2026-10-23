@@ -1,10 +1,25 @@
 # Coursecal
 
+[![evals](https://github.com/BandonC/CourseCal/actions/workflows/evals.yml/badge.svg)](https://github.com/BandonC/CourseCal/actions/workflows/evals.yml)
+
+<!-- TODO: screenshot of the semester timeline, e.g. ![Semester timeline](docs/screenshot.png) -->
+
 Turns course syllabi into calendar events and a navigable semester plan. Upload or paste your syllabi at the start of a term; Coursecal extracts every graded deliverable — assignments, quizzes, exams, projects, presentations, participation — and exports them to Google Calendar with reminders. A per-semester timeline flags hell weeks and clustered deadlines so you can see the whole term at a glance and plan around the crunch.
 
 **Live:** [coursecal.bandonc.com](https://coursecal.bandonc.com) · OAuth is in Testing mode (invite-only) for now.
 
 > A portfolio project, built for real use. Replaces the hour of manual deadline-copying every student does each semester with a few minutes of review.
+
+## Parser accuracy
+
+Prompt v1 (`claude-sonnet-4-6`) on ten real, hand-labeled syllabi (69 deliverables), against a regex baseline:
+
+| System | Recall | Precision | Type | Explicit-date | Weight | Recurrence |
+| --- | --- | --- | --- | --- | --- | --- |
+| **syllabus-parser v1** | **98.6%** | **90.7%** | 98.5% | **100%** | 100% | 87.5% |
+| regex baseline | 43.5% | 39.0% | — | 15.0% | 4.5% | 0.0% |
+
+Every stated calendar deadline lands on the exact day. Most of the precision gap comes from the model extracting ungraded items it should skip. Numbers are pinned by a committed response cache and re-checked in CI at no cost. Methodology and failure analysis are in [`EVALS.md`](packages/syllabus-parser/docs/EVALS.md).
 
 ## How it works
 
