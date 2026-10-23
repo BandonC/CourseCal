@@ -441,7 +441,7 @@ Loose sequencing — not a strict timeline. Ship each phase to friends for feedb
 
 > **Status (2026-07-05):** Near-term v2 shipped (PR #23) — account deletion + data export (§14), `.ics` VALARM reminders, DOCX upload + paste HTML-cleanup (§2.2/§2.3), a printable per-semester schedule export, "add another course" from the export screen, one-click "to check" flag resolution, and a `$0` replay-mode eval gate in CI (§2.2, `.github/workflows/evals.yml`). Eval-set *expansion* was evaluated and dropped (the ~10-fixture set already spans the structural axes; see DECISIONS 2026-07-05). Phase 8 (launch) items still open: security headers + CSP, a standard typecheck/lint/test CI, READMEs, MIT license.
 
-> **Status (2026-10-23):** Production moved to **https://coursecal.bandonc.com** (the `coursecal-lyart.vercel.app` URL 308-redirects). Phase 8 items closed: security headers + an enforcing nonce-based CSP (`proxy.ts`), MIT license, root README (with eval numbers) + a GitHub wiki, and `/privacy` + `/terms` pages. Google OAuth stays in Testing mode (invite-only). Still open: a standard typecheck/lint/test CI.
+> **Status (2026-10-23):** Production moved to **https://coursecal.bandonc.com** (the `coursecal-lyart.vercel.app` URL 308-redirects). Phase 8 items closed: security headers + an enforcing nonce-based CSP (`proxy.ts`), MIT license, root README (with eval numbers) + a GitHub wiki, `/privacy` + `/terms` pages, and a typecheck/lint/test CI (`.github/workflows/ci.yml`) beside the eval gate. Google OAuth stays in Testing mode (invite-only).
 
 **Phase 0 — Setup (~1 week)**
 Accounts, keys, monorepo scaffold, DB connection, Google OAuth, deploy empty app to Vercel.
