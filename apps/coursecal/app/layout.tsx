@@ -48,7 +48,14 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Browsers blank a script's nonce attribute after load (so injected code
+            can't read it), which React flags as a hydration mismatch. The script
+            already ran with the real nonce, so the warning is noise. */}
+        <script
+          nonce={nonce}
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+        />
       </head>
       <body className="flex min-h-full flex-col">
         <PostHogProvider>{children}</PostHogProvider>
