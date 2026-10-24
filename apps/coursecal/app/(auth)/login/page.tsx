@@ -2,6 +2,7 @@ import { CalendarCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { GoogleIcon } from "@/components/icons/google";
+import { MonthPreview } from "@/components/landing/month-preview";
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth";
 import { getOptionalUser } from "@/lib/auth/session";
@@ -25,60 +26,39 @@ export default async function LoginPage({
   const showOrphanWarning = justDeleted && Number.isFinite(orphanedCount) && orphanedCount > 0;
 
   return (
-    <main className="grid min-h-svh lg:grid-cols-2">
-      {/* Brand panel (desktop only): solid primary with a faint calendar grid that
-          fades out toward the bottom. currentColor keeps the grid on-token. */}
-      <section className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground lg:flex">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10 [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
-        <div className="relative flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-primary-foreground text-primary">
-            <CalendarCheckIcon className="size-5" />
-          </span>
-          <span className="font-heading text-xl font-semibold tracking-tight">Coursecal</span>
-        </div>
-        <div className="relative space-y-3">
-          <p className="font-heading text-5xl font-semibold leading-tight tracking-tight">
-            Every deadline,
-            <br />
-            one calendar.
-          </p>
-          <p className="max-w-sm text-primary-foreground/80">
-            Your syllabi, turned into Google Calendar events and a semester timeline.
-          </p>
-        </div>
-      </section>
-
-      <section className="flex flex-col items-center justify-center gap-8 p-6">
-        {justDeleted ? (
-          <div className="w-full max-w-sm space-y-1 rounded-lg border border-border bg-muted/40 p-4 text-center text-sm">
-            <p className="font-medium">Your account and all its data have been deleted.</p>
-            {showOrphanWarning ? (
-              <p className="text-muted-foreground">
-                {`${orphanedCount} calendar ${orphanedCount === 1 ? "event" : "events"} couldn't be removed automatically — you can delete ${orphanedCount === 1 ? "it" : "them"} in Google Calendar.`}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="w-full max-w-sm space-y-6">
-          <div className="flex flex-col items-center gap-3 text-center lg:hidden">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-              <CalendarCheckIcon className="size-6" />
-            </div>
-            <p className="font-heading text-2xl font-semibold tracking-tight">Coursecal</p>
-          </div>
-
-          <div className="space-y-1 text-center lg:text-left">
-            <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-            <p className="text-sm text-muted-foreground">
-              No password required. First time? Your account is created automatically.
+    <main className="flex min-h-svh flex-col items-center justify-center gap-6 p-4 sm:p-6">
+      {justDeleted ? (
+        <div className="w-full max-w-sm space-y-1 rounded-lg border border-border bg-muted/40 p-4 text-center text-sm">
+          <p className="font-medium">Your account and all its data have been deleted.</p>
+          {showOrphanWarning ? (
+            <p className="text-muted-foreground">
+              {`${orphanedCount} calendar ${orphanedCount === 1 ? "event" : "events"} couldn't be removed automatically — you can delete ${orphanedCount === 1 ? "it" : "them"} in Google Calendar.`}
             </p>
-          </div>
+          ) : null}
+        </div>
+      ) : null}
 
+      {/* Bento: the month calendar fills the left two columns on desktop; the
+          sign-in block and solid color blocks stack beside it. On a phone the
+          calendar drops out and the blocks stack, sign-in first. */}
+      <div className="grid w-full max-w-sm gap-4 lg:max-w-6xl lg:grid-cols-3 lg:grid-rows-[auto_1fr_auto]">
+        <div className="hidden lg:col-span-2 lg:row-span-3 lg:block">
+          <MonthPreview />
+        </div>
+
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-md">
+          <div className="flex items-center gap-2">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <CalendarCheckIcon className="size-5" />
+            </span>
+            <span className="font-heading text-xl font-semibold tracking-tight">Coursecal</span>
+          </div>
+          <h1 className="mt-6 text-2xl font-semibold tracking-tight">Sign in</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            No password required. First time? Your account is created automatically.
+          </p>
           <form
+            className="mt-5"
             action={async () => {
               "use server";
               await signIn("google", { redirectTo: "/dashboard" });
@@ -89,8 +69,7 @@ export default async function LoginPage({
               Continue with Google
             </Button>
           </form>
-
-          <p className="text-center text-xs text-muted-foreground lg:text-left">
+          <p className="mt-4 text-xs text-muted-foreground">
             <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
               Privacy
             </Link>
@@ -100,7 +79,25 @@ export default async function LoginPage({
             </Link>
           </p>
         </div>
-      </section>
+
+        <div className="flex flex-col justify-end rounded-2xl bg-primary p-6 text-primary-foreground shadow-md">
+          <p className="font-heading text-3xl font-semibold leading-tight tracking-tight">
+            Every deadline, one calendar.
+          </p>
+          <p className="mt-2 text-sm text-primary-foreground/80">
+            Your syllabi, turned into Google Calendar events and a semester timeline.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="rounded-2xl bg-chart-5 p-4 text-primary-foreground shadow-md">
+            <p className="font-heading text-lg font-semibold leading-snug">Hell weeks flagged early</p>
+          </div>
+          <div className="rounded-2xl bg-chart-2 p-4 text-primary-foreground shadow-md">
+            <p className="font-heading text-lg font-semibold leading-snug">Files stay in your browser</p>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
