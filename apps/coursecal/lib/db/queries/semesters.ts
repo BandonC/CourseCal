@@ -1,7 +1,7 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, sql } from "drizzle-orm";
 import type { ParseResult } from "@coursecal/syllabus-parser";
 import { courseColorForIndex } from "@/lib/courses/colors";
 import { db } from "@/lib/db";
@@ -197,7 +197,9 @@ export type SemesterTimelineData = NonNullable<
 // course aggregate groups by courses.id (its PK), so Postgres lets us select the
 // other course columns ungrouped. A course with no deliverables left-joins to
 // nulls, which the FILTER predicates exclude → all counts read 0.
-export async function getDashboardData(userId: UserId) {
+// `today` is an ISO date in the user's timezone; it picks each semester's next
+// deadline (the earliest dated deliverable due on or after it).
+export async function getDashboardData(userId: UserId, today: string) {
   const sems = await db
     .select({
       id: semesters.id,
@@ -211,7 +213,7 @@ export async function getDashboardData(userId: UserId) {
 
   if (sems.length === 0) return [];
 
-  const courseRows = await db
+  const courseRowsQuery = db
     .select({
       id: courses.id,
       semesterId: courses.semesterId,
@@ -234,9 +236,29 @@ export async function getDashboardData(userId: UserId) {
     .groupBy(courses.id)
     .orderBy(courses.createdAt);
 
+  // DISTINCT ON keeps the first row per semester under this ordering — the
+  // soonest upcoming deliverable (due_date is indexed).
+  const nextRowsQuery = db
+    .selectDistinctOn([courses.semesterId], {
+      semesterId: courses.semesterId,
+      courseId: courses.id,
+      title: deliverables.title,
+      dueDate: deliverables.dueDate,
+      courseLabel: sql<string>`coalesce(${courses.code}, ${courses.name})`,
+      color: courses.color,
+    })
+    .from(deliverables)
+    .innerJoin(courses, eq(deliverables.courseId, courses.id))
+    .innerJoin(semesters, eq(courses.semesterId, semesters.id))
+    .where(and(eq(semesters.userId, userId), gte(deliverables.dueDate, today)))
+    .orderBy(courses.semesterId, asc(deliverables.dueDate), asc(deliverables.dueTime));
+
+  const [courseRows, nextRows] = await Promise.all([courseRowsQuery, nextRowsQuery]);
+
   return sems.map((s) => ({
     ...s,
     courses: courseRows.filter((c) => c.semesterId === s.id),
+    next: nextRows.find((n) => n.semesterId === s.id) ?? null,
   }));
 }
 

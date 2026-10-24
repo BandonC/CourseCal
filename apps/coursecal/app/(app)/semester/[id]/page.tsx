@@ -13,6 +13,7 @@ import { detectConflicts, type ConflictDeliverable } from "@/lib/conflict-detect
 import type { SemesterId } from "@/lib/db/ids";
 import { getSemesterTimeline } from "@/lib/db/queries/semesters";
 import { getUserTimezone } from "@/lib/db/queries/users";
+import { todayIn } from "@/lib/today";
 import { SemesterTimeline } from "./timeline";
 
 // Semester timeline (COURSECAL.md §3.1 step 9). Server component: resolves the
@@ -36,11 +37,9 @@ export default async function SemesterPage({
   ]);
   if (!data) notFound();
 
-  // "Today" in the user's timezone (en-CA formats as YYYY-MM-DD), so Next up and
-  // the current-week marker flip at the user's midnight, not the server's.
-  const today = new Intl.DateTimeFormat("en-CA", {
-    timeZone: timezone ?? "America/Toronto",
-  }).format(new Date());
+  // "Today" in the user's timezone, so Next up and the current-week marker flip
+  // at the user's midnight, not the server's.
+  const today = todayIn(timezone ?? "America/Toronto");
 
   const dated: ConflictDeliverable[] = data.courses.flatMap((c) =>
     c.deliverables

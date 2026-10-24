@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { SemesterTimelineData } from "@/lib/db/queries/semesters";
+import { addDays, dayLabel } from "@/lib/today";
 
 // "Next up" strip above the semester timeline: every dated deliverable due from
 // today through the next 6 days (a rolling 7-day window), across all courses.
@@ -7,24 +8,6 @@ import type { SemesterTimelineData } from "@/lib/db/queries/semesters";
 // timezone by the page; all date math here is on ISO strings at UTC midnight,
 // so no ambient server time leaks in. Hidden outside the semester's dates.
 const WINDOW_DAYS = 7;
-
-function addDays(iso: string, days: number): string {
-  const t = Date.parse(`${iso}T00:00:00Z`) + days * 86_400_000;
-  return new Date(t).toISOString().slice(0, 10);
-}
-
-const DAY_FORMAT = new Intl.DateTimeFormat("en-US", {
-  weekday: "short",
-  month: "short",
-  day: "numeric",
-  timeZone: "UTC",
-});
-
-function dayLabel(iso: string, today: string): string {
-  if (iso === today) return "Today";
-  if (iso === addDays(today, 1)) return "Tomorrow";
-  return DAY_FORMAT.format(new Date(`${iso}T00:00:00Z`));
-}
 
 export function NextUp({
   data,
