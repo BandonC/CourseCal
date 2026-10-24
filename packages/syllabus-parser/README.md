@@ -4,18 +4,19 @@ Turns one course syllabus's plain text into typed, validated structured output: 
 
 ## Status
 
-Built: output schema, pure date resolution, versioned prompt **v1**, the Anthropic client, `parseSyllabus`, and the stratified eval harness with honest accuracy numbers (below).
+Built: output schema, pure date resolution, versioned prompts (**v2** active), the Anthropic client, `parseSyllabus`, and the stratified eval harness with honest accuracy numbers (below).
 
 ## Results
 
-Prompt **v1** (`claude-sonnet-4-6`) on ten real, hand-labeled syllabi (69 deliverables), stratified by format / discipline / recurrence. Full methodology and failure analysis in [`docs/EVALS.md`](docs/EVALS.md); regenerate with `pnpm eval:replay` (free — re-scores from the committed response cache).
+Prompt **v2** (`claude-sonnet-4-6`) on ten real, hand-labeled syllabi (69 deliverables), stratified by format / discipline / recurrence. Full methodology and failure analysis in [`docs/EVALS.md`](docs/EVALS.md); regenerate with `pnpm eval:replay` (free — re-scores from the committed response cache).
 
 | System | Recall | Precision | Type | Explicit-date | Weight | Recurrence |
 | --- | --- | --- | --- | --- | --- | --- |
-| **syllabus-parser v1** | **98.6%** | **90.7%** | 98.5% | **100%** | 100% | 87.5% |
+| **syllabus-parser v2** | **98.6%** | **97.1%** | 100% | **100%** | 100% | 87.5% |
+| syllabus-parser v1 | 98.6% | 90.7% | 98.5% | 100% | 100% | 87.5% |
 | regex baseline | 43.5% | 39.0% | — | 15.0% | 4.5% | 0.0% |
 
-Every stated calendar deadline is extracted to the exact day. The precision gap is the model over-extracting ungraded items it should skip (weekly homework, mandatory-but-unweighted quizzes) — the main v2 target. Numbers are pinned by a committed response cache (`pnpm eval:replay` reproduces them exactly); the model samples, so a fresh `eval:record` varies a few points.
+Every stated calendar deadline is extracted to the exact day. v2 stopped v1's over-extraction of ungraded items (practice homework, required items worth no marks); the remaining extras are a series-total row and a title mismatch in one syllabus. Numbers are pinned by a committed response cache (`pnpm eval:replay` reproduces them exactly). The model samples, so a fresh `eval:record` varies: across repeat runs, v1's precision ranged from 78.8% to 91.9% and v2's from 97.1% to 98.6%. v2 was tuned on this same set, which has no held-out split; see `docs/EVALS.md`.
 
 ## Usage
 

@@ -12,14 +12,15 @@ Turns course syllabi into calendar events and a navigable semester plan. Upload 
 
 ## Parser accuracy
 
-Prompt v1 (`claude-sonnet-4-6`) on ten real, hand-labeled syllabi (69 deliverables), against a regex baseline:
+Prompt v2 (`claude-sonnet-4-6`) on ten real, hand-labeled syllabi (69 deliverables), against a regex baseline:
 
 | System | Recall | Precision | Type | Explicit-date | Weight | Recurrence |
 | --- | --- | --- | --- | --- | --- | --- |
-| **syllabus-parser v1** | **98.6%** | **90.7%** | 98.5% | **100%** | 100% | 87.5% |
+| **syllabus-parser v2** | **98.6%** | **97.1%** | 100% | **100%** | 100% | 87.5% |
+| syllabus-parser v1 | 98.6% | 90.7% | 98.5% | 100% | 100% | 87.5% |
 | regex baseline | 43.5% | 39.0% | — | 15.0% | 4.5% | 0.0% |
 
-Every stated calendar deadline lands on the exact day. Most of the precision gap comes from the model extracting ungraded items it should skip. Numbers are pinned by a committed response cache and re-checked in CI at no cost. Methodology and failure analysis are in [`EVALS.md`](packages/syllabus-parser/docs/EVALS.md).
+Every stated calendar deadline lands on the exact day. v2's prompt change stopped the model from extracting ungraded items, which was most of v1's precision gap. Numbers are pinned by a committed response cache and re-checked in CI at no cost. Methodology and failure analysis are in [`EVALS.md`](packages/syllabus-parser/docs/EVALS.md).
 
 ## How it works
 
