@@ -10,7 +10,7 @@ export const maxDuration = 60;
 
 export default function UploadPage() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-6 sm:py-8">
       <BackLink href="/dashboard">Back to dashboard</BackLink>
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">New semester</h1>

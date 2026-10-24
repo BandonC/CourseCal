@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon, PencilIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ import { DeleteDeliverableDialog } from "@/components/course/delete-deliverable-
 import type { DeliverableField } from "@/lib/analytics/events";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
 import type { CourseDeliverable } from "@/lib/db/queries/courses";
+import { formatDay } from "@/lib/today";
 
 // Maps the edit form's field keys to the analytics field vocabulary.
 const FIELD_MAP: Record<string, DeliverableField> = {
@@ -54,8 +55,33 @@ const nullableStr = (v: unknown) => (v === "" || v == null ? null : (v as string
 
 function whenLabel(d: Pick<CourseDeliverable, "dueDate" | "dueTime">): string {
   if (!d.dueDate) return "No date";
-  return d.dueTime ? `${d.dueDate} · ${d.dueTime.slice(0, 5)}` : d.dueDate;
+  return d.dueTime ? `${formatDay(d.dueDate)} · ${d.dueTime.slice(0, 5)}` : formatDay(d.dueDate);
 }
+
+const isFlagged = (d: CourseDeliverable) => d.confidence !== "high";
+
+// One-offs render as rows; a recurring series (2+ rows sharing a seriesId)
+// collapses into one expandable group, placed where its first row falls in the
+// date order.
+type Item = { kind: "row"; d: CourseDeliverable } | { kind: "series"; members: CourseDeliverable[] };
+
+function toItems(rows: CourseDeliverable[], idsBySeries: Map<string, string[]>): Item[] {
+  const items: Item[] = [];
+  const placed = new Set<string>();
+  for (const d of rows) {
+    if (d.seriesId && (idsBySeries.get(d.seriesId)?.length ?? 0) > 1) {
+      if (placed.has(d.seriesId)) continue;
+      placed.add(d.seriesId);
+      items.push({ kind: "series", members: rows.filter((r) => r.seriesId === d.seriesId) });
+    } else {
+      items.push({ kind: "row", d });
+    }
+  }
+  return items;
+}
+
+const sumWeight = (rows: CourseDeliverable[]) =>
+  rows.reduce((s, r) => s + (r.weightPercent != null ? Number(r.weightPercent) : 0), 0);
 
 export function CourseDeliverables({
   courseId,
@@ -86,19 +112,82 @@ export function CourseDeliverables({
     }
   }
 
+  const rowProps = (d: CourseDeliverable) => ({
+    d,
+    courseId,
+    siblingIds: d.seriesId ? (idsBySeries.get(d.seriesId) ?? [d.id]) : [d.id],
+    onSaved,
+    onRemove,
+  });
+
   return (
-    <ul className="space-y-3">
-      {rows.map((d) => (
-        <DeliverableRow
-          key={d.id}
-          d={d}
-          courseId={courseId}
-          siblingIds={d.seriesId ? (idsBySeries.get(d.seriesId) ?? [d.id]) : [d.id]}
-          onSaved={onSaved}
-          onRemove={onRemove}
+    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <ul className="divide-y divide-border">
+        {toItems(rows, idsBySeries).map((item) =>
+          item.kind === "row" ? (
+            <DeliverableRow key={item.d.id} {...rowProps(item.d)} />
+          ) : (
+            <SeriesGroup key={item.members[0]!.seriesId} members={item.members}>
+              {item.members.map((m) => (
+                <DeliverableRow key={m.id} {...rowProps(m)} />
+              ))}
+            </SeriesGroup>
+          ),
+        )}
+      </ul>
+      <p className="border-t border-border bg-muted/30 px-4 py-2 text-right text-sm text-muted-foreground">
+        Weights total{" "}
+        <span className="font-medium text-foreground">{Number(sumWeight(rows).toFixed(2))}%</span>
+      </p>
+    </div>
+  );
+}
+
+function SeriesGroup({
+  members,
+  children,
+}: {
+  members: CourseDeliverable[];
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const first = members[0]!;
+  const dated = members.flatMap((m) => (m.dueDate ? [m.dueDate] : []));
+  const weight = sumWeight(members);
+  const flagged = members.filter(isFlagged).length;
+
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/40"
+      >
+        <ChevronRightIcon
+          className={`size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-90" : ""}`}
         />
-      ))}
-    </ul>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">
+            {first.title}{" "}
+            <span className="font-normal text-muted-foreground">×{members.length}</span>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            <span className="capitalize">{first.type}</span>
+            {dated.length > 0
+              ? ` · ${formatDay(dated[0]!)} – ${formatDay(dated[dated.length - 1]!)}`
+              : ""}
+            {weight > 0 ? ` · ${Number(weight.toFixed(2))}% total` : ""}
+          </p>
+        </div>
+        {flagged > 0 ? <Badge variant="warning">{flagged} to check</Badge> : null}
+      </button>
+      {open ? (
+        <ul className="divide-y divide-border border-t border-border bg-muted/20 pl-6">
+          {children}
+        </ul>
+      ) : null}
+    </li>
   );
 }
 
@@ -138,7 +227,7 @@ function DeliverableRow({
   }
 
   return (
-    <li className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-sm">
+    <li className={editing ? "p-4" : "px-4 py-2.5"}>
       {editing ? (
         <EditForm
           d={d}
@@ -163,6 +252,8 @@ function DeliverableRow({
   );
 }
 
+// One dense row: date | title + type/weight | confidence (flagged only) | icon
+// actions. High confidence shows no badge, so only items needing a look stand out.
 function Display({
   d,
   courseId,
@@ -182,27 +273,46 @@ function Display({
 }) {
   return (
     <>
-      <div className="flex items-center justify-between gap-2">
-        <span className="min-w-0 truncate font-medium">{d.title}</span>
-        <div className="flex shrink-0 items-center gap-2">
-          <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="capitalize">
-            {d.confidence}
-          </Badge>
-          {d.confidence !== "high" ? (
-            <Button
-              type="button"
-              size="icon-sm"
-              variant="outline"
-              onClick={onResolve}
-              disabled={resolving}
-              title="Mark as checked"
-              aria-label="Mark as checked"
-            >
-              <CheckIcon />
-            </Button>
+      <div className="flex items-center gap-3">
+        <span className="w-28 shrink-0 text-sm tabular-nums text-muted-foreground sm:w-36">
+          {whenLabel(d)}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">{d.title}</p>
+          <p className="text-xs text-muted-foreground">
+            <span className="capitalize">{d.type}</span>
+            {d.weightPercent != null ? ` · ${Number(d.weightPercent)}%` : ""}
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          {isFlagged(d) ? (
+            <>
+              <Badge variant={CONFIDENCE_VARIANT[d.confidence]} className="mr-1 capitalize">
+                {d.confidence}
+              </Badge>
+              <Button
+                type="button"
+                size="icon-sm"
+                variant="outline"
+                onClick={onResolve}
+                disabled={resolving}
+                title="Mark as checked"
+                aria-label="Mark as checked"
+              >
+                <CheckIcon />
+              </Button>
+            </>
           ) : null}
-          <Button type="button" size="sm" variant="outline" onClick={onEdit}>
-            Edit
+          <Button
+            type="button"
+            size="icon-sm"
+            variant="ghost"
+            className="text-muted-foreground hover:text-foreground"
+            onClick={onEdit}
+            title="Edit"
+            aria-label={`Edit ${d.title}`}
+          >
+            <PencilIcon />
           </Button>
           <DeleteDeliverableDialog
             deliverableId={d.id}
@@ -215,14 +325,8 @@ function Display({
           />
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-        <span className="capitalize">{d.type}</span>
-        <span>{whenLabel(d)}</span>
-        {d.weightPercent != null ? <span>{Number(d.weightPercent)}%</span> : null}
-        {d.seriesId ? <Badge variant="outline">recurring</Badge> : null}
-      </div>
-      {d.confidence !== "high" && d.ambiguityReason ? (
-        <p className="text-xs text-muted-foreground">
+      {isFlagged(d) && d.ambiguityReason ? (
+        <p className="mt-1 text-xs text-muted-foreground">
           <span className="font-medium">Why flagged:</span> {d.ambiguityReason}
         </p>
       ) : null}
