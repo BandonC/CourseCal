@@ -17,7 +17,7 @@ export default async function AccountPage() {
   const user = await requireUser();
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-4 py-6 sm:py-8">
       <header className="space-y-1">
         <Link href="/dashboard" className="text-sm text-muted-foreground hover:underline">
           ← Back to dashboard

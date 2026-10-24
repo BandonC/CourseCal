@@ -23,7 +23,7 @@ export default async function DashboardPage() {
   const semesters = await getDashboardData(user.userId);
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-6 sm:py-8">
       <header className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your semesters</h1>
         <p className="text-sm text-muted-foreground">
