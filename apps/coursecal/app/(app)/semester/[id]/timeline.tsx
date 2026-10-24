@@ -1,13 +1,27 @@
 import Link from "next/link";
-import { PencilIcon } from "lucide-react";
+import { AlertTriangleIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { ConflictReport } from "@/lib/conflict-detection";
+import {
+  WORKLOAD_DEFAULTS,
+  heavyWeekThreshold,
+  type Cluster,
+  type ConflictReport,
+} from "@/lib/conflict-detection";
 import type { SemesterTimelineData } from "@/lib/db/queries/semesters";
+import { formatDay } from "@/lib/today";
 
 // Server component: deliverables on a vertical week axis (apps/coursecal/CLAUDE.md
-// — CSS grid/flex, no charting libs). Hell weeks (Layer 1) tint the row; clustered
-// items (Layer 2) get a warning tag. Course colors are the stored --chart-N vars,
-// applied inline (the one sanctioned dynamic-style case — see lib/courses/colors).
+// — CSS grid/flex, no charting libs). Hell weeks (Layer 1) tint the row and get a
+// Heavy/Busy/Light label; each cluster (Layer 2) is one banner on the week it
+// starts in. Course colors are the stored --chart-N vars, applied inline (the one
+// sanctioned dynamic-style case — see lib/courses/colors). Weeks before the
+// current one fold into a single <details> so the page opens on "now".
+
+// Display-only cutoffs on the workload scale (grade-weight points). They change
+// emphasis, not detection — the algorithm's knobs live in lib/conflict-detection.
+const MAJOR_SCORE = 10; // ≥ this: bold title + weight pill (midterms, projects)
+const MINOR_SCORE = 2; // < this: muted, smaller row (weekly labs, participation)
+const BUSY_LOAD = 15; // weekly load ≥ this (and below heavyWeekThreshold): "Busy"
 
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -20,9 +34,19 @@ function shortDate(iso: string): string {
 }
 
 type Course = SemesterTimelineData["courses"][number];
+type Deliverable = Course["deliverables"][number] & { dueDate: string };
+type Week = ConflictReport["weeks"][number] & { items: Deliverable[]; clusters: Cluster[] };
 
 function courseLabel(c: Course): string {
   return c.code ?? c.name;
+}
+
+function score(d: Deliverable): number {
+  return d.weightPercent !== null ? Number(d.weightPercent) : WORKLOAD_DEFAULTS[d.type];
+}
+
+function daysSpanned(c: Cluster): number {
+  return Math.round((Date.parse(c.end) - Date.parse(c.start)) / 86_400_000) + 1;
 }
 
 export function SemesterTimeline({
@@ -38,18 +62,18 @@ export function SemesterTimeline({
 
   const dated = data.courses
     .flatMap((c) => c.deliverables)
-    .filter((d) => d.dueDate !== null)
-    .sort((a, b) => a.dueDate!.localeCompare(b.dueDate!));
+    .filter((d): d is Deliverable => d.dueDate !== null)
+    .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
 
-  const clustered = new Set(report.clusters.flatMap((c) => c.deliverableIds));
   const heavyCount = report.weeks.filter((w) => w.heavy).length;
   const crossCourseClusters = report.clusters.filter((c) => c.crossCourse).length;
 
-  // Bucket each dated deliverable into its week by date range (the weeks are
-  // contiguous and cover the term). Small N, so the nested scan is fine.
-  const weeks = report.weeks.map((w) => ({
+  // Bucket deliverables (and each cluster, by its start date) into their week.
+  // The weeks are contiguous and cover the term; small N, so nested scans are fine.
+  const weeks: Week[] = report.weeks.map((w) => ({
     ...w,
-    items: dated.filter((d) => d.dueDate! >= w.start && d.dueDate! <= w.end),
+    items: dated.filter((d) => d.dueDate >= w.start && d.dueDate <= w.end),
+    clusters: report.clusters.filter((c) => c.start >= w.start && c.start <= w.end),
   }));
 
   if (dated.length === 0) {
@@ -60,6 +84,17 @@ export function SemesterTimeline({
       </p>
     );
   }
+
+  // Only fold the past while the semester is running; before it starts or after
+  // it ends there's no "now" to open on, so every week shows.
+  const past = currentWeek !== null ? weeks.filter((w) => w.index < currentWeek) : [];
+  const upcoming = currentWeek !== null ? weeks.filter((w) => w.index >= currentWeek) : weeks;
+  const pastItems = past.reduce((n, w) => n + w.items.length, 0);
+  const pastHeavy = past.filter((w) => w.heavy).length;
+
+  const renderWeek = (w: Week) => (
+    <WeekCard key={w.index} week={w} isCurrent={w.index === currentWeek} courseById={courseById} />
+  );
 
   return (
     <div className="space-y-6">
@@ -99,75 +134,125 @@ export function SemesterTimeline({
         ))}
       </ul>
 
-      <ol className="space-y-2">
-        {weeks.map((w) => (
-          <li
-            key={w.index}
-            id={`week-${w.index}`}
-            className={`scroll-mt-20 rounded-xl border p-3 shadow-xs ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border bg-card"} ${w.index === currentWeek ? "ring-2 ring-primary/40" : ""}`}
-          >
-            <div className="flex items-baseline justify-between gap-2">
-              <h2 className="text-sm font-medium">
-                Week {w.index}{" "}
-                {w.index === currentWeek ? (
-                  <Badge variant="secondary" className="mr-1">
-                    This week
-                  </Badge>
-                ) : null}
-                <span className="font-normal text-muted-foreground">
-                  · {shortDate(w.start)}–{shortDate(w.end)}
-                </span>
-              </h2>
-              <span className="text-xs text-muted-foreground">
-                {w.heavy ? (
-                  <span className="font-medium text-destructive">Hell week · </span>
-                ) : null}
-                load {Math.round(w.workload)}
-              </span>
-            </div>
+      {past.length > 0 ? (
+        <details className="group rounded-xl border border-border bg-card shadow-xs">
+          <summary className="cursor-pointer list-none px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground">
+            <span className="mr-1 inline-block transition-transform group-open:rotate-90">›</span>
+            Weeks 1–{past.length} · {pastItems} item{pastItems === 1 ? "" : "s"}
+            {pastHeavy > 0 ? ` · ${pastHeavy} hell week${pastHeavy > 1 ? "s" : ""}` : ""}
+          </summary>
+          <ol className="space-y-2 border-t border-border p-2">{past.map(renderWeek)}</ol>
+        </details>
+      ) : null}
 
-            {w.items.length === 0 ? (
-              <p className="mt-1 text-xs text-muted-foreground">—</p>
-            ) : (
-              <ul className="mt-2 space-y-1.5">
-                {w.items.map((d) => {
-                  const c = courseById.get(d.courseId)!;
-                  return (
-                    <li key={d.id}>
-                      <Link
-                        href={`/course/${d.courseId}`}
-                        className="group flex items-center gap-2 rounded-md border-l-2 bg-muted/30 px-2 py-1.5 transition-colors hover:bg-muted/60"
-                        style={{ borderLeftColor: c.color }}
-                      >
-                        <div className="min-w-0 flex-1">
-                          <p className="flex items-center gap-1.5 text-sm">
-                            <span className="truncate">{d.title}</span>
-                            {clustered.has(d.id) ? (
-                              <span className="rounded bg-destructive/10 px-1 text-[10px] font-medium text-destructive">
-                                cluster
-                              </span>
-                            ) : null}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {courseLabel(c)} · {shortDate(d.dueDate!)}
-                            {d.dueTime ? ` ${d.dueTime.slice(0, 5)}` : ""} ·{" "}
-                            <span className="capitalize">{d.type}</span>
-                            {d.weightPercent ? ` · ${Number(d.weightPercent)}%` : ""}
-                          </p>
-                        </div>
-                        <PencilIcon
-                          className="size-3.5 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-foreground"
-                          aria-hidden
-                        />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ol>
+      <ol className="space-y-2">{upcoming.map(renderWeek)}</ol>
     </div>
+  );
+}
+
+function WeekCard({
+  week: w,
+  isCurrent,
+  courseById,
+}: {
+  week: Week;
+  isCurrent: boolean;
+  courseById: Map<Course["id"], Course>;
+}) {
+  const load = w.heavy
+    ? { label: "Heavy", className: "text-destructive", bar: "bg-destructive" }
+    : w.workload >= BUSY_LOAD
+      ? { label: "Busy", className: "text-warning", bar: "bg-warning" }
+      : { label: "Light", className: "text-muted-foreground", bar: "bg-muted-foreground/40" };
+  // Bar fills at 2× the hell-week threshold, so "Heavy" sits at the halfway mark.
+  const fill = Math.min(100, Math.round((w.workload / (heavyWeekThreshold * 2)) * 100));
+
+  return (
+    <li
+      id={`week-${w.index}`}
+      className={`scroll-mt-20 rounded-xl border p-3 shadow-xs ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border bg-card"} ${isCurrent ? "ring-2 ring-primary/40" : ""}`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-sm font-medium">
+          Week {w.index}{" "}
+          {isCurrent ? (
+            <Badge variant="secondary" className="mr-1">
+              This week
+            </Badge>
+          ) : null}
+          <span className="font-normal text-muted-foreground">
+            · {shortDate(w.start)}–{shortDate(w.end)}
+          </span>
+        </h2>
+        {w.items.length > 0 ? (
+          <span
+            className={`flex items-center gap-2 text-xs font-medium ${load.className}`}
+            title={`Workload ${Math.round(w.workload)} (grade-weight points; ${heavyWeekThreshold}+ is a hell week)`}
+          >
+            <span className="h-1.5 w-12 overflow-hidden rounded-full bg-muted" aria-hidden>
+              <span className={`block h-full rounded-full ${load.bar}`} style={{ width: `${fill}%` }} />
+            </span>
+            {load.label}
+          </span>
+        ) : null}
+      </div>
+
+      {w.clusters.map((c) => (
+        <p
+          key={c.start + c.deliverableIds.join()}
+          className="mt-2 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-xs font-medium text-destructive"
+        >
+          <AlertTriangleIcon className="size-3.5 shrink-0" aria-hidden />
+          {c.deliverableIds.length} deadlines in {daysSpanned(c)} day{daysSpanned(c) > 1 ? "s" : ""}
+          {c.crossCourse ? ` across ${c.courseIds.length} courses` : ""}
+        </p>
+      ))}
+
+      {w.items.length === 0 ? (
+        <p className="mt-1 text-xs text-muted-foreground">Nothing due</p>
+      ) : (
+        <ul className="mt-2 space-y-0.5">
+          {w.items.map((d) => (
+            <ItemRow key={d.id} d={d} course={courseById.get(d.courseId)!} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+// One line per deliverable, emphasis by stakes: majors bold with a weight pill,
+// minors muted and smaller, everything else plain.
+function ItemRow({ d, course }: { d: Deliverable; course: Course }) {
+  const s = score(d);
+  const major = s >= MAJOR_SCORE;
+  const minor = s < MINOR_SCORE;
+  const weight = d.weightPercent !== null ? `${Number(d.weightPercent)}%` : null;
+
+  return (
+    <li>
+      <Link
+        href={`/course/${d.courseId}`}
+        className={`flex items-center gap-2 rounded-md border-l-2 px-2 transition-colors hover:bg-muted/60 ${minor ? "py-0.5 text-xs text-muted-foreground" : "py-1 text-sm"}`}
+        style={{ borderLeftColor: course.color }}
+      >
+        <span className="w-24 shrink-0 tabular-nums text-muted-foreground">
+          {formatDay(d.dueDate)}
+        </span>
+        <span className="hidden w-24 shrink-0 truncate text-muted-foreground sm:inline">
+          {courseLabel(course)}
+        </span>
+        <span className={`min-w-0 flex-1 truncate ${major ? "font-semibold" : ""}`}>{d.title}</span>
+        {weight ? (
+          major ? (
+            <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-semibold">
+              {weight}
+            </span>
+          ) : (
+            <span className="shrink-0 text-xs text-muted-foreground">{weight}</span>
+          )
+        ) : null}
+      </Link>
+    </li>
   );
 }
