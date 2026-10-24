@@ -80,6 +80,18 @@ function toItems(rows: CourseDeliverable[], idsBySeries: Map<string, string[]>):
   return items;
 }
 
+// Date order with dateless rows last — matches the server's ordering, and
+// re-applies after an inline edit moves a row's date (or clears it). Array sort
+// is stable, so ties keep their server order.
+function byDue(a: CourseDeliverable, b: CourseDeliverable): number {
+  if (a.dueDate !== b.dueDate) {
+    if (a.dueDate === null) return 1;
+    if (b.dueDate === null) return -1;
+    return a.dueDate.localeCompare(b.dueDate);
+  }
+  return (a.dueTime ?? "").localeCompare(b.dueTime ?? "");
+}
+
 const sumWeight = (rows: CourseDeliverable[]) =>
   rows.reduce((s, r) => s + (r.weightPercent != null ? Number(r.weightPercent) : 0), 0);
 
@@ -123,7 +135,7 @@ export function CourseDeliverables({
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
       <ul className="divide-y divide-border">
-        {toItems(rows, idsBySeries).map((item) =>
+        {toItems([...rows].sort(byDue), idsBySeries).map((item) =>
           item.kind === "row" ? (
             <DeliverableRow key={item.d.id} {...rowProps(item.d)} />
           ) : (
