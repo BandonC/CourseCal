@@ -48,6 +48,14 @@ is the right altitude. Layer 1 separately captures sustained week-level intensit
 so a low-stakes cluster (e.g. three readings) surfaces as a low-severity cluster
 rather than a hell week.
 
+**Small items don't cluster.** Only deliverables scoring at least
+`clusterMinScore` (2) count toward a cluster. Recurring small items like a 0.64%
+weekly lab or 0.67% participation would otherwise form a "cluster" almost every
+week, so the warning stopped meaning anything. They still count toward the week's
+Layer 1 load, so a week overloaded by many small items still reads as busy; it
+just isn't a cluster. Unweighted items count by type default (a quiz is 5), so
+they qualify.
+
 The window is inclusive of its endpoints: items whose due dates differ by **≤
 `clusterWindowDays`** join the same cluster.
 
@@ -61,6 +69,7 @@ v1). Defaults and rationale are mirrored in `DECISIONS.md`.
 | `heavyWeekThreshold` | 30 | week workload ≥ this ⇒ hell week |
 | `clusterWindowDays` | 5 | max span (days) of a cluster |
 | `clusterSizeThreshold` | 3 | min deliverables in a window to be a cluster |
+| `clusterMinScore` | 2 | min workload score for an item to count toward a cluster |
 | `crossCourseMultiplier` | 1.5 | severity multiplier for multi-course clusters |
 
 Changing any default means updating `conflict-detection.test.ts`, which pins the
