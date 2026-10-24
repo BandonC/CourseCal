@@ -18,9 +18,14 @@ const DAY_FORMAT = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
+/** e.g. "Thu, Oct 29". */
+export function formatDay(iso: string): string {
+  return DAY_FORMAT.format(new Date(`${iso}T00:00:00Z`));
+}
+
 /** "Today", "Tomorrow", or e.g. "Thu, Oct 29", relative to `today`. */
 export function dayLabel(iso: string, today: string): string {
   if (iso === today) return "Today";
   if (iso === addDays(today, 1)) return "Tomorrow";
-  return DAY_FORMAT.format(new Date(`${iso}T00:00:00Z`));
+  return formatDay(iso);
 }
