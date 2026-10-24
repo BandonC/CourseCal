@@ -9,10 +9,14 @@ const mocks = vi.hoisted(() => ({
   insert: vi.fn(),
   patch: vi.fn(),
   del: vi.fn(),
+  captureMessage: vi.fn(),
 }));
 
 // sync.ts is a server-only module; neutralize the import guard under vitest (node).
 vi.mock("server-only", () => ({}));
+
+// Sentry is the observable output of a "failed" outcome (no network in tests).
+vi.mock("@sentry/nextjs", () => ({ captureMessage: mocks.captureMessage }));
 
 vi.mock("googleapis", () => ({
   google: {
@@ -37,6 +41,7 @@ beforeEach(() => {
   mocks.insert.mockReset();
   mocks.patch.mockReset();
   mocks.del.mockReset();
+  mocks.captureMessage.mockReset();
 });
 
 describe("insertEvent", () => {
@@ -86,6 +91,23 @@ describe("patchEvent", () => {
   it("fails on a non-retryable 400", async () => {
     mocks.patch.mockRejectedValue(httpError(400));
     await expect(patchEvent(auth, "evt_1", {})).resolves.toEqual({ kind: "failed" });
+  });
+
+  it("reports a failure to Sentry with op, status, and reason only", async () => {
+    mocks.patch.mockRejectedValue(reasonError(403, "forbidden"));
+    await patchEvent(auth, "evt_1", { summary: "CS 1 · Midterm" });
+    expect(mocks.captureMessage).toHaveBeenCalledTimes(1);
+    const [, ctx] = mocks.captureMessage.mock.calls[0]!;
+    expect(ctx.tags).toEqual({ calendar_op: "patch", http_status: "403", google_reason: "forbidden" });
+    expect(JSON.stringify(ctx)).not.toContain("Midterm");
+  });
+
+  it("does not report expected outcomes (404 notFound, reconnect)", async () => {
+    mocks.patch.mockRejectedValueOnce(httpError(404));
+    await patchEvent(auth, "evt_1", {});
+    mocks.patch.mockRejectedValueOnce(reasonError(403, "insufficientPermissions"));
+    await patchEvent(auth, "evt_1", {});
+    expect(mocks.captureMessage).not.toHaveBeenCalled();
   });
 });
 
