@@ -25,7 +25,7 @@ export default async function AddCoursePage({
   if (!semester) notFound();
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-6 sm:py-8">
       <BackLink href={`/semester/${semester.id}`}>Back to semester</BackLink>
       <header className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Add courses</h1>

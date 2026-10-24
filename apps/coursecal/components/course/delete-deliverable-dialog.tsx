@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { notifyDelete } from "@/components/delete/notify-delete";
@@ -66,8 +67,14 @@ export function DeleteDeliverableDialog({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger
         render={
-          <Button variant="destructive" size="sm">
-            Delete
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground hover:text-destructive"
+            title="Delete"
+            aria-label={`Delete ${title}`}
+          >
+            <Trash2Icon />
           </Button>
         }
       />

@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Matches the dashboard's container so the swap to real content doesn't shift layout.
 export default function DashboardLoading() {
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-6 sm:py-8">
       <div className="flex items-center justify-between gap-4">
         <Skeleton className="h-9 w-48" />
         <Skeleton className="h-9 w-32" />

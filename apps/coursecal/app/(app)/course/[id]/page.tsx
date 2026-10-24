@@ -33,7 +33,7 @@ export default async function CoursePage({
   if (!course) notFound();
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:py-8">
       <BackLink href={`/semester/${course.semesterId}`}>Back to semester</BackLink>
 
       <div className="flex items-start justify-between gap-4">

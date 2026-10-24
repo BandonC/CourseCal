@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth/session";
 import { getDashboardData, type DashboardCourse } from "@/lib/db/queries/semesters";
+import { getUserTimezone } from "@/lib/db/queries/users";
+import { dayLabel, todayIn } from "@/lib/today";
 
 // The dashboard (COURSECAL.md §3.2): every semester the signed-in user owns, each
 // with its courses and per-course counts, linking into the timeline (§3.1 step 9)
@@ -20,10 +22,11 @@ import { getDashboardData, type DashboardCourse } from "@/lib/db/queries/semeste
 // in getDashboardData and passed down; the (app) layout already gated the session.
 export default async function DashboardPage() {
   const user = await requireUser();
-  const semesters = await getDashboardData(user.userId);
+  const today = todayIn((await getUserTimezone(user.userId)) ?? "America/Toronto");
+  const semesters = await getDashboardData(user.userId, today);
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-10 sm:py-16">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-4 py-6 sm:py-8">
       <header className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your semesters</h1>
         <p className="text-sm text-muted-foreground">
@@ -55,6 +58,23 @@ export default async function DashboardPage() {
                   <CardDescription>
                     {s.startDate} → {s.endDate}
                   </CardDescription>
+                  {s.next ? (
+                    <Link
+                      href={`/course/${s.next.courseId}`}
+                      className="flex w-fit items-center gap-2 text-sm hover:underline"
+                    >
+                      <span className="text-muted-foreground">Next:</span>
+                      <span
+                        className="size-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: s.next.color }}
+                        aria-hidden
+                      />
+                      <span className="font-medium">{s.next.title}</span>
+                      <span className="text-muted-foreground">
+                        · {s.next.courseLabel} · {dayLabel(s.next.dueDate!, today)}
+                      </span>
+                    </Link>
+                  ) : null}
                   <CardAction>
                     <DeleteSemesterButton semesterId={s.id} semesterName={s.name} />
                   </CardAction>
