@@ -121,6 +121,30 @@ describe("Layer 2 — clustering", () => {
     expect(report.clusters).toHaveLength(0);
   });
 
+  it("does not cluster items below clusterMinScore (weekly labs, participation)", () => {
+    const report = detectConflicts(
+      [
+        deliverable({ courseId: "course-a" as CourseId, dueDate: "2026-10-06", weightPercent: 0.64 }),
+        deliverable({ courseId: "course-b" as CourseId, type: "quiz", dueDate: "2026-10-07", weightPercent: 1.25 }),
+        deliverable({ courseId: "course-a" as CourseId, type: "participation", dueDate: "2026-10-08", weightPercent: 0.67 }),
+      ],
+      semester,
+    );
+    expect(report.clusters).toHaveLength(0);
+    // Still part of the week's load (Layer 1 is unaffected).
+    expect(report.weeks.find((w) => w.start === "2026-10-06")!.workload).toBeCloseTo(2.56);
+  });
+
+  it("still clusters a real crunch, leaving the small items out of it", () => {
+    const lab = deliverable({ courseId: "course-a" as CourseId, dueDate: "2026-10-05", weightPercent: 0.64 });
+    const midterm = deliverable({ courseId: "course-a" as CourseId, type: "exam", dueDate: "2026-10-06", weightPercent: 30 });
+    const assignment = deliverable({ courseId: "course-b" as CourseId, dueDate: "2026-10-07", weightPercent: 8 });
+    const quiz = deliverable({ courseId: "course-c" as CourseId, type: "quiz", dueDate: "2026-10-08", weightPercent: null });
+    const report = detectConflicts([lab, midterm, assignment, quiz], semester);
+    expect(report.clusters).toHaveLength(1);
+    expect(report.clusters[0]!.deliverableIds).toEqual([midterm.id, assignment.id, quiz.id]);
+  });
+
   it("does not cluster items spread beyond the window", () => {
     // 6 days apart each → no 3 within a 5-day span.
     const report = detectConflicts(

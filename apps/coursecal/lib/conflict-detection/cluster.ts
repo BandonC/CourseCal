@@ -1,4 +1,5 @@
 import {
+  clusterMinScore,
   clusterSizeThreshold,
   clusterWindowDays,
   crossCourseMultiplier,
@@ -31,9 +32,12 @@ function buildCluster(group: ConflictDeliverable[]): Cluster {
 }
 
 /** Find clusters of clusterSizeThreshold+ deliverables within a clusterWindowDays
- * span. Cross-course clusters get the context-switching multiplier on severity. */
+ * span, counting only items scoring clusterMinScore or more. Cross-course clusters
+ * get the context-switching multiplier on severity. */
 export function findClusters(deliverables: ConflictDeliverable[]): Cluster[] {
-  const sorted = [...deliverables].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  const sorted = deliverables
+    .filter((d) => workloadScore(d) >= clusterMinScore)
+    .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
   const clusters: Cluster[] = [];
   let group: ConflictDeliverable[] = [];
 

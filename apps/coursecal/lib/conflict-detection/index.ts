@@ -23,6 +23,7 @@ export {
   heavyWeekThreshold,
   clusterWindowDays,
   clusterSizeThreshold,
+  clusterMinScore,
   crossCourseMultiplier,
   WORKLOAD_DEFAULTS,
 } from "./constants";

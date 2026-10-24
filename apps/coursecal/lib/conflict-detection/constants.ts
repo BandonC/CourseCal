@@ -19,6 +19,14 @@ export const clusterWindowDays = 5;
 export const clusterSizeThreshold = 3;
 
 /**
+ * Layer 2: only deliverables scoring at least this (workloadScore — known grade
+ * weight, else the type default) count toward clustering. Recurring small items
+ * (a 0.64% weekly lab, 0.67% participation) otherwise form a "cluster" nearly every
+ * week and drown out real crunches. They still count toward Layer 1 week load.
+ */
+export const clusterMinScore = 2;
+
+/**
  * Layer 2: clusters spanning more than one course are multiplied by this, modelling
  * the context-switching cost of juggling deadlines across courses at once.
  */
