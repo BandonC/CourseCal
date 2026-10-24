@@ -70,7 +70,7 @@ describe("parseSyllabus — dryRun", () => {
     });
     expect(r.ok).toBe(true);
     if (r.ok) {
-      expect(r.data.version).toBe("v1");
+      expect(r.data.version).toBe("v2");
       expect(r.data.system).toContain("extract_syllabus");
       expect(r.data.user).toContain(
         "<syllabus>\nReal syllabus body.\n</syllabus>",

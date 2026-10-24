@@ -1,0 +1,59 @@
+{
+  "key": "c7918e4e1255bb7d2bcd2cf2c8c76fc35423bd477ae9cfce907f782df10cadf0",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:13:55.377Z",
+  "data": {
+    "course": {
+      "name": "Reasoning and Critical Thinking",
+      "code": "PHILOSOP 1230A/B 650",
+      "instructor": null,
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "Practice Exercises",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "Graded for completion (not accuracy). Online with flexible deadline. Recurring weekly throughout the semester.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-05",
+          "end_date": "2026-04-09",
+          "count": null
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus states 'weekly' but gives no specific day of week or individual due dates; flexible deadline further reduces date precision."
+      },
+      {
+        "title": "Midterm Examination",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "seventh week of classes",
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "Online with Proctortrack; asynchronous — completable at any time during a designated time window. Designated assessment requiring formal supporting documentation for academic consideration. Precise date posted on course BrightSpace. Computer required (not tablet or phone). Makeup/special exam requires Dean's permission with supporting documentation.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date given only as 'usually scheduled during the seventh week of classes'; precise date is posted on BrightSpace rather than in the syllabus."
+      },
+      {
+        "title": "Final Examination",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "during the final examination period (scheduled by the Office of the Registrar)",
+        "due_time": null,
+        "weight_percent": 50,
+        "notes": "Online with Proctortrack; synchronous — everyone must complete it at the scheduled time. Scheduled by the Office of the Registrar (OOR) during the final exam period. Computer required (not tablet or phone). Formal supporting documentation always required for academic consideration of OOR-scheduled exams.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No specific date provided; scheduled by the OOR during the final exam period, which falls after semester_end. Exact date not stated in syllabus."
+      }
+    ]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "key": "9f0cf45a31295044c93767e29a67a6e9f4c24e4e6ab6376fb4a72aec8819c4f7",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:13:08.935Z",
+  "data": {
+    "course": {
+      "name": "Data Science Concepts",
+      "code": "DS1000A",
+      "instructor": "Pavel Shuldiner, Daniel Guerrero Santaren",
+      "semester_start": "2025-09-04",
+      "semester_end": "2025-12-09"
+    },
+    "deliverables": [
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2025-09-29",
+        "due_date_expression": null,
+        "due_time": "20:00",
+        "weight_percent": 5,
+        "notes": "One of four assignments, each worth 5%. Only the best 3 of 4 assignments count toward the final grade (lowest is dropped). Late submissions accepted up to 48 hours past deadline. One resubmission allowed within one week of graded return.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2025-10-13",
+        "due_date_expression": null,
+        "due_time": "20:00",
+        "weight_percent": 5,
+        "notes": "One of four assignments, each worth 5%. Only the best 3 of 4 assignments count toward the final grade (lowest is dropped). Late submissions accepted up to 48 hours past deadline. One resubmission allowed within one week of graded return. Due date falls on a holiday (Thanksgiving, Oct 13).",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2025-11-10",
+        "due_date_expression": null,
+        "due_time": "20:00",
+        "weight_percent": 5,
+        "notes": "One of four assignments, each worth 5%. Only the best 3 of 4 assignments count toward the final grade (lowest is dropped). Late submissions accepted up to 48 hours past deadline. One resubmission allowed within one week of graded return.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 4",
+        "type": "assignment",
+        "due_date": "2025-12-08",
+        "due_date_expression": null,
+        "due_time": "20:00",
+        "weight_percent": 5,
+        "notes": "One of four assignments, each worth 5%. Only the best 3 of 4 assignments count toward the final grade (lowest is dropped). Late submissions accepted up to 48 hours past deadline. One resubmission allowed within one week of graded return.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Midterm Examination",
+        "type": "exam",
+        "due_date": "2025-11-02",
+        "due_date_expression": null,
+        "due_time": "13:00",
+        "weight_percent": 35,
+        "notes": "Covers Chapters 1–6. Closed-book format (true/false, multiple-choice, short-answer). No make-up midterm; missed midterm weight is automatically transferred to the final exam. If final exam grade exceeds midterm grade, midterm weight (35%) shifts to the final exam (making final worth 85%).",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Examination",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "December 11–22, to be scheduled by the Registrar's Office",
+        "due_time": null,
+        "weight_percent": 50,
+        "notes": "Comprehensive, covering all course material. Closed-book format. Weight may increase to 85% if final exam grade exceeds midterm grade. Minimum assessment grade of 50% required to pass the course. Makeup (Special Examination) available only with approved academic consideration.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Exact date not yet scheduled; date range provided by the Registrar's Office."
+      }
+    ]
+  }
+}

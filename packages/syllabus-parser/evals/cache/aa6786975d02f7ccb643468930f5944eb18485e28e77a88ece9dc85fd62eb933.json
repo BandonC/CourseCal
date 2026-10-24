@@ -1,0 +1,107 @@
+{
+  "key": "aa6786975d02f7ccb643468930f5944eb18485e28e77a88ece9dc85fd62eb933",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:11:28.981Z",
+  "data": {
+    "course": {
+      "name": "Calculus II for Mathematical and Physical Sciences",
+      "code": "Calc 1501B",
+      "instructor": "Dr. Kelvin Chan (Course Coordinator), Dr. Martin Pinsonnault",
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "In-class Participation (iClicker Polls)",
+        "type": "participation",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "Graded on completion only based on percentage of questions answered throughout the semester. At least 80% answered = 5/5; 70–79% = 4/5; 60–69% = 3/5; 50–59% = 2/5; 40–49% = 1/5; <40% = 0. Dates listed as 'See OWL.'",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "No specific dates provided; ongoing throughout the semester per lecture attendance."
+      },
+      {
+        "title": "Quizzes (best 6 of 8)",
+        "type": "quiz",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "8 quizzes total via WebWork platform; best 6 count toward final grade. Dates listed as 'See OWL.' Partially cumulative. First 2 missed quizzes do not require Academic Consideration; additional missed quizzes (3rd, 4th…) may be reweighted to the final exam.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-05",
+          "end_date": "2026-04-09",
+          "count": 8
+        },
+        "confidence": "low",
+        "ambiguity_reason": "No specific dates or cadence provided beyond 'See OWL'; count of 8 is stated but schedule is not given."
+      },
+      {
+        "title": "Written Assignment 1",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "One of 3 written assignments, each worth 5% of the overall grade. Submitted via gradescope.ca. Dates listed as 'See OWL.' A 48-hour no-late-penalty window applies after the deadline; submissions beyond 48 hours receive a 100% late penalty.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Due date not provided in syllabus; listed as 'See OWL.'"
+      },
+      {
+        "title": "Written Assignment 2",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "One of 3 written assignments, each worth 5% of the overall grade. Submitted via gradescope.ca. Dates listed as 'See OWL.' A 48-hour no-late-penalty window applies after the deadline; submissions beyond 48 hours receive a 100% late penalty.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Due date not provided in syllabus; listed as 'See OWL.'"
+      },
+      {
+        "title": "Written Assignment 3",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 5,
+        "notes": "One of 3 written assignments, each worth 5% of the overall grade. Submitted via gradescope.ca. Dates listed as 'See OWL.' A 48-hour no-late-penalty window applies after the deadline; submissions beyond 48 hours receive a 100% late penalty.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Due date not provided in syllabus; listed as 'See OWL.'"
+      },
+      {
+        "title": "Midterm Test",
+        "type": "exam",
+        "due_date": "2026-02-26",
+        "due_date_expression": null,
+        "due_time": "19:00",
+        "weight_percent": 30,
+        "notes": "In-person, closed-book, 120-minute written test (7 pm to 9 pm). Covers course material from weeks 1–6 inclusive. Mix of multiple-choice, fill-in-the-blanks, matching, and short-answer questions. No calculators, electronic devices, notes, or aids permitted. Make-up midterm tentatively scheduled for Friday, March 6 from 7 pm to 9 pm. Always requires formal supporting documentation for Academic Consideration.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "In-person, closed-book, 180-minute written exam covering all course material. Mix of multiple-choice, fill-in-the-blanks, matching, and short-answer questions. No calculators, electronic devices, notes, or aids permitted. Scheduled by the Registrar's Office during the April 12–30, 2026 exam period. Always requires formal supporting documentation for Academic Consideration.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date not provided; scheduled by Registrar's Office within the April 12–30, 2026 exam period."
+      }
+    ]
+  }
+}

@@ -26,6 +26,6 @@ describe("public API surface", () => {
       { dryRun: true },
     );
     expect(r.ok).toBe(true);
-    if (r.ok) expect(r.data.version).toBe("v1");
+    if (r.ok) expect(r.data.version).toBe("v2");
   });
 });

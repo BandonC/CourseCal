@@ -1,0 +1,90 @@
+{
+  "key": "53555e6473756de7151850761af7ef3d4ae4c0cab7c549dc270d0e670695c98b",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:14:06.949Z",
+  "data": {
+    "course": {
+      "name": "Introduction to Sociocultural and Linguistic Anthropology",
+      "code": "ANTHRO 1025F-650",
+      "instructor": "Dr. Jeremy Trombley",
+      "semester_start": "2025-09-04",
+      "semester_end": "2025-12-09"
+    },
+    "deliverables": [
+      {
+        "title": "Weekly Discussion Activities",
+        "type": "participation",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 20,
+        "notes": "Weekly recurring discussion activities. Full schedule available on OWL Brightspace.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2025-09-04",
+          "end_date": "2025-12-09",
+          "count": null
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "No specific days or due times stated; recurrence inferred from 'Weekly' label and course dates"
+      },
+      {
+        "title": "Weekly Quizzes",
+        "type": "quiz",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "Weekly recurring quizzes. Full schedule available on OWL Brightspace.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2025-09-04",
+          "end_date": "2025-12-09",
+          "count": null
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "No specific days, due times, or number of quizzes stated; recurrence inferred from 'Weekly' label and course dates"
+      },
+      {
+        "title": "Cultural Research Paper",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "No due date specified in the syllabus. Full details likely on OWL Brightspace.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date or due date expression provided in the syllabus"
+      },
+      {
+        "title": "Linguistic Research Paper",
+        "type": "assignment",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "No due date specified in the syllabus. Full details likely on OWL Brightspace.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date or due date expression provided in the syllabus"
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 20,
+        "notes": "No date specified in the syllabus. Likely scheduled during the final exam period at or near the end of the semester.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No due date or due date expression provided in the syllabus"
+      }
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "key": "3e7756af0e81334c6e9ad74663405e6442557bf1674e616d8339e14b7be12287",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:12:30.907Z",
+  "data": {
+    "course": {
+      "name": "Computer Science Fundamentals I",
+      "code": "CS1026A",
+      "instructor": "Mike Katchabaw / Bryan Sarlo",
+      "semester_start": "2025-09-04",
+      "semester_end": "2025-12-09"
+    },
+    "deliverables": [
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2025-09-29",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 5,
+        "notes": "Topics: basic operations, conditional statements, strings, and input/output. Due date is tentative and subject to change; check OWL for official due date. Submitted via Gradescope. Late coupon system applies.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus explicitly labels the due date as tentative and subject to change."
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2025-10-24",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 8,
+        "notes": "Topics: conditional statements, loops, and functions. Due date is tentative and subject to change; check OWL for official due date. Submitted via Gradescope. Late coupon system applies.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus explicitly labels the due date as tentative and subject to change."
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2025-11-26",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 10,
+        "notes": "Topics: functions, lists, files, and exceptions. Due date is tentative and subject to change; check OWL for official due date. Submitted via Gradescope. Late coupon system applies.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus explicitly labels the due date as tentative and subject to change."
+      },
+      {
+        "title": "Assignment 4",
+        "type": "assignment",
+        "due_date": "2025-12-09",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 10,
+        "notes": "Topics: classes, objects, dictionaries, and lists. Due date is tentative and subject to change; check OWL for official due date. Submitted via Gradescope. Late coupon system applies.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus explicitly labels the due date as tentative and subject to change."
+      },
+      {
+        "title": "Labs (Best 7 of 11)",
+        "type": "other",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 7,
+        "notes": "11 labs held weekly in-person (Weeks 1–7, 8–11; no labs on non-instructional days Sept 30 and Oct 13). Best 7 of 11 count, each worth 1%. Lab weeks run Sept 15–19 through Dec 1–5. Must attend registered lab section, arrive on time, actively participate, and complete or demonstrate good effort.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2025-09-15",
+          "end_date": "2025-12-05",
+          "count": 11
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "Labs span specific weeks but exact day within each week depends on registered lab section; no single weekday stated."
+      },
+      {
+        "title": "Quiz 1",
+        "type": "quiz",
+        "due_date": "2025-10-09",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "In-class, on paper, 30 minutes, closed book, no electronics allowed. Held Thursday during scheduled class time. No make-up offered; if missed, weight moves to other quiz.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 2",
+        "type": "quiz",
+        "due_date": "2025-11-13",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "In-class, on paper, 30 minutes, closed book, no electronics allowed. Held Thursday during scheduled class time. No make-up offered; if missed, weight moves to other quiz. If both quizzes missed and consideration approved, both weights move to final exam.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Participation (iClicker / ZyBooks)",
+        "type": "participation",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "1% per week earned via iClicker attendance/participation in Tuesday lectures OR completion of assigned ZyBooks activities; best 10 of 11–12 weeks count. Cannot exceed 10%. No make-up or extensions available.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 30,
+        "notes": "Cumulative, closed book, 3 hours. Scheduled by the university during the exam period December 11–22, 2025. Exact date, time, and location to be announced in November. No make-up except approved Special Examination via academic consideration.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date and time not yet determined; scheduled by the university within the Dec 11–22 exam period."
+      }
+    ]
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "key": "2a0ddf0b0bfe364748788750dbe7d7262b9ab35c9e91a764bdc757aaa1d99597",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:12:05.174Z",
+  "data": {
+    "course": {
+      "name": "Foundations of Computer Science",
+      "code": "COMPSCI 1020A",
+      "instructor": "Mike Domaratzki",
+      "semester_start": "2025-09-04",
+      "semester_end": "2025-12-09"
+    },
+    "deliverables": [
+      {
+        "title": "Quiz 1",
+        "type": "quiz",
+        "due_date": "2025-09-24",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Set theory. Only top 7 of 9 quiz scores count toward the 14% quiz grade. First 2 missed quizzes cannot receive academic consideration.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 2",
+        "type": "quiz",
+        "due_date": "2025-10-01",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Logic. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 3",
+        "type": "quiz",
+        "due_date": "2025-10-08",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Logic. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 4",
+        "type": "quiz",
+        "due_date": "2025-10-22",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Counting. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 5",
+        "type": "quiz",
+        "due_date": "2025-10-29",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Numeration. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 6",
+        "type": "quiz",
+        "due_date": "2025-11-12",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Functions and Relations. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 7",
+        "type": "quiz",
+        "due_date": "2025-11-26",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Proofs. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 8",
+        "type": "quiz",
+        "due_date": "2025-12-03",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class, 20 minutes. Tentative topic: Proofs. Only top 7 of 9 quiz scores count toward the 14% quiz grade.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quiz 9",
+        "type": "quiz",
+        "due_date": "2025-12-08",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": null,
+        "notes": "Held in-class (Monday), 20 minutes. Tentative topic: Probability. Only top 7 of 9 quiz scores count toward the 14% quiz grade. This is the last class day.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quizzes (series total)",
+        "type": "quiz",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 14,
+        "notes": "9 quizzes total; only the top 7 scores count. Each quiz is 20 minutes, held in-class. First 2 missed quizzes cannot receive academic consideration; additional missed quizzes beyond 2 are reweighted to the final exam.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2025-10-06",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 7,
+        "notes": "Due date is tentative. Submit via Gradescope. Late submissions accepted up to 3 days after deadline without penalty; not accepted after 3 days (marked 0) unless accommodation granted. Must be done individually.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Due date stated as tentative and may be adjusted."
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2025-11-10",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 7,
+        "notes": "Due date is tentative. Submit via Gradescope. Late submissions accepted up to 3 days after deadline without penalty; not accepted after 3 days (marked 0) unless accommodation granted. Must be done individually.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Due date stated as tentative and may be adjusted."
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2025-12-08",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 7,
+        "notes": "Due date is tentative. Submit via Gradescope. Late submissions accepted up to 3 days after deadline without penalty; not accepted after 3 days (marked 0) unless accommodation granted. Must be done individually.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Due date stated as tentative and may be adjusted."
+      },
+      {
+        "title": "Test 1",
+        "type": "exam",
+        "due_date": "2025-10-15",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 12.5,
+        "notes": "Held in-class, 45 minutes. Tentative topics: Sets, Logic and Counting. No make-up tests; if approved Academic Consideration granted, weight shifted to final exam.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Test 2",
+        "type": "exam",
+        "due_date": "2025-11-19",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 12.5,
+        "notes": "Held in-class, 45 minutes. Tentative topics: Numeration, relations and proofs. No make-up tests; if approved Academic Consideration granted, weight shifted to final exam. This test always requires formal supporting documentation for Academic Consideration (designated assessment). Note: The syllabus body states November 19 while a separate passage references 'November 29' — November 19 is used as it matches the formal test schedule table.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Syllabus contains a conflicting date reference ('November 29') in the Academic Consideration section vs. 'November 19' in the test schedule table; November 19 used as the authoritative date."
+      },
+      {
+        "title": "ZyBook Participation Activities",
+        "type": "reading",
+        "due_date": "2025-12-09",
+        "due_date_expression": null,
+        "due_time": "23:59",
+        "weight_percent": 5,
+        "notes": "Weekly zyBooks participation activities (not challenge activities) must be completed by December 9 at 11:59 PM. Grades are automatically downloaded from zyBooks at the deadline. Partial completion earns partial credit. 5% mark deduction if registered with a non-Western email address or name mismatch.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 35,
+        "notes": "Scheduled by the Registrar's Office during the exam period (December 11–22, 2025). 3 hours in length. Cumulative. Weight may increase if Academic Considerations are granted for tests (up to 60% if both tests are accommodated).",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Exact date within December 11–22 exam period not specified in the syllabus."
+      }
+    ]
+  }
+}

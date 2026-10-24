@@ -1,0 +1,88 @@
+{
+  "key": "ca1e7d317e106b8a0114252617b19ec416a65d3b9e8026533844d090ef384f60",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:13:30.710Z",
+  "data": {
+    "course": {
+      "name": "Earth Sciences 1086G",
+      "code": "ES1086G",
+      "instructor": "Dr. Gordon Osinski",
+      "semester_start": "2025-01-06",
+      "semester_end": "2025-04-04"
+    },
+    "deliverables": [
+      {
+        "title": "Mid-Term Exam",
+        "type": "exam",
+        "due_date": "2025-02-11",
+        "due_date_expression": null,
+        "due_time": "09:00",
+        "weight_percent": 25,
+        "notes": "Tentative date pending approval from Exam Central; official time will be communicated via OWL Announcement. Covers Units 1, 2, and 3 (Chapters 1–11). Online, proctored, synchronous. Makeup available on Thursday February 13 at 6:00 pm EST only for students with an approved accommodation from faculty counsellors.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date explicitly stated but marked tentative by syllabus pending Exam Central approval."
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 25,
+        "notes": "Date and time to be determined by the Registrar's office; scheduled between April 7–30. Covers Units 4–7 (Chapter 12 to Chapter 19); not cumulative. Online, proctored, synchronous.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No specific date assigned; set by Registrar between April 7–30."
+      },
+      {
+        "title": "Scientific Report – Essay Submission #1",
+        "type": "assignment",
+        "due_date": "2025-02-26",
+        "due_date_expression": null,
+        "due_time": "15:00",
+        "weight_percent": 25,
+        "notes": "First version of the scientific essay. Worth 25% of course grade. Submitted via OWL. Turnitin similarity penalties apply for scores above 25%. Late penalty: 2% within 2 hours of deadline; 10% per day for up to 5 days late.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Scientific Report – Essay Submission #2 (Revised)",
+        "type": "assignment",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "15:00",
+        "weight_percent": 10,
+        "notes": "Second (revised) version of the scientific essay. Worth 10% of course grade. Submission is NOT mandatory; if not submitted, the grade from Submission #1 is used. Submitted via OWL. Turnitin similarity penalties apply. Minimum grade of 50% on this submission required to pass the course.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Graded Quizzes (8 total: 1, 2, 3a, 3b, 4, 5, 6, 7)",
+        "type": "quiz",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 10,
+        "notes": "8 graded quizzes numbered 1, 2, 3a, 3b, 4, 5, 6, 7. Automatically administered through OWL. Spelling and grammar count. Suggested to complete each quiz weekly as corresponding chapters are read. All quizzes must be completed by the deadline. No accommodations available for quizzes.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Participation (Forums and Online Polls)",
+        "type": "participation",
+        "due_date": "2025-04-02",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 5,
+        "notes": "Participation in online forums and OWL polls throughout the course. Expected to contribute one post and reply to two classmates' posts each week starting January 15. Polls scattered throughout course notes also count.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      }
+    ]
+  }
+}
