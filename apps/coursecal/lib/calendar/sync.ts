@@ -1,5 +1,6 @@
 import "server-only";
 
+import * as Sentry from "@sentry/nextjs";
 import { google, type calendar_v3 } from "googleapis";
 import type { CalendarOAuthClient } from "./client";
 
@@ -59,6 +60,21 @@ function backoffMs(attempt: number): number {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+// A Calendar call ended as "failed" (not reconnect, not an expected 404). The
+// caller shows a generic toast, so send just enough to diagnose: the operation,
+// HTTP status, and Google's reason code. Never event content, Google's message
+// text (it can echo event fields), or tokens. Warning level, fingerprinted so
+// a burst of identical failures (one bad export) groups into a single issue.
+function reportFailure(op: "insert" | "patch" | "delete", status: number | null, reason: string | null) {
+  const statusTag = status === null ? "none" : String(status);
+  const reasonTag = reason ?? "none";
+  Sentry.captureMessage("Calendar call failed", {
+    level: "warning",
+    tags: { calendar_op: op, http_status: statusTag, google_reason: reasonTag },
+    fingerprint: ["calendar-call-failed", op, statusTag, reasonTag],
+  });
+}
+
 // Revoked consent / dead refresh token → reconnect. A 401 surfaces only after
 // google-auth-library already tried to refresh, so it's terminal.
 function isReconnect(status: number | null, reason: string | null): boolean {
@@ -104,9 +120,13 @@ export async function insertEvent(
     calendar.events.insert({ calendarId: "primary", requestBody: event }),
   );
   if (r.ok) {
-    return r.value.data.id ? { kind: "ok", eventId: r.value.data.id } : { kind: "failed" };
+    if (r.value.data.id) return { kind: "ok", eventId: r.value.data.id };
+    reportFailure("insert", null, "missing_event_id");
+    return { kind: "failed" };
   }
-  return isReconnect(r.status, r.reason) ? { kind: "reconnect" } : { kind: "failed" };
+  if (isReconnect(r.status, r.reason)) return { kind: "reconnect" };
+  reportFailure("insert", r.status, r.reason);
+  return { kind: "failed" };
 }
 
 // Patch an existing event by its stored id. `event` is a partial — Google merges
@@ -124,6 +144,7 @@ export async function patchEvent(
   if (r.ok) return { kind: "ok" };
   if (isReconnect(r.status, r.reason)) return { kind: "reconnect" };
   if (r.status === 404) return { kind: "notFound" };
+  reportFailure("patch", r.status, r.reason);
   return { kind: "failed" };
 }
 
@@ -139,5 +160,6 @@ export async function deleteEvent(
   if (isReconnect(r.status, r.reason)) return { kind: "reconnect" };
   // Already gone in Google (manually deleted) — the desired end state.
   if (r.status === 404 || r.status === 410) return { kind: "ok" };
+  reportFailure("delete", r.status, r.reason);
   return { kind: "failed" };
 }
