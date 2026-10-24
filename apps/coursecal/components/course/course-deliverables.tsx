@@ -103,15 +103,23 @@ export function CourseDeliverables({
   deliverables: CourseDeliverable[];
 }) {
   const [rows, setRows] = useState(deliverables);
+  const router = useRouter();
 
   if (rows.length === 0) {
     return <p className="text-muted-foreground">No deliverables for this course.</p>;
   }
 
-  const onSaved = (updated: CourseDeliverable) =>
+  // Local state updates the list instantly; router.refresh() then re-renders the
+  // server parts of the page (the "Sync N to Calendar" count, the deliverable
+  // count) without a reload. The list keeps its local state across the refresh.
+  const onSaved = (updated: CourseDeliverable) => {
     setRows((rs) => rs.map((r) => (r.id === updated.id ? updated : r)));
-  const onRemove = (ids: string[]) =>
+    router.refresh();
+  };
+  const onRemove = (ids: string[]) => {
     setRows((rs) => rs.filter((r) => !ids.includes(r.id)));
+    router.refresh();
+  };
 
   // Ids grouped by series, so a recurring row knows its siblings (for "delete
   // all N") without another query.
