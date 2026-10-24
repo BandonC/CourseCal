@@ -66,9 +66,10 @@ deliverable carrying a recurrence descriptor; row-expansion is app logic, out of
 
 Prompt **v2**, model `claude-sonnet-4-6`. Numbers come from the committed response
 cache via `pnpm eval:replay`, so these exact figures reproduce. The model samples, so a
-fresh `eval:record` varies run to run. To measure that, v1 and v2 were each recorded
-on two more runs (see "Run-to-run variance" below). The committed cache pins one
-v2 run: the second, which scored lower of the two.
+fresh `eval:record` varies run to run. To measure that, v1 was recorded on two more
+runs and v2 on three (see "Run-to-run variance" below). The committed cache pins one
+v2 run. It is the lowest of the three on precision but the best on recurrence (87.5%;
+the other two scored 75%).
 
 | System | Recall | Precision | Type | Explicit date | Relative date | Weight | Recurrence |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -97,11 +98,13 @@ remaining extras are all in `cs1020a`.
 | v1 | repeat 2 | 98.6% | 91.9% | 87.5% |
 | v2 | repeat 1 | 98.6% | 98.6% | 75.0% |
 | v2 | committed | 98.6% | 97.1% | 87.5% |
+| v2 | repeat 2 | 98.6% | 97.1% | 75.0% |
 
-Explicit-date accuracy was 100% in all five runs. The v1 precision dip (78.8%) came
+Explicit-date accuracy was 100% in all six runs. The v1 precision dip (78.8%) came
 from one run that split `cs1026a`'s numbered lab table into eleven one-off labs.
-Recurrence ranges from 75% to 87.5% for both prompts. v2 changes the extraction
-boundary, not recurrence handling.
+**v2 is not a strict improvement.** It lost `calc1501b`'s recurrence in 2 of 3 runs
+(v1: 0 of 3), so v2's typical recurrence score is 75%, against v1's 85.7–87.5%. The
+trade is about +6 points of precision for one flaky series.
 
 v2 was diagnosed and checked against these same ten fixtures. There is no held-out
 set, so part of the precision gain is by construction (see `PROMPT_DESIGN.md`).
@@ -122,9 +125,10 @@ v2's committed run has **1 miss and 2 false positives** across 69 deliverables:
   as is.
 - **Recurrence is the unstable spot.** `earthsci1086` "Graded Quizzes" comes back as a
   single dated item rather than a weekly series in every run of both prompts.
-  `calc1501b` ("best 6 of 8", due dates on the LMS) flips between a recurrence and a
-  single item. A v2 rule aimed at these was tried and dropped because it caused
-  regressions (`PROMPT_DESIGN.md`).
+  `calc1501b` ("Quizzes (best 6 out of 8)", due dates on the LMS) comes back as a
+  single item in 2 of 3 v2 runs, a regression from v1, which got it right in all three
+  runs. The committed run happens to get it right. A v2 rule aimed at recurrence was
+  tried and dropped (`PROMPT_DESIGN.md`).
 
 **Fixed in v2: ungraded-item over-extraction.** All three v1 runs extracted the same
 five items that carry no grade weight: `math1600b` ungraded homework, `earthsci1086`
