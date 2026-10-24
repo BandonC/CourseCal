@@ -49,6 +49,15 @@ export async function getUserById(userId: UserId) {
   return row ?? null;
 }
 
+/** The user's IANA timezone (schema default America/Toronto), for "today" math. */
+export async function getUserTimezone(userId: UserId): Promise<string | null> {
+  const [row] = await db
+    .select({ timezone: users.timezone })
+    .from(users)
+    .where(eq(users.id, userId));
+  return row?.timezone ?? null;
+}
+
 /**
  * Hard-delete the user and everything under them. The FK cascade (§7.3) removes
  * semesters → courses → deliverables and parse_events; the encrypted refresh

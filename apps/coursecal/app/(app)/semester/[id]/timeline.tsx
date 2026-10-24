@@ -28,9 +28,11 @@ function courseLabel(c: Course): string {
 export function SemesterTimeline({
   data,
   report,
+  currentWeek,
 }: {
   data: SemesterTimelineData;
   report: ConflictReport;
+  currentWeek: number | null;
 }) {
   const courseById = new Map(data.courses.map((c) => [c.id, c]));
 
@@ -101,11 +103,17 @@ export function SemesterTimeline({
         {weeks.map((w) => (
           <li
             key={w.index}
-            className={`rounded-xl border p-3 shadow-xs ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border bg-card"}`}
+            id={`week-${w.index}`}
+            className={`scroll-mt-20 rounded-xl border p-3 shadow-xs ${w.heavy ? "border-destructive/30 bg-destructive/5" : "border-border bg-card"} ${w.index === currentWeek ? "ring-2 ring-primary/40" : ""}`}
           >
             <div className="flex items-baseline justify-between gap-2">
               <h2 className="text-sm font-medium">
                 Week {w.index}{" "}
+                {w.index === currentWeek ? (
+                  <Badge variant="secondary" className="mr-1">
+                    This week
+                  </Badge>
+                ) : null}
                 <span className="font-normal text-muted-foreground">
                   · {shortDate(w.start)}–{shortDate(w.end)}
                 </span>

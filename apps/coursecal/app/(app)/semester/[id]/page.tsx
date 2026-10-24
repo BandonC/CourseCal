@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { after } from "next/server";
 import { z } from "zod";
 import { BackLink } from "@/components/back-link";
+import { NextUp } from "@/components/semester/next-up";
 import { PrintScheduleButton } from "@/components/semester/print-schedule-button";
 import { SemesterSchedule } from "@/components/semester/semester-schedule";
 import { buttonVariants } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { requireUser } from "@/lib/auth/session";
 import { detectConflicts, type ConflictDeliverable } from "@/lib/conflict-detection";
 import type { SemesterId } from "@/lib/db/ids";
 import { getSemesterTimeline } from "@/lib/db/queries/semesters";
+import { getUserTimezone } from "@/lib/db/queries/users";
 import { SemesterTimeline } from "./timeline";
 
 // Semester timeline (COURSECAL.md §3.1 step 9). Server component: resolves the
@@ -28,8 +30,17 @@ export default async function SemesterPage({
   const parsed = z.uuid().safeParse(id);
   if (!parsed.success) notFound();
 
-  const data = await getSemesterTimeline(user.userId, parsed.data as SemesterId);
+  const [data, timezone] = await Promise.all([
+    getSemesterTimeline(user.userId, parsed.data as SemesterId),
+    getUserTimezone(user.userId),
+  ]);
   if (!data) notFound();
+
+  // "Today" in the user's timezone (en-CA formats as YYYY-MM-DD), so Next up and
+  // the current-week marker flip at the user's midnight, not the server's.
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone ?? "America/Toronto",
+  }).format(new Date());
 
   const dated: ConflictDeliverable[] = data.courses.flatMap((c) =>
     c.deliverables
@@ -44,6 +55,8 @@ export default async function SemesterPage({
   );
 
   const report = detectConflicts(dated, { start: data.startDate, end: data.endDate });
+  const currentWeek =
+    report.weeks.find((w) => today >= w.start && today <= w.end)?.index ?? null;
 
   // Runs after the response is sent, so the analytics flush never blocks render.
   after(() =>
@@ -79,7 +92,8 @@ export default async function SemesterPage({
             </Link>
           </div>
         </div>
-        <SemesterTimeline data={data} report={report} />
+        <NextUp data={data} today={today} currentWeek={currentWeek} />
+        <SemesterTimeline data={data} report={report} currentWeek={currentWeek} />
       </div>
       <SemesterSchedule data={data} />
     </main>
