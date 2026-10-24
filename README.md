@@ -2,7 +2,7 @@
 
 [![evals](https://github.com/BandonC/CourseCal/actions/workflows/evals.yml/badge.svg)](https://github.com/BandonC/CourseCal/actions/workflows/evals.yml)
 
-![Semester timeline with hell weeks and deadline clusters flagged](docs/screenshots/timeline.png)
+![Semester timeline: heavy weeks, a deadline-cluster banner, and high-weight exams emphasized](docs/screenshots/timeline.png)
 
 Turns course syllabi into calendar events and a navigable semester plan. Upload or paste your syllabi at the start of a term; Coursecal extracts every graded deliverable — assignments, quizzes, exams, projects, presentations, participation — and exports them to Google Calendar with reminders. A per-semester timeline flags hell weeks and clustered deadlines so you can see the whole term at a glance and plan around the crunch.
 
@@ -36,9 +36,9 @@ Every stated calendar deadline lands on the exact day. v2's prompt change stoppe
 
 Edits made later sync back to the calendar by stored event ID. Nothing is persisted until you export.
 
-| Set up a semester | Review flagged items | Spot the crunch |
+| Set up a semester | Review flagged items | See what's next |
 | --- | --- | --- |
-| ![New semester setup: name, dates, and syllabus upload or paste](docs/screenshots/new-semester.png) | ![Course page with confidence badges and a flagged deliverable](docs/screenshots/course-review.png) | ![Two consecutive hell weeks with clustered deadlines](docs/screenshots/hell-week.png) |
+| ![New semester setup: name, dates, and syllabus upload or paste](docs/screenshots/new-semester.png) | ![Course page: a compact deliverable list with flagged items and a weights total](docs/screenshots/course-review.png) | ![Dashboard showing each semester's next deadline](docs/screenshots/dashboard.png) |
 
 ## Repository layout
 
