@@ -132,14 +132,22 @@ export async function insertEvent(
 // Patch an existing event by its stored id. `event` is a partial — Google merges
 // it — so callers send either a full rebuilt event (deliverable edit) or just the
 // changed field, e.g. { summary } on a course rename.
+//
+// Reminders are set on insert only and never patched: if the user changed the
+// event's notifications in Google, the event carries reminder overrides, and
+// patching `{ useDefault: true }` onto them is a 400
+// (cannotUseDefaultRemindersAndSpecifyOverride). Leaving reminders out also
+// keeps whatever reminders the user chose.
 export async function patchEvent(
   auth: CalendarOAuthClient,
   eventId: string,
   event: calendar_v3.Schema$Event,
 ): Promise<PatchOutcome> {
   const calendar = google.calendar({ version: "v3", auth });
+  const requestBody = { ...event };
+  delete requestBody.reminders;
   const r = await runWithBackoff(() =>
-    calendar.events.patch({ calendarId: "primary", eventId, requestBody: event }),
+    calendar.events.patch({ calendarId: "primary", eventId, requestBody }),
   );
   if (r.ok) return { kind: "ok" };
   if (isReconnect(r.status, r.reason)) return { kind: "reconnect" };
