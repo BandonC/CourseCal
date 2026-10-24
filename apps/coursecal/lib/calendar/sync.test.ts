@@ -78,6 +78,13 @@ describe("patchEvent", () => {
     await expect(patchEvent(auth, "evt_1", {})).resolves.toEqual({ kind: "ok" });
   });
 
+  it("never sends reminders, so user-set reminder overrides survive an edit", async () => {
+    mocks.patch.mockResolvedValue({ data: { id: "evt_1" } });
+    await patchEvent(auth, "evt_1", { summary: "CS 1 · Quiz", reminders: { useDefault: true } });
+    const body = mocks.patch.mock.calls[0]![0].requestBody;
+    expect(body).toEqual({ summary: "CS 1 · Quiz" });
+  });
+
   it("maps a 404 to notFound (event deleted in Google — offer recreate)", async () => {
     mocks.patch.mockRejectedValue(httpError(404));
     await expect(patchEvent(auth, "evt_1", {})).resolves.toEqual({ kind: "notFound" });
