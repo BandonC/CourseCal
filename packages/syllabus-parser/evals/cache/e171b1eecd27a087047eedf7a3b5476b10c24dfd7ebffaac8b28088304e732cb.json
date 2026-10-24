@@ -1,0 +1,52 @@
+{
+  "key": "e171b1eecd27a087047eedf7a3b5476b10c24dfd7ebffaac8b28088304e732cb",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:13:41.414Z",
+  "data": {
+    "course": {
+      "name": "Linear Algebra",
+      "code": "Math 1600B",
+      "instructor": "Prof. Matthias Franz",
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "Midterm Test 1",
+        "type": "exam",
+        "due_date": "2026-02-05",
+        "due_date_expression": null,
+        "due_time": "19:00",
+        "weight_percent": 25,
+        "notes": "Tentative date: Thu Feb 5th, 7–8:30pm. If missed, a make-up exam will be offered. This midterm always requires formal supporting documentation when requesting Academic Consideration.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date described as tentative in the syllabus"
+      },
+      {
+        "title": "Midterm Test 2",
+        "type": "exam",
+        "due_date": "2026-03-12",
+        "due_date_expression": null,
+        "due_time": "19:00",
+        "weight_percent": 25,
+        "notes": "Tentative date: Thu Mar 12th, 7–8:30pm. If missed, a make-up exam will be offered.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date described as tentative in the syllabus"
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 50,
+        "notes": "Date not specified; scheduled during the official examination period. A minimum grade of 45% on the final exam is required to earn a passing grade; if below 45%, the overall final grade cannot exceed 49%. If missed and Academic Consideration is granted, a Special Examination will be offered.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "No date or date expression provided for the final exam"
+      }
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "key": "6e78fed9e9b2f1304e66fbbc72bdeff1a310e21f2a9667fbe60fcaf85d051370",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:11:05.039Z",
+  "data": {
+    "course": {
+      "name": "Calculus I",
+      "code": "CALC 1000A",
+      "instructor": "Dr. James Uren (Course Coordinator)",
+      "semester_start": "2025-09-04",
+      "semester_end": "2025-12-09"
+    },
+    "deliverables": [
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2025-10-10",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 4,
+        "notes": "One of three equally weighted written assignments totalling 12%. Submitted via Gradescope as PDF or PNG. A 48-hour no-late-penalty period applies; beyond that, 20% per day late penalty; not accepted more than 96 hours past the deadline.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2025-11-10",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 4,
+        "notes": "One of three equally weighted written assignments totalling 12%. Submitted via Gradescope as PDF or PNG. A 48-hour no-late-penalty period applies; beyond that, 20% per day late penalty; not accepted more than 96 hours past the deadline. Due date falls on the first day after Reading Week.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2025-11-28",
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 4,
+        "notes": "One of three equally weighted written assignments totalling 12%. Submitted via Gradescope as PDF or PNG. A 48-hour no-late-penalty period applies; beyond that, 20% per day late penalty; not accepted more than 96 hours past the deadline.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Quizzes (Best 6 of 8)",
+        "type": "quiz",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 10,
+        "notes": "8 quizzes total, best 6 counted. Online via WebAssign, asynchronous. Due dates posted on OWL. First quiz open during the week of Sept 16. The first 2 missed quizzes do not require academic consideration; additional missed quizzes beyond 2 may be reweighted to the final exam.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2025-09-16",
+          "end_date": null,
+          "count": 8
+        },
+        "confidence": "medium",
+        "ambiguity_reason": "Exact due dates for all 8 quizzes are posted on OWL and not listed in the syllabus; only the first quiz's week is specified. Recurrence cadence inferred as roughly weekly."
+      },
+      {
+        "title": "iClicker Lecture Participation",
+        "type": "participation",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 4,
+        "notes": "In-class participation via iClicker throughout the semester. Graded on % of questions answered (not correctness): ≥80% = 4/4; 70–79% = 3.2/4; 60–69% = 2.4/4; 50–59% = 2/4; 40–49% = 1.6/4; <40% = 0. Occasional missed classes are accounted for in the scheme. Long-term absences (3+ consecutive classes) supported by academic consideration will be adjusted.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Midterm Test",
+        "type": "exam",
+        "due_date": "2025-10-24",
+        "due_date_expression": null,
+        "due_time": "19:30",
+        "weight_percent": 30,
+        "notes": "In-person, 120 minutes (7:30pm–9:30pm). Covers course material from weeks 1–7 inclusive. Closed book; no calculators or electronic devices permitted. Mixture of short answer and multiple choice. Makeup midterm tentatively scheduled for Friday October 31st, 7:30–9:30pm.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 44,
+        "notes": "In-person, cumulative, 180 minutes. Scheduled by the Office of the Registrar during the exam period (December 11–22, 2025); exact date TBA. Closed book; no calculators or electronic devices permitted. Mixture of short answer and multiple choice.",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Exact date and time not yet announced; listed as TBA in the syllabus."
+      }
+    ]
+  }
+}

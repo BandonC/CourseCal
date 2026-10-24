@@ -69,7 +69,7 @@ describe("buildPrompt", () => {
   it("assembles version, system, and user", () => {
     const p = buildPrompt(ctx, "syllabus body");
     expect(p.version).toBe(PROMPT_VERSION);
-    expect(p.version).toBe("v1");
+    expect(p.version).toBe("v2");
     expect(p.system).toBe(SYSTEM_PROMPT);
     expect(p.user).toContain("<syllabus>\nsyllabus body\n</syllabus>");
   });

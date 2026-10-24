@@ -64,15 +64,17 @@ deliverable carrying a recurrence descriptor; row-expansion is app logic, out of
 
 ## Results
 
-Prompt **v1**, model `claude-sonnet-4-6`. Numbers are from the committed response
-cache via `pnpm eval:replay` — deterministic, so these exact figures reproduce. The
-model itself samples, so a fresh `eval:record` varies by a few points run to run
-(notably which ungraded items it over-extracts, and whether it enumerates a series);
-the committed cache pins one honest run.
+Prompt **v2**, model `claude-sonnet-4-6`. Numbers come from the committed response
+cache via `pnpm eval:replay`, so these exact figures reproduce. The model samples, so a
+fresh `eval:record` varies run to run. To measure that, v1 was recorded on two more
+runs and v2 on three (see "Run-to-run variance" below). The committed cache pins one
+v2 run. It is the lowest of the three on precision but the best on recurrence (87.5%;
+the other two scored 75%).
 
 | System | Recall | Precision | Type | Explicit date | Relative date | Weight | Recurrence |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| **syllabus-parser v1** | **98.6%** | **90.7%** | 98.5% | **100.0%** | n/a¹ | 100.0% | 87.5% |
+| **syllabus-parser v2** | **98.6%** | **97.1%** | 100.0% | **100.0%** | n/a¹ | 100.0% | 87.5% |
+| syllabus-parser v1 | 98.6% | 90.7% | 98.5% | 100.0% | n/a¹ | 100.0% | 87.5% |
 | regex baseline | 43.5% | 39.0% | 100.0%² | 15.0% | n/a¹ | 4.5% | 0.0% |
 
 ¹ No label in the set is a resolvable single relative date (the relative items are all
@@ -82,30 +84,56 @@ is wired and reported, but n=0 here.
 accuracy among matches" is high on the few it matches — a misleading 100% that the
 recall/precision columns put in context.
 
-By stratum (parser): recall is 97.8–100% across format, discipline, and recurrence
-buckets; explicit-date accuracy is 100% everywhere it applies. Precision is lowest on
-the recurring-heavy and prose buckets (85.2% / 81.0%), where the ungraded extras live.
+By stratum (v2): recall is 97.8–100% across format, discipline, and recurrence
+buckets, and explicit-date accuracy is 100% everywhere it applies. Precision is 100%
+on the prose, humanities, and recurring-heavy buckets and 95.7–96.8% elsewhere. The
+remaining extras are all in `cs1020a`.
+
+### Run-to-run variance
+
+| Prompt | Run | Recall | Precision | Recurrence |
+| --- | --- | --- | --- | --- |
+| v1 | committed | 98.6% | 90.7% | 87.5% |
+| v1 | repeat 1 | 97.1% | 78.8% | 85.7% |
+| v1 | repeat 2 | 98.6% | 91.9% | 87.5% |
+| v2 | repeat 1 | 98.6% | 98.6% | 75.0% |
+| v2 | committed | 98.6% | 97.1% | 87.5% |
+| v2 | repeat 2 | 98.6% | 97.1% | 75.0% |
+
+Explicit-date accuracy was 100% in all six runs. The v1 precision dip (78.8%) came
+from one run that split `cs1026a`'s numbered lab table into eleven one-off labs.
+**v2 is not a strict improvement.** It lost `calc1501b`'s recurrence in 2 of 3 runs
+(v1: 0 of 3), so v2's typical recurrence score is 75%, against v1's 85.7–87.5%. The
+trade is about +6 points of precision for one flaky series.
+
+v2 was diagnosed and checked against these same ten fixtures. There is no held-out
+set, so part of the precision gain is by construction (see `PROMPT_DESIGN.md`).
 
 ## Failure analysis
 
-**1 miss and 7 false positives** across 69 deliverables, in a few honest modes:
+v2's committed run has **1 miss and 2 false positives** across 69 deliverables:
 
-- **Ungraded-item over-extraction (the dominant precision cost).** The parser pulled in
-  items that carry no grade weight and should be skipped: `math1600b` "Homework
-  Assignments" (ungraded), `earthsci1086` "Academic Integrity Quiz" + "ProctorTrack
-  Onboarding" + makeup midterm, `cs1026a` "Orientation Quiz". This is consistent across
-  record runs and the clearest prompt-improvement target — tighten the "graded
-  deliverable" boundary (a v2 candidate; see `PROMPT_DESIGN.md`).
-- **Recurrence handling is the unstable spot.** `earthsci1086` "Graded Quizzes" came
-  back as a single dated item rather than a weekly series (recurrence 87.5%). In other
-  record runs the model instead enumerated a numbered lab table into N one-offs — the
-  recurrence-vs-enumeration boundary is where output varies most run to run, so it's the
-  second v2 target.
-- **A duplicate series row.** `cs1020a` got an extra "Quizzes (series total)" summary
-  alongside the nine individual quizzes — a double-count, not a miss.
-- **Title divergence (1 case).** `cs1020a` "zyBook exercises" was extracted as "ZyBooks
-  Participation Activities" — too far apart for the matcher to align, counted as a miss
-  + a false positive. A genuine titling difference, left as-is.
+- **A duplicate series row.** `cs1020a` gets an extra "Quizzes (series total)" summary
+  next to the nine individual quizzes, a double count rather than a miss. The syllabus
+  gives a series weight ("Quizzes (7) 14%", best 7 of 9) but no per-quiz weight, and
+  the schema has no way to attach a series weight to enumerated one-offs, so the model
+  uses a summary row. Fixing this needs a schema change, not a prompt change. It shows
+  up in some runs of both prompts.
+- **Title divergence (1 case).** `cs1020a` "zyBook exercises" is extracted as "ZyBook
+  Participation Activities". The titles are too far apart for the matcher to align, so
+  it counts as a miss plus a false positive. This is a genuine titling difference, left
+  as is.
+- **Recurrence is the unstable spot.** `earthsci1086` "Graded Quizzes" comes back as a
+  single dated item rather than a weekly series in every run of both prompts.
+  `calc1501b` ("Quizzes (best 6 out of 8)", due dates on the LMS) comes back as a
+  single item in 2 of 3 v2 runs, a regression from v1, which got it right in all three
+  runs. The committed run happens to get it right. A v2 rule aimed at recurrence was
+  tried and dropped (`PROMPT_DESIGN.md`).
+
+**Fixed in v2: ungraded-item over-extraction.** All three v1 runs extracted the same
+five items that carry no grade weight: `math1600b` ungraded homework, `earthsci1086`
+"Academic Integrity Quiz", "ProctorTrack Onboarding", and the makeup midterm, and
+`cs1026a` "Orientation Quiz". Neither v2 run extracted any of them.
 
 What it gets right: **100% explicit-date accuracy** (every stated calendar deadline,
 across messy tables and prose), perfect recall on every prose and humanities fixture,

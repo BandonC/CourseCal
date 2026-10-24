@@ -1,0 +1,107 @@
+{
+  "key": "075aae11ba7990bfb295f0f7ba4131e7a8a94702da61879661f515bb666a8b2b",
+  "model": "claude-sonnet-4-6",
+  "recordedAt": "2026-10-24T00:12:51.621Z",
+  "data": {
+    "course": {
+      "name": "Computer Science Fundamentals II",
+      "code": "CS 1027B / CS 2121B / CS 9643B",
+      "instructor": "Bryan Sarlo, Roberto Solis-Oba",
+      "semester_start": "2026-01-05",
+      "semester_end": "2026-04-09"
+    },
+    "deliverables": [
+      {
+        "title": "Assignment 1",
+        "type": "assignment",
+        "due_date": "2026-01-30",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty of 10% per day; maximum 3 days late. Auto-graded tests plus programming style.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 2",
+        "type": "assignment",
+        "due_date": "2026-02-25",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty of 10% per day; maximum 3 days late. Auto-graded tests plus programming style.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 3",
+        "type": "assignment",
+        "due_date": "2026-03-17",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty of 10% per day; maximum 3 days late. Auto-graded tests plus programming style.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Assignment 4",
+        "type": "assignment",
+        "due_date": "2026-04-06",
+        "due_date_expression": null,
+        "due_time": "23:55",
+        "weight_percent": 8,
+        "notes": "Submitted via Gradescope. Late penalty of 10% per day; maximum 3 days late. Auto-graded tests plus programming style.",
+        "recurrence": null,
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Labs",
+        "type": "other",
+        "due_date": null,
+        "due_date_expression": null,
+        "due_time": null,
+        "weight_percent": 8,
+        "notes": "10 weekly labs (weeks of Jan 12–16 through Mar 23–27, skipping reading week Feb 14–22). Each lab worth 1%; lowest 2 dropped (effective series total 8%). Must attend scheduled section, complete work during the session, and submit specified files on OWL within 24 hours. Labs are generally pass/fail.",
+        "recurrence": {
+          "unit": "week",
+          "interval": 1,
+          "days_of_week": null,
+          "start_date": "2026-01-12",
+          "end_date": "2026-03-27",
+          "count": 10
+        },
+        "confidence": "high",
+        "ambiguity_reason": null
+      },
+      {
+        "title": "Midterm Test",
+        "type": "exam",
+        "due_date": "2026-02-28",
+        "due_date_expression": null,
+        "due_time": "17:00",
+        "weight_percent": 20,
+        "notes": "Tentatively scheduled Saturday, February 28, 5–7 pm. Locations announced on OWL. 2 hours; combination of Multiple Choice, Written/Drawn Answers, and Algorithm Design; written on paper. No electronic devices allowed. No make-up midterm; if missed with approved academic consideration, weight shifts to final exam (making it worth 60%).",
+        "recurrence": null,
+        "confidence": "medium",
+        "ambiguity_reason": "Date described as tentative in the syllabus."
+      },
+      {
+        "title": "Final Exam",
+        "type": "exam",
+        "due_date": null,
+        "due_date_expression": "Scheduled by the University during April 12–30 exam period; exact date, time, and location to be announced in March",
+        "due_time": null,
+        "weight_percent": 40,
+        "notes": "3 hours; combination of Multiple Choice, Written/Drawn Answers, and Algorithm Design; written on paper. No electronic devices allowed. If midterm weight is shifted due to approved absence, final exam becomes worth 60%. Makeup (Special Examination) available if academic consideration is granted.",
+        "recurrence": null,
+        "confidence": "low",
+        "ambiguity_reason": "Exact date, time, and location not yet determined; will be announced in March."
+      }
+    ]
+  }
+}

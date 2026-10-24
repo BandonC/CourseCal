@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-06-26T02:46:23.740Z",
+  "generatedAt": "2026-10-24T00:21:36.109Z",
   "model": "claude-sonnet-4-6",
-  "promptVersion": "v1",
+  "promptVersion": "v2",
   "systems": [
     {
-      "name": "syllabus-parser v1",
+      "name": "syllabus-parser v2",
       "overall": {
         "counts": {
           "labels": 69,
-          "predicted": 75,
+          "predicted": 70,
           "matched": 68,
-          "typeMatched": 67,
+          "typeMatched": 68,
           "explicitTotal": 41,
           "explicitExact": 41,
           "explicitWithin1": 41,
@@ -24,8 +24,8 @@
         },
         "metrics": {
           "recall": 0.9855072463768116,
-          "precision": 0.9066666666666666,
-          "typeAccuracy": 0.9852941176470589,
+          "precision": 0.9714285714285714,
+          "typeAccuracy": 1,
           "explicitDateAccuracy": 1,
           "explicitDateWithin1": 1,
           "relativeDateAccuracy": 0,
@@ -148,7 +148,7 @@
             },
             {
               "kind": "hallucinated",
-              "detail": "ZyBooks Participation Activities"
+              "detail": "ZyBook Participation Activities"
             }
           ]
         },
@@ -161,9 +161,9 @@
           },
           "counts": {
             "labels": 9,
-            "predicted": 10,
+            "predicted": 9,
             "matched": 9,
-            "typeMatched": 8,
+            "typeMatched": 9,
             "explicitTotal": 6,
             "explicitExact": 6,
             "explicitWithin1": 6,
@@ -177,24 +177,15 @@
           },
           "metrics": {
             "recall": 1,
-            "precision": 0.9,
-            "typeAccuracy": 0.8888888888888888,
+            "precision": 1,
+            "typeAccuracy": 1,
             "explicitDateAccuracy": 1,
             "explicitDateWithin1": 1,
             "relativeDateAccuracy": 0,
             "weightAccuracy": 1,
             "recurrenceAccuracy": 1
           },
-          "failures": [
-            {
-              "kind": "hallucinated",
-              "detail": "Orientation Quiz"
-            },
-            {
-              "kind": "wrong_type",
-              "detail": "Labs: predicted assignment, expected other"
-            }
-          ]
+          "failures": []
         },
         {
           "slug": "cs1027b",
@@ -275,7 +266,7 @@
           },
           "counts": {
             "labels": 6,
-            "predicted": 9,
+            "predicted": 6,
             "matched": 6,
             "typeMatched": 6,
             "explicitTotal": 4,
@@ -291,7 +282,7 @@
           },
           "metrics": {
             "recall": 1,
-            "precision": 0.6666666666666666,
+            "precision": 1,
             "typeAccuracy": 1,
             "explicitDateAccuracy": 1,
             "explicitDateWithin1": 1,
@@ -300,18 +291,6 @@
             "recurrenceAccuracy": 0
           },
           "failures": [
-            {
-              "kind": "hallucinated",
-              "detail": "Academic Integrity Quiz"
-            },
-            {
-              "kind": "hallucinated",
-              "detail": "ProctorTrack Onboarding"
-            },
-            {
-              "kind": "hallucinated",
-              "detail": "Mid-Term Makeup Test"
-            },
             {
               "kind": "wrong_recurrence",
               "detail": "Graded Quizzes: no recurrence detected"
@@ -327,7 +306,7 @@
           },
           "counts": {
             "labels": 3,
-            "predicted": 4,
+            "predicted": 3,
             "matched": 3,
             "typeMatched": 3,
             "explicitTotal": 2,
@@ -343,7 +322,7 @@
           },
           "metrics": {
             "recall": 1,
-            "precision": 0.75,
+            "precision": 1,
             "typeAccuracy": 1,
             "explicitDateAccuracy": 1,
             "explicitDateWithin1": 1,
@@ -351,12 +330,7 @@
             "weightAccuracy": 1,
             "recurrenceAccuracy": 0
           },
-          "failures": [
-            {
-              "kind": "hallucinated",
-              "detail": "Homework Assignments"
-            }
-          ]
+          "failures": []
         },
         {
           "slug": "phil1230",
