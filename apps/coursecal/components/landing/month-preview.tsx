@@ -1,6 +1,6 @@
-// Static, presentational month calendar for the login screen — deadlines as
+// Static, presentational month calendar for the signed-out screen — deadlines as
 // solid course-colored blocks, with one hell week tinted. Not wired to any data;
-// like TimelinePreview, it uses the real tokens so it reads as the product.
+// it uses the real tokens so it reads as the product.
 // Course blocks use --chart-1/2/5 because primary-foreground text stays legible
 // on those in both themes.
 const COURSES = {

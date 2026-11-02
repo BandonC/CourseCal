@@ -116,7 +116,7 @@ Upload your syllabi once → get a complete, accurate semester plan in Google Ca
 ## 3. User flows
 
 ### 3.1 First-time user
-1. Lands on marketing page, clicks "Get started"
+1. Lands on the home page (the same screen as `/login`: a sample month calendar, sign-in, and a one-line how-it-works), clicks "Continue with Google"
 2. Signs in with Google (OAuth consent includes Calendar access)
 3. Prompted to enter semester name + start/end dates (used for resolving relative dates)
 4. Upload screen: drag-and-drop PDFs, or paste text per course
