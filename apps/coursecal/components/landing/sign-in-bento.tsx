@@ -48,7 +48,9 @@ export function SignInBento({ notice }: { notice?: React.ReactNode }) {
 
         <div className="flex flex-col justify-end rounded-2xl bg-primary p-6 text-primary-foreground shadow-md">
           <h1 className="font-heading text-3xl font-semibold leading-tight tracking-tight">
-            Every deadline, one calendar.
+            Every deadline,
+            <br />
+            one calendar.
           </h1>
           <p className="mt-2 text-sm text-primary-foreground/80">
             Your syllabi, turned into Google Calendar events and a semester timeline.
